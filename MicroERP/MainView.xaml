@@ -1,0 +1,38 @@
+﻿<Window
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+ x:Class="MicroERP.Presentation.MainView"
+ x:Name="Window"
+ Title="MicroERP"
+ Width="640" Height="480">
+
+	<Grid x:Name="LayoutRoot" Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<GroupBox Header="Filter">
+			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="24"/>
+					<RowDefinition Height="24"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<TextBlock Text="Vorname" VerticalAlignment="Center"/>
+				<TextBox Grid.Column="1" VerticalAlignment="Center">
+					<TextBox.InputBindings>
+						<KeyBinding Key="Enter" Command="{Binding Path=MyCommand}"></KeyBinding>
+					</TextBox.InputBindings>
+				</TextBox>
+				<TextBlock Text="Nachname" Grid.Row="1" VerticalAlignment="Center" />
+				<TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+				<Button Grid.Row="2" Grid.ColumnSpan="2" Content="Suche" HorizontalAlignment="Right" Margin="0,4,0,0" Padding="12,2" Click="Button_Click" />
+			</Grid>
+		</GroupBox>
+	</Grid>
+</Window>
