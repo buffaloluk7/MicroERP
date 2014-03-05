@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation", "MicroERP\MicroERP.Presentation.csproj", "{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation", "MicroERP.Presentation\MicroERP.Presentation.csproj", "{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Business", "MicroERP.Business\MicroERP.Business.csproj", "{154A2783-88F6-4C89-83BF-909B86A2F411}"
 EndProject
