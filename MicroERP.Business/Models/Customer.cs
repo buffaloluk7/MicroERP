@@ -1,6 +1,7 @@
 ﻿using MicroERP.Business.Common;
+using System.Collections.ObjectModel;
 
-namespace MicroERP.Business.BO
+namespace MicroERP.Business.Models
 {
     public abstract class Customer : ObservableObject
     {
@@ -9,6 +10,7 @@ namespace MicroERP.Business.BO
         private string address;
         private string billingAddress;
         private string shippingAddress;
+        private readonly ObservableCollection<Invoice> invoices;
 
         public string Address
         {
@@ -28,15 +30,21 @@ namespace MicroERP.Business.BO
             set { base.Set<string>(ref this.shippingAddress, value); }
         }
 
+        public ObservableCollection<Invoice> Invoices
+        {
+            get { return this.invoices; }
+        }
+
         #endregion
 
         #region Constructors
 
-        public Customer(string address, string billingAddress, string shippingAddress)
+        public Customer(string address, string billingAddress, string shippingAddress, ObservableCollection<Invoice> invoices = null)
         {
             this.address = address;
             this.billingAddress = billingAddress;
             this.shippingAddress = shippingAddress;
+            this.invoices = invoices ?? new ObservableCollection<Invoice>();
         }
 
         #endregion

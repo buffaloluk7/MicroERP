@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroERP.Business.BO
+namespace MicroERP.Business.Models
 {
     class Person : Customer
     {
@@ -53,13 +53,14 @@ namespace MicroERP.Business.BO
 
         #region Constructors
 
-        public Person(string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate) : base(address, billingAddress, shippingAddress)
+        public Person(string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, Company company = null) : base(address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;
             this.lastName = lastName;
             this.suffix = suffix;
             this.birthDate = birthDate;
+            this.company = company;
         }
 
         #endregion

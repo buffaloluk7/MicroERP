@@ -1,8 +1,9 @@
 ﻿using System;
 using MicroERP.Business.Common;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace MicroERP.Business.BO
+namespace MicroERP.Business.Models
 {
     public class Invoice : ObservableObject
     {
@@ -13,7 +14,7 @@ namespace MicroERP.Business.BO
         private int number;
         private string comment;
         private string message;
-        private IEnumerable<InvoiceItem> invoiceItems;
+        private readonly ObservableCollection<InvoiceItem> invoiceItems;
         private Customer customer;
 
         public DateTime Date
@@ -46,10 +47,9 @@ namespace MicroERP.Business.BO
             set { base.Set<string>(ref this.message, value); }
         }
 
-        public IEnumerable<InvoiceItem> InvoiceItems
+        public ObservableCollection<InvoiceItem> InvoiceItems
         {
             get { return this.invoiceItems; }
-            set { base.Set<IEnumerable<InvoiceItem>>(ref this.invoiceItems, value); }
         }
 
         public Customer Customer
@@ -62,14 +62,15 @@ namespace MicroERP.Business.BO
 
         #region Constructors
 
-        public Invoice(DateTime date, DateTime dueDate, int number, string comment, string message, IEnumerable<InvoiceItem> invoiceItems = null)
+        public Invoice(DateTime date, DateTime dueDate, int number, string comment, string message, Customer customer, ObservableCollection<InvoiceItem> invoiceItems = null)
         {
             this.date = date;
             this.dueDate = dueDate;
             this.number = number;
             this.comment = comment;
             this.message = message;
-            this.invoiceItems = invoiceItems;
+            this.customer = customer;
+            this.invoiceItems = invoiceItems ?? new ObservableCollection<InvoiceItem>();
         }
 
         #endregion

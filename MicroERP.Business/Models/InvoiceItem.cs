@@ -1,6 +1,6 @@
 ﻿using MicroERP.Business.Common;
 
-namespace MicroERP.Business.BO
+namespace MicroERP.Business.Models
 {
     public class InvoiceItem : ObservableObject
     {

@@ -1,4 +1,4 @@
-﻿namespace MicroERP.Business.BO
+﻿namespace MicroERP.Business.Models
 {
     public class Company : Customer
     {
