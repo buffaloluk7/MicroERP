@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Models
 {
+    [DataContract]
     class Person : Customer
     {
         #region Properties
@@ -13,36 +15,42 @@ namespace MicroERP.Business.Models
         private DateTime birthDate;
         private Company company;
 
+        [DataMember]
         public string Title
         {
             get { return this.title; }
             set { base.Set<string>(ref this.title, value); }
         }
 
-        public string Firstname
+        [DataMember]
+        public string FirstName
         {
             get { return this.firstName; }
             set { base.Set<string>(ref this.firstName, value); }
         }
 
+        [DataMember]
         public string LastName
         {
             get { return this.lastName; }
             set { base.Set<string>(ref this.lastName, value); }
         }
 
+        [DataMember]
         public string Suffix
         {
             get { return this.suffix; }
             set { base.Set<string>(ref this.suffix, value); }
         }
 
+        [DataMember]
         public DateTime BirthDate
         {
             get { return this.birthDate; }
             set { base.Set<DateTime>(ref this.birthDate, value); ; }
         }
 
+        [DataMember]
         public Company Company
         {
             get { return this.company; }
@@ -53,7 +61,7 @@ namespace MicroERP.Business.Models
 
         #region Constructors
 
-        public Person(string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, Company company = null) : base(address, billingAddress, shippingAddress)
+        public Person(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, Company company = null) : base(id, address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;
@@ -64,5 +72,27 @@ namespace MicroERP.Business.Models
         }
 
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            var person = obj as Person;
+
+            return base.Equals(obj)
+                && obj is Person
+                && person.title.Equals(this.title)
+                && person.firstName.Equals(this.firstName)
+                && person.lastName.Equals(this.lastName)
+                && person.suffix.Equals(this.suffix)
+                && person.birthDate.Equals(this.birthDate)
+                && person.company.Equals(this.company);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode()
+                + (this.title + this.firstName + this.lastName + this.suffix).GetHashCode()
+                + this.birthDate.GetHashCode()
+                + this.company.GetHashCode();
+        }
     }
 }

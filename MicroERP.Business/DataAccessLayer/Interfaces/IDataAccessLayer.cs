@@ -6,8 +6,12 @@ namespace MicroERP.Business.DataAccessLayer.Interfaces
 {
     public interface IDataAccessLayer
     {
-        Task<IEnumerable<Customer>> SearchCustomers(string searchQuery);
+        Task<Customer> CreateCustomer(Customer customer);
 
-        Task SaveCustomer(Customer customer);
+        Task<IEnumerable<Customer>> ReadCustomers(string searchQuery);
+
+        Task<Customer> UpdateCustomer(Customer customer);
+
+        Task DeleteCustomer(int customerID);
     }
 }

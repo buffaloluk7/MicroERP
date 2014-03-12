@@ -1,35 +1,49 @@
 ﻿using MicroERP.Business.Common;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Models
 {
+    [DataContract]
     public abstract class Customer : ObservableObject
     {
         #region Properties
 
+        private int id;
         private string address;
         private string billingAddress;
         private string shippingAddress;
         private readonly ObservableCollection<Invoice> invoices;
 
+        [DataMember]
+        public int ID
+        {
+            get { return this.id; }
+            set { base.Set<int>(ref this.id, value); }
+        }
+
+        [DataMember]
         public string Address
         {
             get { return this.address; }
             set { base.Set<string>(ref this.address, value); }
         }
 
+        [DataMember]
         public string BillingAddress
         {
             get { return this.billingAddress; }
             set { base.Set<string>(ref this.billingAddress, value); }
         }
 
+        [DataMember]
         public string ShippingAddress
         {
             get { return this.shippingAddress; }
             set { base.Set<string>(ref this.shippingAddress, value); }
         }
 
+        [DataMember]
         public ObservableCollection<Invoice> Invoices
         {
             get { return this.invoices; }
@@ -39,8 +53,9 @@ namespace MicroERP.Business.Models
 
         #region Constructors
 
-        public Customer(string address, string billingAddress, string shippingAddress, ObservableCollection<Invoice> invoices = null)
+        public Customer(int id, string address, string billingAddress, string shippingAddress, ObservableCollection<Invoice> invoices = null)
         {
+            this.id = id;
             this.address = address;
             this.billingAddress = billingAddress;
             this.shippingAddress = shippingAddress;
@@ -48,5 +63,21 @@ namespace MicroERP.Business.Models
         }
 
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            var customer = obj as Customer;
+
+            return obj is Customer
+                && customer.address.Equals(this.address)
+                && customer.billingAddress.Equals(this.billingAddress)
+                && customer.shippingAddress.Equals(this.shippingAddress)
+                && customer.invoices.Equals(this.invoices);
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.address + this.billingAddress + this.shippingAddress).GetHashCode() + this.invoices.GetHashCode();
+        }
     }
 }

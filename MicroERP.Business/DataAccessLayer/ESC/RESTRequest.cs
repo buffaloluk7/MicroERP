@@ -11,44 +11,35 @@ using System.Net;
 
 namespace MicroERP.Business.DataAccessLayer.ESC
 {
-    public static class ESCRequest
+    public static class RESTRequest
     {
         public static TimeSpan Timeout = new TimeSpan(0, 0, 15);
 
-        public static async Task<T> Get<T>(string url)
+        public static async Task<HttpResponseMessage> Get(string url)
         {
-            HttpResponseMessage response = await ESCRequest.Call<T>(HttpMethod.Get, url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                try
-                {
-                    return await response.Content.ReadAsObjectAsync<T>();
-                }
-                catch (JsonReaderException e)
-                {
-                    throw new FaultyMessageException(inner: e);
-                }
-            }
-
-            throw new BadResponseException(response.StatusCode);
+            return await RESTRequest.Call(HttpMethod.Get, url);
         }
 
-        public static async Task Post(string url, object arguments)
+        public static async Task<HttpResponseMessage> Post(string url, object arguments)
         {
-            var response = await ESCRequest.Call<T>(HttpMethod.Post, url, arguments);
-
-            if (response.StatusCode != HttpStatusCode.NoContent)
-            {
-                throw new BadResponseException(response.StatusCode);
-            }
+            return await RESTRequest.Call(HttpMethod.Post, url, arguments);
         }
 
-        private static async Task<HttpResponseMessage> Call<T>(HttpMethod method, string url, object arguments = null)
+        public static async Task<HttpResponseMessage> Put(string url)
+        {
+            return await RESTRequest.Call(HttpMethod.Put, url);
+        }
+
+        public static async Task<HttpResponseMessage> Delete(string url)
+        {
+            return await RESTRequest.Call(HttpMethod.Delete, url);
+        }
+
+        private static async Task<HttpResponseMessage> Call(HttpMethod method, string url, object arguments = null)
         {
             HttpClientHandler handler = new HttpClientHandler();
             HttpClient client = new HttpClient(handler);
-            client.Timeout = ESCRequest.Timeout;
+            client.Timeout = RESTRequest.Timeout;
 
             HttpRequestMessage request = new HttpRequestMessage(method, url);
 
