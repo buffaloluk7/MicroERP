@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Models
 {
@@ -28,7 +29,7 @@ namespace MicroERP.Business.Models
 
         #region Constructors
 
-        public Company(int id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
+        public Company(int id, string address, string billingAddress, string shippingAddress, string name, string uid, IEnumerable<Invoice> invoices = null) : base(id, address, billingAddress, shippingAddress, invoices)
         {
             this.name = name;
             this.uid = uid;
@@ -41,7 +42,7 @@ namespace MicroERP.Business.Models
             var company = obj as Company;
 
             return base.Equals(obj)
-                && obj is Person
+                && obj is Company
                 && company.name.Equals(this.name)
                 && company.uid.Equals(this.uid);
         }

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Models
 {
     [DataContract]
-    class Person : Customer
+    public class Person : Customer
     {
         #region Properties
 
@@ -61,7 +62,7 @@ namespace MicroERP.Business.Models
 
         #region Constructors
 
-        public Person(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, Company company = null) : base(id, address, billingAddress, shippingAddress)
+        public Person(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, Company company = null, IEnumerable<Invoice> invoices = null) : base(id, address, billingAddress, shippingAddress, invoices)
         {
             this.title = title;
             this.firstName = firstName;
@@ -84,15 +85,21 @@ namespace MicroERP.Business.Models
                 && person.lastName.Equals(this.lastName)
                 && person.suffix.Equals(this.suffix)
                 && person.birthDate.Equals(this.birthDate)
-                && person.company.Equals(this.company);
+                && person.company == this.company;
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode()
+            int hash = base.GetHashCode()
                 + (this.title + this.firstName + this.lastName + this.suffix).GetHashCode()
-                + this.birthDate.GetHashCode()
-                + this.company.GetHashCode();
+                + this.birthDate.GetHashCode();
+
+            if (this.company != null)
+            {
+                hash += this.company.GetHashCode();
+            }
+
+            return hash;
         }
     }
 }

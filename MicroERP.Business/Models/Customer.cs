@@ -1,4 +1,5 @@
-﻿using MicroERP.Business.Common;
+﻿using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -53,13 +54,13 @@ namespace MicroERP.Business.Models
 
         #region Constructors
 
-        public Customer(int id, string address, string billingAddress, string shippingAddress, ObservableCollection<Invoice> invoices = null)
+        public Customer(int id, string address, string billingAddress, string shippingAddress, IEnumerable<Invoice> invoices = null)
         {
             this.id = id;
             this.address = address;
             this.billingAddress = billingAddress;
             this.shippingAddress = shippingAddress;
-            this.invoices = invoices ?? new ObservableCollection<Invoice>();
+            this.invoices = (invoices != null) ? new ObservableCollection<Invoice>(invoices) : new ObservableCollection<Invoice>();
         }
 
         #endregion

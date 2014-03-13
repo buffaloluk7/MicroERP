@@ -5,7 +5,7 @@ namespace MicroERP.Business.DataAccessLayer.ESC.Exceptions
 {
     public class BadResponseException : ESCBaseException
     {
-        HttpStatusCode StatusCode
+        public HttpStatusCode StatusCode
         {
             get;
             private set;

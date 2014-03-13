@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using MicroERP.Business.DataAccessLayer.ESC.Exceptions;
 using System.Net;
 using MicroERP.Business.DataAccessLayer.Exceptions;
+using System.Text;
 
 namespace MicroERP.Business.DataAccessLayer.ESC
 {
@@ -38,10 +39,31 @@ namespace MicroERP.Business.DataAccessLayer.ESC
             throw new BadResponseException(response.StatusCode);
         }
 
-        public async Task<IEnumerable<Customer>> ReadCustomers(string searchQuery)
+        public async Task<IEnumerable<Customer>> ReadCustomers(string firstName = "", string lastName = "", string company = "")
         {
-            string url = string.Format("{0}?q={1}", baseURL, searchQuery);
-            var response = await RESTRequest.Get(url);
+            if (string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName) && string.IsNullOrWhiteSpace(company))
+            {
+                throw new ArgumentException("PLEASE ENTER SOME SEARCH QUERY");
+            }
+
+            StringBuilder sb = new StringBuilder(baseURL + "?");
+
+            if (!string.IsNullOrWhiteSpace(firstName))
+            {
+                sb.AppendFormat("firstname={0}", firstName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                sb.AppendFormat("lastName={0}", lastName);
+            }
+
+            if (!string.IsNullOrWhiteSpace(company))
+            {
+                sb.AppendFormat("company={0}", company);
+            }
+
+            var response = await RESTRequest.Get(sb.ToString());
 
             if (response.IsSuccessStatusCode)
             {

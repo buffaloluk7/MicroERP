@@ -1,4 +1,4 @@
-﻿using MicroERP.Business.Common;
+﻿using GalaSoft.MvvmLight;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Models
