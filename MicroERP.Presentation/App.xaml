@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             StartupUri="MainView.xaml"
-             xmlns:VM="clr-namespace:MicroERP.Business.VVM;assembly=MicroERP.Business"
+             StartupUri="MainWindow.xaml"
+             xmlns:VM="clr-namespace:MicroERP.Business.ViewModels;assembly=MicroERP.Business"
              xmlns:local="clr-namespace:MicroERP.Presentation"
              mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
-            <VM:VVMLocator x:Key="Locator" d:IsDataSource="True" x:Name="ViewModelLocator" />
+            <VM:VMLocator x:Key="Locator" d:IsDataSource="True" />
             
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />

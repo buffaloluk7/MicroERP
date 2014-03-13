@@ -90,14 +90,13 @@ namespace MicroERP.Business.Models
 
         public override int GetHashCode()
         {
-            int hash = base.GetHashCode()
-                + (this.title + this.firstName + this.lastName + this.suffix).GetHashCode()
-                + this.birthDate.GetHashCode();
-
-            if (this.company != null)
-            {
-                hash += this.company.GetHashCode();
-            }
+            int hash = 31 * base.GetHashCode();
+                hash = 31 * hash + this.title.GetHashCode();
+                hash = 31 * hash + this.firstName.GetHashCode();
+                hash = 31 * hash + this.lastName.GetHashCode();
+                hash = 31 * hash + this.suffix.GetHashCode();
+                hash = 31 * hash + this.birthDate.GetHashCode();
+                hash = 31 * hash + (this.company != null ? this.company.GetHashCode() : 0);
 
             return hash;
         }

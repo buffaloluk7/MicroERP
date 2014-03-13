@@ -1,4 +1,4 @@
-﻿using MicroERP.Business.Interfaces;
+﻿using MicroERP.Business.Services.Interfaces;
 using System.Windows.Forms;
 
 namespace MicroERP.Business.Services

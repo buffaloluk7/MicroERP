@@ -1,4 +1,4 @@
-﻿namespace MicroERP.Business.Interfaces
+﻿namespace MicroERP.Business.Services.Interfaces
 {
     public interface IMessageService
     {

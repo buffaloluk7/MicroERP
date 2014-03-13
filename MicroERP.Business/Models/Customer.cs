@@ -78,7 +78,12 @@ namespace MicroERP.Business.Models
 
         public override int GetHashCode()
         {
-            return (this.address + this.billingAddress + this.shippingAddress).GetHashCode() + this.invoices.GetHashCode();
+            int hash = 31 * this.address.GetHashCode();
+                hash = 31 * hash + this.billingAddress.GetHashCode();
+                hash = 31 * hash + this.shippingAddress.GetHashCode();
+                hash = 31 * hash + this.invoices.GetHashCode();
+
+            return hash;
         }
     }
 }

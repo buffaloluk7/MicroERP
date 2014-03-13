@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MicroERP.Business.Services;
+using MicroERP.Business.ViewModels;
 using System.Windows;
 
 namespace MicroERP.Presentation
@@ -13,5 +9,10 @@ namespace MicroERP.Presentation
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            WindowService.Mapper.Add(typeof(MainWindowVM), typeof(MainWindow));
+            WindowService.Mapper.Add(typeof(CustomerWindowVM), typeof(CustomerWindow));
+        }
     }
 }

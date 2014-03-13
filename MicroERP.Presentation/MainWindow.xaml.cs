@@ -3,11 +3,11 @@
 namespace MicroERP.Presentation
 {
     /// <summary>
-    /// Interaktionslogik für CustomerView.xaml
+    /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class CustomerView : MetroWindow
+    public partial class MainWindow : MetroWindow
     {
-        public CustomerView()
+        public MainWindow()
         {
             InitializeComponent();
         }

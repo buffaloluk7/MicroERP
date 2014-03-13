@@ -2,52 +2,32 @@
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.DataAccessLayer.Exceptions;
 using MicroERP.Business.DataAccessLayer.Interfaces;
-using MicroERP.Business.Interfaces;
+using MicroERP.Business.Services.Interfaces;
 using MicroERP.Business.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System;
 
-namespace MicroERP.Business.VVM
+namespace MicroERP.Business.ViewModels
 {
-    public class MainVVM : ViewModelBase
+    public class MainWindowVM : ViewModelBase
     {
         #region Properties
 
         private readonly IDataAccessLayer dataAccessLayer;
         private readonly IMessageService messageService;
+        private readonly IWindowService windowService;
 
-        private string firstName = "";
-        private string lastName = "";
-        private string company = "";
+        private string query = "";
         private IEnumerable<Customer> customers;
 
-        public string FirstName
+        public string Query
         {
-            get { return this.firstName; }
+            get { return this.query; }
             set 
-            { 
-                base.Set<string>(ref this.firstName, value);
-                this.SearchCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public string LastName
-        {
-            get { return this.lastName; }
-            set
             {
-                base.Set<string>(ref this.lastName, value);
-                this.SearchCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public string Company
-        {
-            get { return this.company; }
-            set
-            {
-                base.Set<string>(ref this.company, value);
+                base.Set<string>(ref this.query, value);
                 this.SearchCommand.RaiseCanExecuteChanged();
             }
         }
@@ -74,6 +54,18 @@ namespace MicroERP.Business.VVM
             private set;
         }
 
+        public RelayCommand CreateCustomerCommand
+        {
+            get;
+            private set;
+        }
+
+        public RelayCommand<Customer> EditCustomerCommand
+        {
+            get;
+            private set;
+        }
+
         public RelayCommand<Customer> DeleteCustomerCommand
         {
             get;
@@ -84,28 +76,31 @@ namespace MicroERP.Business.VVM
 
         #region Constructors
 
-        public MainVVM(IDataAccessLayer dataAccessLayer, IMessageService messageService)
+        public MainWindowVM(IDataAccessLayer dataAccessLayer, IMessageService messageService, IWindowService windowService)
         {
             this.dataAccessLayer = dataAccessLayer;
+            this.messageService = messageService;
+            this.windowService = windowService;
+
             this.SearchCommand = new RelayCommand(onSearchExecuted, onSearchCanExecute);
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
+            this.CreateCustomerCommand = new RelayCommand(onCreateCustomerExecuted);
+            this.EditCustomerCommand = new RelayCommand<Customer>(onEditCustomerExecuted, onEditCustomerCanExecute);
             this.DeleteCustomerCommand = new RelayCommand<Customer>(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
         }
 
         #endregion
 
-        #region Command Implementation
+        #region Commands Implementation
 
         private async void onSearchExecuted()
         {
-            this.Customers = await this.dataAccessLayer.ReadCustomers(this.firstName, this.lastName, this.company);  
+            this.Customers = await this.dataAccessLayer.ReadCustomers(this.query);  
         }
 
         private bool onSearchCanExecute()
         {
-            return !(string.IsNullOrWhiteSpace(firstName)
-                && string.IsNullOrWhiteSpace(lastName)
-                && string.IsNullOrWhiteSpace(company));
+            return !string.IsNullOrWhiteSpace(this.query);
         }
 
         private void onRepositoryExecuted()
@@ -126,6 +121,22 @@ namespace MicroERP.Business.VVM
             }
         }
 
+        private void onCreateCustomerExecuted()
+        {
+            this.windowService.Show<CustomerWindowVM>(true);
+        }
+
+        private void onEditCustomerExecuted(Customer customer)
+        {
+            // open detail view
+            throw new NotImplementedException();
+        }
+
+        private bool onEditCustomerCanExecute(Customer customer)
+        {
+            return customer != null;
+        }
+
         private async void onDeleteCustomerExecuted(Customer customer)
         {
             try
@@ -134,7 +145,7 @@ namespace MicroERP.Business.VVM
             }
             catch (CustomerNotFoundException)
             {
-                messageService.Show("Fehler", "Benutzer nicht gefunden.");
+                this.messageService.Show("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
             }
 
             var list = this.customers.ToList();

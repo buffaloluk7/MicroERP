@@ -101,13 +101,15 @@ namespace MicroERP.Business.Models
 
         public override int GetHashCode()
         {
-            return base.GetHashCode()
-                + this.date.GetHashCode()
-                + this.dueDate.GetHashCode()
-                + this.number.GetHashCode()
-                + (this.comment + this.message).GetHashCode()
-                + this.customer.GetHashCode()
-                + this.invoiceItems.GetHashCode();
+            int hash = 31 * this.date.GetHashCode();
+                hash = 31 * hash + this.dueDate.GetHashCode();
+                hash = 31 * hash + this.number.GetHashCode();
+                hash = 31 * hash + this.comment.GetHashCode();
+                hash = 31 * hash + this.message.GetHashCode();
+                hash = 31 * hash + this.customer.GetHashCode();
+                hash = 31 * hash + this.invoiceItems.GetHashCode();
+
+            return hash;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MicroERP.Business.DataAccessLayer.Interfaces
     {
         Task<Customer> CreateCustomer(Customer customer);
 
-        Task<IEnumerable<Customer>> ReadCustomers(string firstName = "", string lastName = "", string company = "");
+        Task<IEnumerable<Customer>> ReadCustomers(string query = "");
 
         Task<Customer> UpdateCustomer(Customer customer);
 

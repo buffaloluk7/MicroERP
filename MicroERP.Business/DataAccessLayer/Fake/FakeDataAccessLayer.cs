@@ -57,21 +57,19 @@ namespace MicroERP.Business.DataAccessLayer.Fake
             });
         }
 
-        public async Task<IEnumerable<Customer>> ReadCustomers(string firstName = "", string lastName = "", string company = "")
+        public async Task<IEnumerable<Customer>> ReadCustomers(string query = "")
         {
             return await Task.Run(() =>
             {
-                if (string.IsNullOrWhiteSpace(firstName) && string.IsNullOrWhiteSpace(lastName) && string.IsNullOrWhiteSpace(company))
+                if (string.IsNullOrWhiteSpace(query))
                 {
                     throw new ArgumentException("PLEASE ENTER SOME SEARCH QUERY");
                 }
 
-                firstName = firstName.ToLower();
-                lastName = lastName.ToLower();
-                company = company.ToLower();
+                query = query.ToLower();
 
-                var persons = this.customers.OfType<Person>().Where(P => P.FirstName.ToLower().ContainsAllButNotEmpty(firstName) || P.LastName.ToLower().ContainsAllButNotEmpty(lastName));
-                var companies = this.customers.OfType<Company>().Where(C => C != null && C.Name.ToLower().ContainsAllButNotEmpty(company));
+                var persons = this.customers.OfType<Person>().Where(P => P.FirstName.ToLower().ContainsAllButNotEmpty(query) || P.LastName.ToLower().ContainsAllButNotEmpty(query));
+                var companies = this.customers.OfType<Company>().Where(C => C != null && C.Name.ToLower().ContainsAllButNotEmpty(query));
 
                 return persons.Concat<Customer>(companies);
             });

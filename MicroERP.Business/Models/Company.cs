@@ -19,7 +19,7 @@ namespace MicroERP.Business.Models
         }
 
         [DataMember]
-        public string Uid
+        public string UID
         {
             get { return this.uid; }
             set { base.Set<string>(ref this.uid, value); }
@@ -49,8 +49,11 @@ namespace MicroERP.Business.Models
 
         public override int GetHashCode()
         {
-            return base.GetHashCode()
-                + (this.name + this.uid).GetHashCode();
+            int hash = 31 * base.GetHashCode();
+                hash = 31 * hash + this.name.GetHashCode();
+                hash = 31 * hash + this.uid.GetHashCode();
+
+            return hash;
         }
     }
 }

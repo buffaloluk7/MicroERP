@@ -11,8 +11,6 @@ namespace MicroERP.Business.Models
         private int amount;
         private double unitPrice;
         private double tax;
-        private double? net;
-        private double? gross;
 
         [DataMember]
         public int Amount
@@ -28,6 +26,9 @@ namespace MicroERP.Business.Models
             set { base.Set<double>(ref this.unitPrice, value); }
         }
 
+        /// <summary>
+        /// For example: 12.5
+        /// </summary>
         [DataMember]
         public double Tax
         {
@@ -35,31 +36,15 @@ namespace MicroERP.Business.Models
             set { base.Set<double>(ref this.tax, value); }
         }
 
-        [DataMember]
-        public double? Net
-        {
-            get { return this.net; }
-            set { base.Set<double?>(ref this.net, value); }
-        }
-
-        [DataMember]
-        public double? Gross
-        {
-            get { return this.gross; }
-            set { base.Set<double?>(ref this.gross, value); }
-        }
-
         #endregion
 
         #region Constructors
 
-        public InvoiceItem(int amount, double unitPrice, double tax, double? net = null, double? gross = null)
+        public InvoiceItem(int amount, double unitPrice, double tax)
         {
             this.amount = amount;
             this.unitPrice = unitPrice;
             this.tax = tax;
-            this.net = net;
-            this.gross = gross;
         }
 
         #endregion
@@ -77,10 +62,11 @@ namespace MicroERP.Business.Models
 
         public override int GetHashCode()
         {
-            return base.GetHashCode()
-                + this.amount.GetHashCode()
-                + this.tax.GetHashCode()
-                + this.unitPrice.GetHashCode();
+            int hash = 31 * this.amount.GetHashCode();
+                hash = 31 * hash + this.tax.GetHashCode();
+                hash = 31 * hash + this.unitPrice.GetHashCode();
+
+            return hash;
         }
     }
 }
