@@ -18,19 +18,7 @@ namespace MicroERP.Business.ViewModels
         private readonly IDataAccessLayer dataAccessLayer;
         private readonly IMessageService messageService;
         private readonly IWindowService windowService;
-
-        private string query = "";
         private IEnumerable<Customer> customers;
-
-        public string Query
-        {
-            get { return this.query; }
-            set 
-            {
-                base.Set<string>(ref this.query, value);
-                this.SearchCommand.RaiseCanExecuteChanged();
-            }
-        }
 
         public IEnumerable<Customer> Customers
         {
@@ -42,7 +30,7 @@ namespace MicroERP.Business.ViewModels
 
         #region Commands
 
-        public RelayCommand SearchCommand
+        public RelayCommand<string> SearchCommand
         {
             get;
             private set;
@@ -82,7 +70,7 @@ namespace MicroERP.Business.ViewModels
             this.messageService = messageService;
             this.windowService = windowService;
 
-            this.SearchCommand = new RelayCommand(onSearchExecuted, onSearchCanExecute);
+            this.SearchCommand = new RelayCommand<string>(onSearchExecuted, onSearchCanExecute);
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
             this.CreateCustomerCommand = new RelayCommand(onCreateCustomerExecuted);
             this.EditCustomerCommand = new RelayCommand<Customer>(onEditCustomerExecuted, onEditCustomerCanExecute);
@@ -93,14 +81,14 @@ namespace MicroERP.Business.ViewModels
 
         #region Commands Implementation
 
-        private async void onSearchExecuted()
+        private async void onSearchExecuted(string query)
         {
-            this.Customers = await this.dataAccessLayer.ReadCustomers(this.query);  
+            this.Customers = await this.dataAccessLayer.ReadCustomers(query);  
         }
 
-        private bool onSearchCanExecute()
+        private bool onSearchCanExecute(string query)
         {
-            return !string.IsNullOrWhiteSpace(this.query);
+            return !string.IsNullOrWhiteSpace(query);
         }
 
         private void onRepositoryExecuted()

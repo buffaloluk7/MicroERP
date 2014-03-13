@@ -44,17 +44,17 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold"/>
-                <TextBox VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch"  Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="SearchQuery">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="GotFocus">
                             <ei:CallMethodAction MethodName="SelectAll"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TextBox.InputBindings>
-                        <KeyBinding Command="{Binding SearchCommand}" Key="Return" />
+                        <KeyBinding Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SearchQuery, Path=Text}" Key="Return" />
                     </TextBox.InputBindings>
                 </TextBox>
-                <Button Grid.Row="0" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" VerticalAlignment="Center">
+                <Button Grid.Row="0" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchQuery, Path=Text}" VerticalAlignment="Center">
                     <Button.Content>
                         <TextBlock>
                             <Run FontFamily="Segoe UI Symbol" Text="&#xE11A;" />
