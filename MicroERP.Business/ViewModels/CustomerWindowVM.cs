@@ -1,13 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MicroERP.Business.Common;
+using MicroERP.Business.DataAccessLayer.Exceptions;
 using MicroERP.Business.DataAccessLayer.Interfaces;
 using MicroERP.Business.Models;
 using MicroERP.Business.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MicroERP.Business.ViewModels
 {
@@ -55,19 +52,27 @@ namespace MicroERP.Business.ViewModels
 
         private bool onSaveCustomerCanExecute()
         {
-            throw new NotImplementedException();
+            // TODO: check if input has changed (maybe store old customer object to compare?)
+            return true;
         }
 
         private void onSaveCustomerExecuted()
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.dataAccessLayer.UpdateCustomer(this.customer);
+            }
+            catch (CustomerNotFoundException)
+            {
+                this.messageService.Show("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
+            }
         }
         
         #endregion
 
         public void OnNavigatedTo(object argument)
         {
-            this.Customer = (Customer)argument;
+            this.Customer = (argument as Customer).Clone();
         }
     }
 }

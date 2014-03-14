@@ -49,6 +49,8 @@ namespace MicroERP.Business.Models
 
         #endregion
 
+        #region Override
+
         public override bool Equals(object obj)
         {
             var item = obj as InvoiceItem;
@@ -68,5 +70,7 @@ namespace MicroERP.Business.Models
 
             return hash;
         }
+
+        #endregion
     }
 }

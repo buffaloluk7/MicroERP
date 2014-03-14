@@ -5,14 +5,14 @@
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
  xmlns:selectors="clr-namespace:MicroERP.Presentation.Selectors"
  xmlns:models="clr-namespace:MicroERP.Business.Models;assembly=MicroERP.Business"
- x:Class="MicroERP.Presentation.CustomerWindow"
+ x:Class="MicroERP.Presentation.Views.CustomerWindow"
  x:Name="Window"
  Title="MicroERP"
- Width="640" Height="600" DataContext="{Binding CustomerDetail, Mode=OneWay, Source={StaticResource Locator}}" BorderThickness="1" BorderBrush="#FF41B1E1">
+ Width="640" Height="490" DataContext="{Binding CustomerDetail, Mode=OneWay, Source={StaticResource Locator}}" BorderThickness="1" BorderBrush="#FF41B1E1">
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TabControl>
@@ -84,11 +84,20 @@
             </TabItem>
         </TabControl>
         <Grid Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="&#xE10A;" Command="{Binding CancelCommand}" Margin="4" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Height="42" FontSize="18.667" Width="42" Foreground="Black" />
-                <Button Content="&#xE105;" Margin="4,4,8,4" FontFamily="Segoe UI Symbol" Style="{DynamicResource MetroCircleButtonStyle}" Height="42" FontSize="18.667" Width="42" Foreground="Black" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
+                    <TextBlock>
+                        <Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" />
+                        <Run Text="ABBRECHEN"/>
+                    </TextBlock>
+                </Button>
+                <Button Command="{Binding SaveCustomerCommand}" Margin="0,0,8,0">
+                    <TextBlock>
+                        <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
+                        <Run Text="SPEICHERN"/>
+                    </TextBlock>
+                </Button>
             </StackPanel>
         </Grid>
-
     </Grid>
 </Controls:MetroWindow>

@@ -79,7 +79,7 @@ namespace MicroERP.Business.DataAccessLayer.Fake
         {
             return await Task.Run(() =>
             {
-                int index = this.customers.FindIndex(C => C.Equals(customer));
+                int index = this.customers.FindIndex(C => C.ID == customer.ID);
 
                 if (index < 0)
                 {

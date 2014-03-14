@@ -1,5 +1,6 @@
 ﻿using MicroERP.Business.Services;
 using MicroERP.Business.ViewModels;
+using MicroERP.Presentation.Views;
 using System.Windows;
 
 namespace MicroERP.Presentation

@@ -1,13 +1,9 @@
-﻿using MicroERP.Business.Models;
+﻿using MicroERP.Business.DataAccessLayer.ESC.Exceptions;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using MicroERP.Business.DataAccessLayer.ESC.Extensions;
-using MicroERP.Business.DataAccessLayer.ESC.Exceptions;
-using System.Net;
 
 namespace MicroERP.Business.DataAccessLayer.ESC
 {

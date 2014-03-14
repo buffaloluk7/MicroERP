@@ -5,7 +5,7 @@
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
  xmlns:selectors="clr-namespace:MicroERP.Presentation.Selectors"
  xmlns:models="clr-namespace:MicroERP.Business.Models;assembly=MicroERP.Business"
- x:Class="MicroERP.Presentation.MainWindow"
+ x:Class="MicroERP.Presentation.Views.MainWindow"
  x:Name="Window"
  Title="MicroERP"
  Width="640" Height="600" DataContext="{Binding Main, Mode=OneWay, Source={StaticResource Locator}}" BorderThickness="1" BorderBrush="#FF41B1E1">

@@ -3,7 +3,6 @@ using MicroERP.Business.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Xaml;
 
 namespace MicroERP.Business.Services
 {

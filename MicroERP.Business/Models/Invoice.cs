@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -84,6 +83,8 @@ namespace MicroERP.Business.Models
 
         #endregion
 
+        #region Override
+
         public override bool Equals(object obj)
         {
             var invoice = obj as Invoice;
@@ -111,5 +112,7 @@ namespace MicroERP.Business.Models
 
             return hash;
         }
+
+        #endregion
     }
 }

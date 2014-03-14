@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace MicroERP.Business
+namespace MicroERP.Business.Common
 {
     public class ObservableViewModelCollection<TViewModel, TModel> : ObservableCollection<TViewModel>
     {

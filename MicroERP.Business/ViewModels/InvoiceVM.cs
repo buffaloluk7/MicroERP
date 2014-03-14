@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using MicroERP.Business.Common;
 using MicroERP.Business.Models;
 using System;
 using System.Collections.ObjectModel;

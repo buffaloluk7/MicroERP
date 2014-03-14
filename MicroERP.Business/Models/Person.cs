@@ -74,6 +74,8 @@ namespace MicroERP.Business.Models
 
         #endregion
 
+        #region Override
+
         public override bool Equals(object obj)
         {
             var person = obj as Person;
@@ -100,5 +102,7 @@ namespace MicroERP.Business.Models
 
             return hash;
         }
+
+        #endregion
     }
 }

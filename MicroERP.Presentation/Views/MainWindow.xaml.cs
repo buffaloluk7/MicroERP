@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 
-namespace MicroERP.Presentation
+namespace MicroERP.Presentation.Views
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml

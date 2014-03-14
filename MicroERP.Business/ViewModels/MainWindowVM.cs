@@ -2,12 +2,11 @@
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.DataAccessLayer.Exceptions;
 using MicroERP.Business.DataAccessLayer.Interfaces;
-using MicroERP.Business.Services.Interfaces;
 using MicroERP.Business.Models;
+using MicroERP.Business.Services.Interfaces;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System;
 
 namespace MicroERP.Business.ViewModels
 {
