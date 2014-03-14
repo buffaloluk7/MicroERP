@@ -7,19 +7,26 @@ using System.Xaml;
 
 namespace MicroERP.Business.Services
 {
-    public class WindowService : IWindowService
+    public class NavigationService : INavigationService
     {
         public static readonly Dictionary<Type, Type> Mapper = new Dictionary<Type, Type>();
 
-        public void Show<VVM>(bool showDialog = false)
+        public void Show<VVM>(object argument = null, bool showDialog = false)
         {
             Type view;
 
-            if (WindowService.Mapper.TryGetValue(typeof(VVM), out view))
+            if (NavigationService.Mapper.TryGetValue(typeof(VVM), out view))
             {
                 var window = (Window)Activator.CreateInstance(view);
-                window.DataContext = SimpleIoc.Default.GetInstance<VVM>();
-                
+                var viewModel = SimpleIoc.Default.GetInstance<VVM>();
+
+                if (viewModel is INavigationAware && argument != null)
+                {
+                    (viewModel as INavigationAware).OnNavigatedTo(argument);
+                }
+
+                window.DataContext = viewModel;
+
                 if (showDialog)
                 {
                     window.ShowDialog();

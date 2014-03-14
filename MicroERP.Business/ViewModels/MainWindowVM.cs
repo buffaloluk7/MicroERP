@@ -17,7 +17,7 @@ namespace MicroERP.Business.ViewModels
 
         private readonly IDataAccessLayer dataAccessLayer;
         private readonly IMessageService messageService;
-        private readonly IWindowService windowService;
+        private readonly INavigationService windowService;
         private IEnumerable<Customer> customers;
 
         public IEnumerable<Customer> Customers
@@ -64,7 +64,7 @@ namespace MicroERP.Business.ViewModels
 
         #region Constructors
 
-        public MainWindowVM(IDataAccessLayer dataAccessLayer, IMessageService messageService, IWindowService windowService)
+        public MainWindowVM(IDataAccessLayer dataAccessLayer, IMessageService messageService, INavigationService windowService)
         {
             this.dataAccessLayer = dataAccessLayer;
             this.messageService = messageService;
@@ -111,13 +111,12 @@ namespace MicroERP.Business.ViewModels
 
         private void onCreateCustomerExecuted()
         {
-            this.windowService.Show<CustomerWindowVM>(true);
+            this.windowService.Show<CustomerWindowVM>(showDialog: true);
         }
 
         private void onEditCustomerExecuted(Customer customer)
         {
-            // open detail view
-            throw new NotImplementedException();
+            this.windowService.Show<CustomerWindowVM>(customer, true);
         }
 
         private bool onEditCustomerCanExecute(Customer customer)

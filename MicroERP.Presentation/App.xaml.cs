@@ -11,8 +11,8 @@ namespace MicroERP.Presentation
     {
         public App()
         {
-            WindowService.Mapper.Add(typeof(MainWindowVM), typeof(MainWindow));
-            WindowService.Mapper.Add(typeof(CustomerWindowVM), typeof(CustomerWindow));
+            NavigationService.Mapper.Add(typeof(MainWindowVM), typeof(MainWindow));
+            NavigationService.Mapper.Add(typeof(CustomerWindowVM), typeof(CustomerWindow));
         }
     }
 }

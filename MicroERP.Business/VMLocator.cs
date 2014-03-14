@@ -3,8 +3,9 @@ using MicroERP.Business.DataAccessLayer.Interfaces;
 using MicroERP.Business.Factory;
 using MicroERP.Business.Services;
 using MicroERP.Business.Services.Interfaces;
+using MicroERP.Business.ViewModels;
 
-namespace MicroERP.Business.ViewModels
+namespace MicroERP.Business
 {
     public sealed class VMLocator
     {
@@ -20,9 +21,9 @@ namespace MicroERP.Business.ViewModels
                 SimpleIoc.Default.Register<IMessageService, MessageService>();
             }
 
-            if (!SimpleIoc.Default.IsRegistered<IWindowService>())
+            if (!SimpleIoc.Default.IsRegistered<INavigationService>())
             {
-                SimpleIoc.Default.Register<IWindowService, WindowService>();
+                SimpleIoc.Default.Register<INavigationService, NavigationService>();
             }
 
             if (!SimpleIoc.Default.IsRegistered<MainWindowVM>())

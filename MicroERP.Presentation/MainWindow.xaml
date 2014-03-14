@@ -124,19 +124,19 @@
             <Button Grid.Column="0" Command="{Binding CreateCustomerCommand}" Margin="0,0,6,0">
                 <TextBlock>
                     <Run FontFamily="Segoe UI Symbol" Text="&#xE109;" />
-                    <Run Text=" ERSTELLEN"/>
+                    <Run Text="ERSTELLEN"/>
                 </TextBlock>
             </Button>
             <Button Grid.Column="1" Command="{Binding EditCustomerCommand}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" Margin="0,0,6,0">
                 <TextBlock>
                     <Run FontFamily="Segoe UI Symbol" Text="&#xE104;" />
-                    <Run Text=" BEARBEITEN"/>
+                    <Run Text="BEARBEITEN"/>
                 </TextBlock>
             </Button>
             <Button Grid.Column="2" Command="{Binding DeleteCustomerCommand}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" Margin="0,0,4,0">
                 <TextBlock>
                     <Run FontFamily="Segoe UI Symbol" Text="&#xE106;" />
-                    <Run Text=" LÖSCHEN"/>
+                    <Run Text="LÖSCHEN"/>
                 </TextBlock>
             </Button>
         </Grid>

@@ -11,13 +11,20 @@ using System.Threading.Tasks;
 
 namespace MicroERP.Business.ViewModels
 {
-    public class CustomerWindowVM : ViewModelBase
+    public class CustomerWindowVM : ViewModelBase, INavigationAware
     {
         #region Properties
 
         private readonly IDataAccessLayer dataAccessLayer;
         private readonly IMessageService messageService;
-        private readonly IWindowService windowService;
+        private readonly INavigationService windowService;
+        private Customer customer;
+
+        public Customer Customer
+        {
+            get { return this.customer; }
+            set { base.Set<Customer>(ref this.customer, value); }
+        }
 
         #endregion
 
@@ -33,7 +40,7 @@ namespace MicroERP.Business.ViewModels
 
         #region Constructors
 
-        public CustomerWindowVM(IDataAccessLayer dataAccessLayer, IMessageService messageService, IWindowService windowService)
+        public CustomerWindowVM(IDataAccessLayer dataAccessLayer, IMessageService messageService, INavigationService windowService)
         {
             this.dataAccessLayer = dataAccessLayer;
             this.messageService = messageService;
@@ -57,5 +64,10 @@ namespace MicroERP.Business.ViewModels
         }
         
         #endregion
+
+        public void OnNavigatedTo(object argument)
+        {
+            this.Customer = (Customer)argument;
+        }
     }
 }
