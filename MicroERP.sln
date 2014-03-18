@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation", "MicroERP.Presentation\MicroERP.Presentation.csproj", "{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Business", "MicroERP.Business\MicroERP.Business.csproj", "{154A2783-88F6-4C89-83BF-909B86A2F411}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5B9084A5-E336-456B-8666-EB0AE1150BDD}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -14,22 +10,69 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5B9084
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Data", "MicroERP.Data", "{1D5D6158-C847-423A-B13F-C211AA2EC8EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.Fake", "MicroERP.Data\MicroERP.Data.Fake\MicroERP.Data.Fake.csproj", "{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.EmbeddedSensorCloud", "MicroERP.Data\EmbeddedSensorCloud\MicroERP.Data.EmbeddedSensorCloud.csproj", "{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Services", "MicroERP.Services", "{32443E4E-F14F-47C7-A78C-6B7C288515CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Domain", "MicroERP.Domain\MicroERP.Domain.csproj", "{53090631-CC3E-4DDE-B9ED-57E537350413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Services.Core", "MicroERP.Services\MicroERP.Services.Core\MicroERP.Services.Core.csproj", "{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Services.WPF", "MicroERP.Services\MicroERP.Services.WPF\MicroERP.Services.WPF.csproj", "{D65F7CD3-7997-4102-9BB0-17E620575DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Business", "MicroERP.Business\MicroERP.Business.csproj", "{AA4873D2-1D9A-4FF7-83ED-24D66229DAF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Presentation", "MicroERP.Presentation", "{B4488879-40D8-4618-9E6A-160E543ADA5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation.WPF", "MicroERP.Presentation\MicroERP.Presentation.WPF\MicroERP.Presentation.WPF.csproj", "{46C0C94D-015B-4567-80EE-D5A281B1F774}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F96FAC30-C814-4D6F-BE0C-85E3D78C1577}.Release|Any CPU.Build.0 = Release|Any CPU
-		{154A2783-88F6-4C89-83BF-909B86A2F411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{154A2783-88F6-4C89-83BF-909B86A2F411}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{154A2783-88F6-4C89-83BF-909B86A2F411}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{154A2783-88F6-4C89-83BF-909B86A2F411}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53090631-CC3E-4DDE-B9ED-57E537350413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53090631-CC3E-4DDE-B9ED-57E537350413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53090631-CC3E-4DDE-B9ED-57E537350413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53090631-CC3E-4DDE-B9ED-57E537350413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D65F7CD3-7997-4102-9BB0-17E620575DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D65F7CD3-7997-4102-9BB0-17E620575DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D65F7CD3-7997-4102-9BB0-17E620575DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D65F7CD3-7997-4102-9BB0-17E620575DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA4873D2-1D9A-4FF7-83ED-24D66229DAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA4873D2-1D9A-4FF7-83ED-24D66229DAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA4873D2-1D9A-4FF7-83ED-24D66229DAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA4873D2-1D9A-4FF7-83ED-24D66229DAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C0C94D-015B-4567-80EE-D5A281B1F774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C0C94D-015B-4567-80EE-D5A281B1F774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C0C94D-015B-4567-80EE-D5A281B1F774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C0C94D-015B-4567-80EE-D5A281B1F774}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE} = {1D5D6158-C847-423A-B13F-C211AA2EC8EB}
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6} = {1D5D6158-C847-423A-B13F-C211AA2EC8EB}
+		{3CF7F6C5-3D87-4BEC-A55B-E49EF548E18D} = {32443E4E-F14F-47C7-A78C-6B7C288515CD}
+		{D65F7CD3-7997-4102-9BB0-17E620575DF2} = {32443E4E-F14F-47C7-A78C-6B7C288515CD}
+		{46C0C94D-015B-4567-80EE-D5A281B1F774} = {B4488879-40D8-4618-9E6A-160E543ADA5D}
 	EndGlobalSection
 EndGlobal

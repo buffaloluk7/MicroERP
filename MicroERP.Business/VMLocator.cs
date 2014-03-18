@@ -1,9 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using MicroERP.Business.DataAccessLayer.Interfaces;
-using MicroERP.Business.Factory;
-using MicroERP.Business.Services;
-using MicroERP.Business.Services.Interfaces;
+using MicroERP.Business.Factories;
 using MicroERP.Business.ViewModels;
+using MicroERP.Domain.Interfaces;
+using MicroERP.Services.Core.Navigation;
+using MicroERP.Services.Core.Notification;
 
 namespace MicroERP.Business
 {
@@ -11,40 +11,30 @@ namespace MicroERP.Business
     {
         public VMLocator()
         {
-            if (!SimpleIoc.Default.IsRegistered<IDataAccessLayer>())
+            if (!SimpleIoc.Default.IsRegistered<IRepository>())
             {
-                SimpleIoc.Default.Register<IDataAccessLayer>(DataAccessLayerFactory.CreateDataAccessLayer);
+                SimpleIoc.Default.Register<IRepository>(RepositoryFactory.CreateRepository);
             }
 
-            if (!SimpleIoc.Default.IsRegistered<IMessageService>())
+            if (!SimpleIoc.Default.IsRegistered<MainWindowViewModel>())
             {
-                SimpleIoc.Default.Register<IMessageService, MessageService>();
+                SimpleIoc.Default.Register<MainWindowViewModel>();
             }
 
-            if (!SimpleIoc.Default.IsRegistered<INavigationService>())
+            if (!SimpleIoc.Default.IsRegistered<CustomerWindowViewModel>())
             {
-                SimpleIoc.Default.Register<INavigationService, NavigationService>();
-            }
-
-            if (!SimpleIoc.Default.IsRegistered<MainWindowVM>())
-            {
-                SimpleIoc.Default.Register<MainWindowVM>();
-            }
-
-            if (!SimpleIoc.Default.IsRegistered<CustomerWindowVM>())
-            {
-                SimpleIoc.Default.Register<CustomerWindowVM>();
+                SimpleIoc.Default.Register<CustomerWindowViewModel>();
             }
         }
 
-        public MainWindowVM Main
+        public MainWindowViewModel Main
         {
-            get { return SimpleIoc.Default.GetInstance<MainWindowVM>(); }
+            get { return SimpleIoc.Default.GetInstance<MainWindowViewModel>(); }
         }
 
-        public CustomerWindowVM CustomerDetail
+        public CustomerWindowViewModel CustomerDetail
         {
-            get { return SimpleIoc.Default.GetInstance<CustomerWindowVM>(); }
+            get { return SimpleIoc.Default.GetInstance<CustomerWindowViewModel>(); }
         }
     }
 }

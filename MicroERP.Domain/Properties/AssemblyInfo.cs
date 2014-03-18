@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über folgende 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("MicroERP.Business")]
+[assembly: AssemblyTitle("MicroERP.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MicroERP.Business")]
+[assembly: AssemblyProduct("MicroERP.Domain")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
