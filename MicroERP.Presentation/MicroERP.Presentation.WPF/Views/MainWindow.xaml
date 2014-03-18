@@ -13,7 +13,8 @@
  Height="600"
  DataContext="{Binding Main, Mode=OneWay, Source={StaticResource Locator}}"
  BorderThickness="1"
- BorderBrush="#FF41B1E1">
+ BorderBrush="#FF41B1E1"
+ WindowTransitionsEnabled="False">
 
     <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>

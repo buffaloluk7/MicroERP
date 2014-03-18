@@ -35,6 +35,12 @@ namespace MicroERP.Business.ViewModels
             private set;
         }
 
+        public RelayCommand CancelCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructors
@@ -46,6 +52,7 @@ namespace MicroERP.Business.ViewModels
             this.navigationService = windowService;
 
             this.SaveCustomerCommand = new RelayCommand(onSaveCustomerExecuted, onSaveCustomerCanExecute);
+            this.CancelCommand = new RelayCommand(onCancelExecuted);
         }
 
         #endregion
@@ -68,6 +75,11 @@ namespace MicroERP.Business.ViewModels
             {
                 this.notificationService.Show("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
             }
+        }
+
+        private void onCancelExecuted()
+        {
+            this.navigationService.Close(this, "Geänderte Daten werden nicht gespeichert.");
         }
         
         #endregion

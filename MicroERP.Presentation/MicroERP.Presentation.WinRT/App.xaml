@@ -1,0 +1,19 @@
+﻿<Application
+    x:Class="MicroERP.Presentation.WinRT.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:MicroERP.Presentation.WinRT"
+    xmlns:VM="using:MicroERP.Business"
+    RequestedTheme="Light">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <VM:ViewModelLocator 
+          xmlns:p8="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:p7="http://schemas.microsoft.com/winfx/2006/xaml" p7:Key="Locator" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
