@@ -1,18 +1,13 @@
-﻿using GalaSoft.MvvmLight.Ioc;
-using MicroERP.Business;
+﻿using MicroERP.Business;
 using MicroERP.Business.ViewModels;
 using MicroERP.Presentation.Views;
-using MicroERP.Services.Core.Browser;
-using MicroERP.Services.Core.Navigation;
-using MicroERP.Services.Core.Notification;
 using MicroERP.Services.WPF.Browser;
 using MicroERP.Services.WPF.Navigation;
 using MicroERP.Services.WPF.Notification;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using MicroERP.Presentation.WPF;
-using Ninject;
 
 namespace MicroERP.Presentation
 {

@@ -25,12 +25,12 @@ namespace MicroERP.Business
             this.kernel.Bind<CustomerWindowViewModel>().ToSelf().InTransientScope();
         }
 
-        public MainWindowViewModel Main
+        public MainWindowViewModel MainWindow
         {
             get { return this.kernel.Get<MainWindowViewModel>(); }
         }
 
-        public CustomerWindowViewModel CustomerDetail
+        public CustomerWindowViewModel CustomerWindow
         {
             get { return this.kernel.Get<CustomerWindowViewModel>(); }
         }

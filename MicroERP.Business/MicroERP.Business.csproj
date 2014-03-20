@@ -36,10 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\MicroERP.Data\EmbeddedSensorCloud\MicroERP.Data.EmbeddedSensorCloud.csproj">
-      <Project>{1f7f20bc-7a77-4be9-9461-dc2e9363cbb6}</Project>
-      <Name>MicroERP.Data.EmbeddedSensorCloud</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MicroERP.Data\MicroERP.Data.Fake\MicroERP.Data.Fake.csproj">
       <Project>{f076d5ee-a261-44bd-9d3a-21fdf4e6e9ee}</Project>
       <Name>MicroERP.Data.Fake</Name>

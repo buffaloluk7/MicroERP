@@ -9,7 +9,7 @@
  Title="MicroERP"
  Width="640"
  Height="490"
- DataContext="{Binding CustomerDetail, Mode=OneWay, Source={StaticResource Locator}}"
+ DataContext="{Binding CustomerWindow, Mode=OneWay, Source={StaticResource Locator}}"
  BorderThickness="1"
  BorderBrush="#FF41B1E1"
  WindowTransitionsEnabled="False">

@@ -19,12 +19,12 @@ namespace MicroERP.Business.ViewModels
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
-        private IEnumerable<FullNameViewModel> customers;
+        private FullNameViewModel[] customers;
 
-        public IEnumerable<FullNameViewModel> Customers
+        public FullNameViewModel[] Customers
         {
             get { return this.customers; }
-            set { base.Set<IEnumerable<FullNameViewModel>>(ref this.customers, value); }
+            set { base.Set<FullNameViewModel[]>(ref this.customers, value); }
         }
         
         #endregion
@@ -86,7 +86,7 @@ namespace MicroERP.Business.ViewModels
         private async void onSearchExecuted(string query)
         {
             var customers = await this.repository.ReadCustomers(query);
-            this.Customers = customers.Select(C => new FullNameViewModel(C));
+            this.Customers = customers.Select(C => new FullNameViewModel(C)).ToArray();
         }
 
         private bool onSearchCanExecute(string query)
@@ -129,7 +129,7 @@ namespace MicroERP.Business.ViewModels
 
             var list = this.customers.ToList();
             list.Remove(customer);
-            this.Customers = list;
+            this.Customers = list.ToArray();
         }
 
         private bool onDeleteCustomerCanExecute(FullNameViewModel customer)

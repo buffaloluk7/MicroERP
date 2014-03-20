@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Data", "MicroERP.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.Fake", "MicroERP.Data\MicroERP.Data.Fake\MicroERP.Data.Fake.csproj", "{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.EmbeddedSensorCloud", "MicroERP.Data\EmbeddedSensorCloud\MicroERP.Data.EmbeddedSensorCloud.csproj", "{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Services", "MicroERP.Services", "{32443E4E-F14F-47C7-A78C-6B7C288515CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Domain", "MicroERP.Domain\MicroERP.Domain.csproj", "{53090631-CC3E-4DDE-B9ED-57E537350413}"
@@ -33,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation.WinRT", "MicroERP.Presentation\MicroERP.Presentation.WinRT\MicroERP.Presentation.WinRT.csproj", "{EBB5CDB9-48A2-44E4-8D7F-2203B988A465}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Services.WinRT", "MicroERP.Services\MicroERP.Services.WinRT\MicroERP.Services.WinRT.csproj", "{DB70831A-6E36-4FAD-A608-ED0A74A7D391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.EmbeddedSensorCloud", "MicroERP.Data\MicroERP.Data.EmbeddedSensorCloud\MicroERP.Data.EmbeddedSensorCloud.csproj", "{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,16 +56,6 @@ Global
 		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Release|ARM.ActiveCfg = Release|Any CPU
 		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Release|x64.ActiveCfg = Release|Any CPU
 		{F076D5EE-A261-44BD-9D3A-21FDF4E6E9EE}.Release|x86.ActiveCfg = Release|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|ARM.ActiveCfg = Release|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|x64.ActiveCfg = Release|Any CPU
-		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|x86.ActiveCfg = Release|Any CPU
 		{53090631-CC3E-4DDE-B9ED-57E537350413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53090631-CC3E-4DDE-B9ED-57E537350413}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53090631-CC3E-4DDE-B9ED-57E537350413}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -156,6 +146,16 @@ Global
 		{DB70831A-6E36-4FAD-A608-ED0A74A7D391}.Release|x64.Build.0 = Release|x64
 		{DB70831A-6E36-4FAD-A608-ED0A74A7D391}.Release|x86.ActiveCfg = Release|x86
 		{DB70831A-6E36-4FAD-A608-ED0A74A7D391}.Release|x86.Build.0 = Release|x86
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|ARM.ActiveCfg = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

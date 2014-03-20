@@ -11,7 +11,7 @@
  Title="MicroERP"
  Width="640"
  Height="600"
- DataContext="{Binding Main, Mode=OneWay, Source={StaticResource Locator}}"
+ DataContext="{Binding MainWindow, Mode=OneWay, Source={StaticResource Locator}}"
  BorderThickness="1"
  BorderBrush="#FF41B1E1"
  WindowTransitionsEnabled="False">
@@ -50,14 +50,14 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold"/>
-                <TextBox VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="SearchQuery">
+                <TextBox VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="SearchBox">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="GotFocus">
                             <ei:CallMethodAction MethodName="SelectAll"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Return" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SearchQuery, Path=Text}" />
+                        <KeyBinding Key="Return" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" />
                     </TextBox.InputBindings>
                 </TextBox>
                 <Button Grid.Row="0" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchQuery, Path=Text}" VerticalAlignment="Center" />

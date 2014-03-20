@@ -26,13 +26,14 @@
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <TextBlock Text="MicroERP" Style="{StaticResource HeaderTextBlockStyle}" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <TextBlock Text="&#xE1C3;" FontFamily="Segoe UI Symbol" TextAlignment="Center" VerticalAlignment="Center" FontSize="37.333" />
+            <TextBlock Text="&#xE1D3;" FontFamily="Segoe UI Symbol" TextAlignment="Center" VerticalAlignment="Center" FontSize="46" />
 
-            <SearchBox x:Name="searchBox" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,30,0" Width="300">
+            <SearchBox PlaceholderText="Suchen..." x:Name="SearchBox" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,40,0" Width="400" Height="40" FontSize="20" SearchHistoryEnabled="False" >
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="QuerySubmitted">
-                        <Core:InvokeCommandAction Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding QueryText, ElementName=searchBox}"/>
+                        <Core:InvokeCommandAction Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding QueryText, ElementName=SearchBox}"/>
                     </Core:EventTriggerBehavior>
                 </Interactivity:Interaction.Behaviors>
             </SearchBox>
@@ -41,21 +42,21 @@
         <StackPanel Grid.Row="1" Margin="30,0,30,30">
             <Grid Background="#FF41B1E1" Height="40">
                 <TextBlock Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="8,0,0,0">
-     <Run Text="&#xE136;" FontFamily="Segoe UI Symbol" />
-     <Run Text="{Binding Items.Count, ElementName=customerList, Mode=OneWay}" />
-     <Run Text=" SUCHERGEBNIS(SE)"/>
+                    <Run FontFamily="Segoe UI Symbol" Text="&#xE125; " />
+                    <Run Text="{Binding Customers.Length, Mode=OneWay, FallbackValue=0}" />
+                    <Run Text="TREFFER" />
                 </TextBlock>
             </Grid>
 
-            <ListView x:Name="customerList" ItemsSource="{Binding Customers}" Grid.Row="1">
-                <ListView.ItemTemplate>
+            <ListBox x:Name="CustomersListBox" ItemsSource="{Binding Customers}" Grid.Row="1">
+                <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <TextBlock Text="{Binding FullName}" Foreground="Black" VerticalAlignment="Center" />
                         </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
 
 
