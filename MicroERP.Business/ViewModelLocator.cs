@@ -19,7 +19,7 @@ namespace MicroERP.Business
             this.kernel.Bind<INavigationService>().ToConstant(navigationService);
             this.kernel.Bind<INotificationService>().ToConstant(notificationService);
             this.kernel.Bind<IBrowsingService>().ToConstant(browsingService);
-            this.kernel.Bind<IRepository>().ToMethod(c => RepositoryFactory.CreateRepository()).InSingletonScope();
+            this.kernel.Bind<ICustomerRepository>().ToMethod(c => RepositoryFactory.CreateRepository()).InSingletonScope();
 
             this.kernel.Bind<MainWindowViewModel>().ToSelf().InTransientScope();
             this.kernel.Bind<CustomerWindowViewModel>().ToSelf().InTransientScope();

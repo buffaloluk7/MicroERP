@@ -15,7 +15,7 @@ namespace MicroERP.Business.ViewModels
     {
         #region Properties
 
-        private readonly IRepository repository;
+        private readonly ICustomerRepository repository;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
@@ -65,9 +65,9 @@ namespace MicroERP.Business.ViewModels
 
         #region Constructors
 
-        public MainWindowViewModel(IRepository repository, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService)
+        public MainWindowViewModel(ICustomerRepository customerRepository, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService)
         {
-            this.repository = repository;
+            this.repository = customerRepository;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
             this.browsingService = browsingService;
@@ -96,19 +96,19 @@ namespace MicroERP.Business.ViewModels
 
         private void onRepositoryExecuted()
         {
-            this.browsingService.OpenLink("https://github.com/buffaloluk7/micro_erp.git");
+            this.browsingService.OpenLinkAsync("https://github.com/buffaloluk7/micro_erp.git");
         }
 
         private void onCreateCustomerExecuted()
         {
-            this.navigationService.Show<CustomerWindowViewModel>(showDialog: true);
+            this.navigationService.Navigate<CustomerWindowViewModel>(showDialog: true);
         }
 
         private void onEditCustomerExecuted(FullNameViewModel customer)
         {
             string customerAsJson = JsonConvert.SerializeObject(customer.model, Formatting.None, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
 
-            this.navigationService.Show<CustomerWindowViewModel>(customerAsJson, true);
+            this.navigationService.Navigate<CustomerWindowViewModel>(customerAsJson, true);
         }
 
         private bool onEditCustomerCanExecute(FullNameViewModel customer)
@@ -121,15 +121,15 @@ namespace MicroERP.Business.ViewModels
             try
             {
                 await this.repository.DeleteCustomer(customer.model.ID);
+
+                var list = this.customers.ToList();
+                list.Remove(customer);
+                this.Customers = list.ToArray();
             }
             catch (CustomerNotFoundException)
             {
-                this.notificationService.Show("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
+                var x = this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
             }
-
-            var list = this.customers.ToList();
-            list.Remove(customer);
-            this.Customers = list.ToArray();
         }
 
         private bool onDeleteCustomerCanExecute(FullNameViewModel customer)

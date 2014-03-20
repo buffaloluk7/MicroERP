@@ -1,13 +1,17 @@
 ﻿using MicroERP.Services.Core.Notification;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MicroERP.Services.WPF.Notification
 {
     public class NotificationService : INotificationService
     {
-        public void Show(string title, string message)
+        public async Task ShowAsync(string message, string title = "")
         {
-            MessageBox.Show(message, title);
+            await Task.Run(() =>
+            {
+                MessageBox.Show(message, title);
+            });
         }
     }
 }

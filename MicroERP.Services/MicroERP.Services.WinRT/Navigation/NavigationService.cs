@@ -19,6 +19,16 @@ namespace MicroERP.Services.WinRT.Navigation
 
         public NavigationService(Dictionary<Type, Type> mapper)
         {
+            if (mapper == null)
+            {
+                throw new ArgumentException("ViewViewModel Mapper cannot be null");
+            }
+
+            if (Window.Current.Content == null)
+            {
+                throw new Exception("Window.Current.Content must be a frame");
+            }
+
             this.mapper = mapper;
             this.frame = Window.Current.Content as Frame;
             this.frame.Navigated += frame_Navigated;
@@ -26,28 +36,40 @@ namespace MicroERP.Services.WinRT.Navigation
 
         #endregion
 
-        public void Show<TDestinationViewModel>(object argument = null, bool showDialog = false)
+        #region Impementations
+
+        public void Navigate<TViewModel>(object argument = null, bool showDialog = false)
         {
             Type viewType;
-            if (this.mapper.TryGetValue(typeof(TDestinationViewModel), out viewType))
+            if (this.mapper.TryGetValue(typeof(TViewModel), out viewType))
             {
                 frame.Navigate(viewType, argument);
             }
         }
 
-        private void frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        public void Close(object viewModel, string messageBoxMessage = null)
         {
-            var navigationContent = e.Content as Page;
-            var navigationAwareViewModel = navigationContent.DataContext as INavigationAware;
-
-            if (navigationAwareViewModel != null)
+            if (this.frame.CanGoBack)
             {
-                navigationContent.Loaded += (s, r) => navigationAwareViewModel.OnNavigatedTo(e.Parameter);
+                this.frame.GoBack();
             }
         }
 
-        public void Close(object viewModel, string messageBoxMessage = null)
+        #endregion
+
+        private void frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
+            var navigationContent = e.Content as Page;
+
+            if (navigationContent != null)
+            {
+                var navigationAwareViewModel = navigationContent.DataContext as INavigationAware;
+
+                if (navigationAwareViewModel != null)
+                {
+                    navigationContent.Loaded += (s, r) => navigationAwareViewModel.OnNavigatedTo(e.Parameter);
+                }
+            }
         }
     }
 }

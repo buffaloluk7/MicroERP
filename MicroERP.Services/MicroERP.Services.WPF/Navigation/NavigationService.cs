@@ -8,24 +8,32 @@ namespace MicroERP.Services.WPF.Navigation
 {
     public class NavigationService : INavigationService
     {
+        #region Properties
+
         private readonly Dictionary<Type, Type> mapper;
-        private readonly List<Window> activeWindows;
+        private readonly List<Window> openedWindows;
+
+        #endregion
+
+        #region Constructors
 
         public NavigationService(Dictionary<Type, Type> mapper)
         {
             this.mapper = mapper;
-            this.activeWindows = new List<Window>();
+            this.openedWindows = new List<Window>();
         }
 
-        public void Show<VVM>(object argument = null, bool showDialog = false)
-        {
-            Type view;
+        #endregion
 
-            if (this.mapper.TryGetValue(typeof(VVM), out view))
+        public void Navigate<TViewModel>(object argument = null, bool showDialog = false)
+        {
+            Type viewType;
+
+            if (this.mapper.TryGetValue(typeof(TViewModel), out viewType))
             {
-                var window = (Window)Activator.CreateInstance(view);
-                window.Closed += (s, e) => this.activeWindows.Remove(window);
-                this.activeWindows.Add(window);
+                Window window = (Window)Activator.CreateInstance(viewType);
+                window.Closed += (s, e) => this.openedWindows.Remove(window);
+                this.openedWindows.Add(window);
 
                 if (window.DataContext is INavigationAware)
                 {
@@ -45,7 +53,7 @@ namespace MicroERP.Services.WPF.Navigation
 
         public void Close(object viewModel, string messageBoxMessage = null)
         {
-            Window window = activeWindows.FirstOrDefault(W => viewModel.Equals(W.DataContext));
+            Window window = this.openedWindows.FirstOrDefault(W => viewModel.Equals(W.DataContext));
 
             if (window == null)
             {

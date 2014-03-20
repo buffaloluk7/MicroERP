@@ -32,7 +32,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Presentation.WinRT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Services.WinRT", "MicroERP.Services\MicroERP.Services.WinRT\MicroERP.Services.WinRT.csproj", "{DB70831A-6E36-4FAD-A608-ED0A74A7D391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.EmbeddedSensorCloud", "MicroERP.Data\MicroERP.Data.EmbeddedSensorCloud\MicroERP.Data.EmbeddedSensorCloud.csproj", "{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Data.Api", "MicroERP.Data\MicroERP.Data.Api\MicroERP.Data.Api.csproj", "{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

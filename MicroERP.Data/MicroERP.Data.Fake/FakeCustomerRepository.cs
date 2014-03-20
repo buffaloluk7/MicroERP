@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MicroERP.Data.Fake
 {
-    public class FakeRepository : IRepository
+    public class FakeCustomerRepository : ICustomerRepository
     {
         #region Properties
 
@@ -19,7 +19,7 @@ namespace MicroERP.Data.Fake
 
         #region Constructors
 
-        public FakeRepository()
+        public FakeCustomerRepository()
         {
             var c1 = new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
             var c2 = new CompanyModel(4, "Simonweg", "Simonweg 1", "Simonweg 2", "Simon GmbH", "0123456789");
@@ -50,7 +50,7 @@ namespace MicroERP.Data.Fake
 
         #endregion
 
-        #region Tasks
+        #region Implementations
 
         public async Task<CustomerModel> CreateCustomer(CustomerModel customer)
         {

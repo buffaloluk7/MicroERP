@@ -14,7 +14,7 @@ namespace MicroERP.Business.ViewModels
     {
         #region Properties
 
-        private readonly IRepository repository;
+        private readonly ICustomerRepository repository;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private CustomerModel customer;
@@ -45,9 +45,9 @@ namespace MicroERP.Business.ViewModels
 
         #region Constructors
 
-        public CustomerWindowViewModel(IRepository repository, INotificationService notificationService, INavigationService windowService)
+        public CustomerWindowViewModel(ICustomerRepository customerRepository, INotificationService notificationService, INavigationService windowService)
         {
-            this.repository = repository;
+            this.repository = customerRepository;
             this.notificationService = notificationService;
             this.navigationService = windowService;
 
@@ -61,7 +61,8 @@ namespace MicroERP.Business.ViewModels
 
         private bool onSaveCustomerCanExecute()
         {
-            // TODO: check if input has changed (maybe store old customer object to compare?)
+            // TODO: check if customer has been created or just modified
+
             return true;
         }
 
@@ -73,8 +74,12 @@ namespace MicroERP.Business.ViewModels
             }
             catch (CustomerNotFoundException)
             {
-                this.notificationService.Show("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
+                this.notificationService.ShowAsync("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
             }
+
+            // TODO: notify mainwindow that search box items need to refresh?
+
+            this.navigationService.Close(this);
         }
 
         private void onCancelExecuted()

@@ -1,7 +1,7 @@
 ﻿using MicroERP.Domain.Exceptions;
 using System;
 
-namespace MicroERP.Data.EmbeddedSensorCloud.Exceptions
+namespace MicroERP.Data.Api.Exceptions
 {
     public abstract class EmbeddedSensorCloudException : CustomerException
     {

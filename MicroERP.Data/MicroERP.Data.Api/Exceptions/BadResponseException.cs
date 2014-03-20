@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace MicroERP.Data.EmbeddedSensorCloud.Exceptions
+namespace MicroERP.Data.Api.Exceptions
 {
     public class BadResponseException : EmbeddedSensorCloudException
     {

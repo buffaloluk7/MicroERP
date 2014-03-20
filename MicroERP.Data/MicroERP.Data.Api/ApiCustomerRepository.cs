@@ -1,5 +1,5 @@
-﻿using MicroERP.Data.EmbeddedSensorCloud.Exceptions;
-using MicroERP.Data.EmbeddedSensorCloud.Extensions;
+﻿using MicroERP.Data.Api.Exceptions;
+using MicroERP.Data.Api.Extensions;
 using MicroERP.Domain.Exceptions;
 using MicroERP.Domain.Interfaces;
 using MicroERP.Domain.Models;
@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.EmbeddedSensorCloud
+namespace MicroERP.Data.Api
 {
-    public class ESCRepository : IRepository
+    public class ApiCustomerRepository : ICustomerRepository
     {
         private const string baseURL = "http://localhost:8000/api/customers/";
 

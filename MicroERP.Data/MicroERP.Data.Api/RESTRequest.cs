@@ -1,11 +1,11 @@
-﻿using MicroERP.Data.EmbeddedSensorCloud.Exceptions;
+﻿using MicroERP.Data.Api.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.EmbeddedSensorCloud
+namespace MicroERP.Data.Api
 {
     public static class RESTRequest
     {

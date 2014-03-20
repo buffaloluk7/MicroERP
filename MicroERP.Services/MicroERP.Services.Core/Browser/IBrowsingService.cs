@@ -1,7 +1,9 @@
-﻿namespace MicroERP.Services.Core.Browser
+﻿using System.Threading.Tasks;
+
+namespace MicroERP.Services.Core.Browser
 {
     public interface IBrowsingService
     {
-        void OpenLink(string url);
+        Task OpenLinkAsync(string url);
     }
 }

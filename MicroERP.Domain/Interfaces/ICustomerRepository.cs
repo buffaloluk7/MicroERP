@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MicroERP.Domain.Interfaces
 {
-    public interface IRepository
+    public interface ICustomerRepository
     {
         Task<CustomerModel> CreateCustomer(CustomerModel customer);
 

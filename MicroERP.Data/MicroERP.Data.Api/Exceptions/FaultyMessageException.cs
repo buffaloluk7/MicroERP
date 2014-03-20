@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroERP.Data.EmbeddedSensorCloud.Exceptions
+namespace MicroERP.Data.Api.Exceptions
 {
     public class FaultyMessageException : EmbeddedSensorCloudException
     {

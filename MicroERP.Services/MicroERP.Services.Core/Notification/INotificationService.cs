@@ -1,7 +1,9 @@
-﻿namespace MicroERP.Services.Core.Notification
+﻿using System.Threading.Tasks;
+
+namespace MicroERP.Services.Core.Notification
 {
     public interface INotificationService
     {
-        void Show(string title, string message);
+        Task ShowAsync(string message, string title = "");
     }
 }

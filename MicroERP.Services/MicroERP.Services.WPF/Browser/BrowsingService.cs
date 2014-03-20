@@ -1,26 +1,36 @@
 ﻿using MicroERP.Services.Core.Browser;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MicroERP.Services.WPF.Browser
 {
     public class BrowsingService : IBrowsingService
     {
-        public void OpenLink(string url)
+        public async Task OpenLinkAsync(string url)
         {
-            Process browser = new Process();
-            browser.EnableRaisingEvents = true;
-            browser.StartInfo.Arguments = url;
-            browser.StartInfo.FileName = "chrome.exe";
+            if (url == null)
+            {
+                throw new ArgumentException("Navigation URL cannot be null");
+            }
 
-            try
+            await Task.Run(() =>
             {
-                browser.Start();
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                browser.StartInfo.FileName = "iexplore.exe";
-                browser.Start();
-            }
+                Process browser = new Process();
+                browser.EnableRaisingEvents = true;
+                browser.StartInfo.Arguments = url;
+                browser.StartInfo.FileName = "chrome.exe";
+
+                try
+                {
+                    browser.Start();
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    browser.StartInfo.FileName = "iexplore.exe";
+                    browser.Start();
+                }
+            });
         }
     }
 }

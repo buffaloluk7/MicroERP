@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.EmbeddedSensorCloud.Extensions
+namespace MicroERP.Data.Api.Extensions
 {
     public static class HttpContentExtension
     {

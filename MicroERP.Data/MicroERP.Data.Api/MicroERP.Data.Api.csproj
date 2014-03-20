@@ -8,8 +8,8 @@
     <ProjectGuid>{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MicroERP.Data.EmbeddedSensorCloud</RootNamespace>
-    <AssemblyName>MicroERP.Data.EmbeddedSensorCloud</AssemblyName>
+    <RootNamespace>MicroERP.Data.Api</RootNamespace>
+    <AssemblyName>MicroERP.Data.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -42,7 +42,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ESCRepository.cs" />
+    <Compile Include="ApiCustomerRepository.cs" />
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\EmbeddedSensorCloudException.cs" />
     <Compile Include="Exceptions\FaultyMessageException.cs" />
