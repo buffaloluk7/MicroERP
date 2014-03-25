@@ -1,4 +1,4 @@
-﻿using MicroERP.Domain.Exceptions;
+﻿using MicroERP.Business.Domain.Exceptions;
 using System;
 
 namespace MicroERP.Data.Api.Exceptions

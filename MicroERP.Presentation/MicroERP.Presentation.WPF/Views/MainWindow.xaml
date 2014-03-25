@@ -4,10 +4,8 @@
  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
- xmlns:vm="clr-namespace:MicroERP.Business.ViewModels;assembly=MicroERP.Business"
- xmlns:common="clr-namespace:MicroERP.Domain.Enums;assembly=MicroERP.Domain"
+ xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
  x:Class="MicroERP.Presentation.Views.MainWindow"
- x:Name="Window"
  Title="MicroERP"
  Width="640"
  Height="600"
@@ -83,10 +81,10 @@
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static common:CustomerType.Company}">
+                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static enums:CustomerType.Company}">
                                                 <Setter Property="Text" Value="&#xE12B;" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static common:CustomerType.Person}">
+                                            <DataTrigger Binding="{Binding Type}" Value="{x:Static enums:CustomerType.Person}">
                                                 <Setter Property="Text" Value="&#xE13D;" />
                                             </DataTrigger>
                                         </Style.Triggers>

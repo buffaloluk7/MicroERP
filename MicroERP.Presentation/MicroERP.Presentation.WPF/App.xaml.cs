@@ -1,13 +1,13 @@
-﻿using MicroERP.Business;
-using MicroERP.Business.ViewModels;
+﻿using MicroERP.Business.Core;
+using MicroERP.Business.Core.ViewModels;
 using MicroERP.Presentation.Views;
-using MicroERP.Services.WPF.Browser;
-using MicroERP.Services.WPF.Navigation;
-using MicroERP.Services.WPF.Notification;
 using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using ViHo.WPF.Service.Browsing;
+using ViHo.WPF.Service.Navigation;
+using ViHo.WPF.Service.Notification;
 
 namespace MicroERP.Presentation
 {

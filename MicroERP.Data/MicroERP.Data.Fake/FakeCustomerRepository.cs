@@ -1,6 +1,6 @@
-﻿using MicroERP.Domain.Exceptions;
-using MicroERP.Domain.Interfaces;
-using MicroERP.Domain.Models;
+﻿using MicroERP.Business.Domain.Exceptions;
+using MicroERP.Business.Domain.Interfaces;
+using MicroERP.Business.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

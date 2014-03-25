@@ -1,8 +1,8 @@
-﻿using MicroERP.Data.Api.Exceptions;
+﻿using MicroERP.Business.Domain.Exceptions;
+using MicroERP.Business.Domain.Interfaces;
+using MicroERP.Business.Domain.Models;
+using MicroERP.Data.Api.Exceptions;
 using MicroERP.Data.Api.Extensions;
-using MicroERP.Domain.Exceptions;
-using MicroERP.Domain.Interfaces;
-using MicroERP.Domain.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

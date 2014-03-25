@@ -5,11 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              StartupUri="Views/MainWindow.xaml"
              xmlns:local="clr-namespace:MicroERP.Presentation.WPF"
-             xmlns:VM="clr-namespace:MicroERP.Business;assembly=MicroERP.Business"
+             xmlns:business="clr-namespace:MicroERP.Business.Core;assembly=MicroERP.Business.Core"
              mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
-            <VM:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+            <business:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
             
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />

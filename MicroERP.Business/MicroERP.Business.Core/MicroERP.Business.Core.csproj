@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1F7F20BC-7A77-4BE9-9461-DC2E9363CBB6}</ProjectGuid>
+    <ProjectGuid>{AE39A37C-0E3B-46E1-9308-1C93BF6222CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MicroERP.Data.Api</RootNamespace>
-    <AssemblyName>MicroERP.Data.Api</AssemblyName>
+    <RootNamespace>MicroERP.Business.Core</RootNamespace>
+    <AssemblyName>MicroERP.Business.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -35,14 +35,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ApiCustomerRepository.cs" />
-    <Compile Include="Exceptions\BadResponseException.cs" />
-    <Compile Include="Exceptions\EmbeddedSensorCloudException.cs" />
-    <Compile Include="Exceptions\FaultyMessageException.cs" />
-    <Compile Include="Exceptions\ServerNotAvailableException.cs" />
-    <Compile Include="Extensions\HttpContentExtension.cs" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\MicroERP.Data\MicroERP.Data.Api\MicroERP.Data.Api.csproj">
+      <Project>{1f7f20bc-7a77-4be9-9461-dc2e9363cbb6}</Project>
+      <Name>MicroERP.Data.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MicroERP.Data\MicroERP.Data.Fake\MicroERP.Data.Fake.csproj">
+      <Project>{f076d5ee-a261-44bd-9d3a-21fdf4e6e9ee}</Project>
+      <Name>MicroERP.Data.Fake</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MicroERP.Business.Domain\MicroERP.Business.Domain.csproj">
+      <Project>{da03cdeb-ba42-446d-8610-2244ac85f8c3}</Project>
+      <Name>MicroERP.Business.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ObservableViewModelCollection.cs" />
+    <Compile Include="Factories\RepositoryFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RESTRequest.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\Interfaces\ICustomerService.cs" />
+    <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="ViewModels\CompanyViewModel.cs" />
+    <Compile Include="ViewModels\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\CustomerWindowViewModel.cs" />
+    <Compile Include="ViewModels\FullNameViewModel.cs" />
+    <Compile Include="ViewModels\InvoiceItemViewModel.cs" />
+    <Compile Include="ViewModels\InvoiceViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\PersonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
@@ -57,6 +78,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.1\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Common">
+      <HintPath>..\..\packages\Portable.Ninject.3.2\lib\portable-net4+sl5+wp8+win8\Ninject.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.18\lib\portable-net40+sl4+win8+wp71\System.Net.Http.dll</HintPath>
     </Reference>
@@ -66,15 +90,12 @@
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.18\lib\portable-net40+sl4+win8+wp71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="ViHo">
+      <HintPath>..\..\packages\ViHo.1.0.5194.24323\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MicroERP.Business\MicroERP.Business.Domain\MicroERP.Business.Domain.csproj">
-      <Project>{da03cdeb-ba42-446d-8610-2244ac85f8c3}</Project>
-      <Name>MicroERP.Business.Domain</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

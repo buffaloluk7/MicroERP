@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator.NinjectAdapter">
-      <HintPath>..\..\packages\Portable.CommonServiceLocator.NinjectAdapter.1.2.3\lib\portable-net4+sl4+wp71+win8\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+      <HintPath>..\..\packages\Portable.CommonServiceLocator.NinjectAdapter.1.3\lib\portable-net4+sl5+wp8+win8\CommonServiceLocator.NinjectAdapter.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\..\packages\Portable.MvvmLightLibs.4.2.30.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -86,12 +86,15 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\Portable.CommonServiceLocator.1.2.2\lib\net35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Common, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Portable.Ninject.3.0.7\lib\net40-client\Ninject.Common.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.NetFx">
-      <HintPath>..\..\packages\Portable.Ninject.3.0.7\lib\net40-client\Ninject.NetFx.dll</HintPath>
+    <Reference Include="Ninject.Common">
+      <HintPath>..\..\packages\Portable.Ninject.3.2\lib\net40-client\Ninject.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Platform">
+      <HintPath>..\..\packages\Portable.Ninject.3.2\lib\net40-client\Ninject.Platform.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -106,6 +109,12 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ViHo">
+      <HintPath>..\..\packages\ViHo.1.0.5194.24323\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
+    </Reference>
+    <Reference Include="ViHo.WPF">
+      <HintPath>..\..\packages\ViHo.WPF.1.0.5194.24291\lib\net45\ViHo.WPF.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -167,21 +176,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MicroERP.Business\MicroERP.Business.csproj">
-      <Project>{aa4873d2-1d9a-4ff7-83ed-24d66229daf6}</Project>
-      <Name>MicroERP.Business</Name>
+    <ProjectReference Include="..\..\MicroERP.Business\MicroERP.Business.Core\MicroERP.Business.Core.csproj">
+      <Project>{ae39a37c-0e3b-46e1-9308-1c93bf6222ca}</Project>
+      <Name>MicroERP.Business.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\MicroERP.Domain\MicroERP.Domain.csproj">
-      <Project>{53090631-cc3e-4dde-b9ed-57e537350413}</Project>
-      <Name>MicroERP.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MicroERP.Services\MicroERP.Services.Core\MicroERP.Services.Core.csproj">
-      <Project>{3cf7f6c5-3d87-4bec-a55b-e49ef548e18d}</Project>
-      <Name>MicroERP.Services.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MicroERP.Services\MicroERP.Services.WPF\MicroERP.Services.WPF.csproj">
-      <Project>{d65f7cd3-7997-4102-9bb0-17e620575df2}</Project>
-      <Name>MicroERP.Services.WPF</Name>
+    <ProjectReference Include="..\..\MicroERP.Business\MicroERP.Business.Domain\MicroERP.Business.Domain.csproj">
+      <Project>{da03cdeb-ba42-446d-8610-2244ac85f8c3}</Project>
+      <Name>MicroERP.Business.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
