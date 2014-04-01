@@ -6,6 +6,7 @@ using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
 using ViHo.Service.Navigation;
 using ViHo.Service.Notification;
+using ViHo.Json.Extension;
 
 namespace MicroERP.Business.Core.ViewModels
 {
@@ -51,7 +52,7 @@ namespace MicroERP.Business.Core.ViewModels
             this.navigationService = windowService;
 
             this.SaveCustomerCommand = new RelayCommand(onSaveCustomerExecuted, onSaveCustomerCanExecute);
-            this.CancelCommand = new RelayCommand(onCancelExecuted);
+            this.CancelCommand = new RelayCommand(onCloseExecuted);
         }
 
         #endregion
@@ -78,23 +79,31 @@ namespace MicroERP.Business.Core.ViewModels
 
             // TODO: notify mainwindow that search box items need to refresh?
 
-            this.navigationService.Close(this);
+            this.onCloseExecuted();
         }
 
-        private void onCancelExecuted()
+        private void onCloseExecuted()
         {
-            this.navigationService.Close(this);
+            if (navigationService is IFrameNavigationService)
+            {
+                (navigationService as IFrameNavigationService).BackCommand.Execute(null);
+            }
+            else if (navigationService is IWindowNavigationService)
+            {
+                (navigationService as IWindowNavigationService).Close(this);
+            }
         }
         
         #endregion
 
         #region INavigationAware
 
-        public void OnNavigatedTo(string jsonString, NavigationType navigationMode)
+        public async void OnNavigatedTo(object argument, NavigationType navigationMode)
         {
+            var jsonString = argument as string;
             if (jsonString != null)
             {
-                this.Customer = JsonConvert.DeserializeObject<CustomerModel>(jsonString, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+                this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             }
         }
 

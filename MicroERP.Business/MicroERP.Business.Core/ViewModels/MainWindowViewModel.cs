@@ -105,7 +105,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         private void onEditCustomerExecuted(FullNameViewModel customer)
         {
-            this.navigationService.Navigate<CustomerWindowViewModel>(customer.model, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
+            this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer.model, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
         }
 
         private bool onEditCustomerCanExecute(FullNameViewModel customer)

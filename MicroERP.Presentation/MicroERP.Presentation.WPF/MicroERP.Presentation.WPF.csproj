@@ -110,11 +110,13 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="ViHo">
-      <HintPath>..\..\packages\ViHo.1.0.5194.24323\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
+    <Reference Include="ViHo, Version=1.0.5203.26145, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ViHo.1.0.5203.26145\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
     </Reference>
-    <Reference Include="ViHo.WPF">
-      <HintPath>..\..\packages\ViHo.WPF.1.0.5194.24291\lib\net45\ViHo.WPF.dll</HintPath>
+    <Reference Include="ViHo.WPF, Version=1.0.5203.29784, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ViHo.WPF.1.0.5203.29784\lib\net45\ViHo.WPF.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

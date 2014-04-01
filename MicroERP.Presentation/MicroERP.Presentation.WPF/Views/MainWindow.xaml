@@ -58,7 +58,7 @@
                         <KeyBinding Key="Return" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" />
                     </TextBox.InputBindings>
                 </TextBox>
-                <Button Grid.Row="0" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchQuery, Path=Text}" VerticalAlignment="Center" />
+                <Button Grid.Row="0" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" VerticalAlignment="Center" />
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1">

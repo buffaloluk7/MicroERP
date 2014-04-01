@@ -8,7 +8,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    DataContext="{Binding Main, Mode=OneWay, Source={StaticResource Locator}}">
+    DataContext="{Binding MainWindow, Mode=OneWay, Source={StaticResource Locator}}">
 
     <Page.BottomAppBar>
         <CommandBar>
@@ -30,7 +30,7 @@
             <TextBlock Text="MicroERP" Style="{StaticResource HeaderTextBlockStyle}" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Text="&#xE1D3;" FontFamily="Segoe UI Symbol" TextAlignment="Center" VerticalAlignment="Center" FontSize="46" />
 
-            <SearchBox PlaceholderText="Suchen..." x:Name="SearchBox" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,40,0" Width="400" Height="40" FontSize="20" SearchHistoryEnabled="False" >
+            <SearchBox PlaceholderText="Nach Kunden suchen..." x:Name="SearchBox" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,40,0" Width="400" Height="40" FontSize="20" SearchHistoryEnabled="False" >
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="QuerySubmitted">
                         <Core:InvokeCommandAction Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding QueryText, ElementName=SearchBox}"/>

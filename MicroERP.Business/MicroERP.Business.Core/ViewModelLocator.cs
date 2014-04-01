@@ -27,12 +27,26 @@ namespace MicroERP.Business.Core
 
         public MainWindowViewModel MainWindow
         {
-            get { return this.kernel.Get<MainWindowViewModel>(); }
+            get 
+            {
+                if (this.kernel != null)
+                {
+                    return this.kernel.Get<MainWindowViewModel>(); 
+                }
+                return null;
+            }
         }
 
         public CustomerWindowViewModel CustomerWindow
         {
-            get { return this.kernel.Get<CustomerWindowViewModel>(); }
+            get
+            {
+                if (this.kernel != null)
+                {
+                    return this.kernel.Get<CustomerWindowViewModel>();
+                }
+                return null;
+            }
         }
     }
 }

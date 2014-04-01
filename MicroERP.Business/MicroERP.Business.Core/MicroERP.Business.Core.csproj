@@ -91,7 +91,7 @@
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.18\lib\portable-net40+sl4+win8+wp71\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="ViHo">
-      <HintPath>..\..\packages\ViHo.1.0.5194.24323\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
+      <HintPath>..\..\packages\ViHo.1.0.5203.26145\lib\portable-net45+wp80+win\ViHo.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
