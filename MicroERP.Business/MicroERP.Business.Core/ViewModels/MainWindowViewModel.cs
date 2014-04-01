@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.Exceptions;
-using MicroERP.Business.Domain.Interfaces;
 using Newtonsoft.Json;
 using System.Linq;
 using ViHo.Service.Browsing;
@@ -14,7 +14,7 @@ namespace MicroERP.Business.Core.ViewModels
     {
         #region Properties
 
-        private readonly ICustomerRepository repository;
+        private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
@@ -28,7 +28,7 @@ namespace MicroERP.Business.Core.ViewModels
         
         #endregion
 
-        #region Commands
+        #region Command Properties
 
         public RelayCommand<string> SearchCommand
         {
@@ -64,9 +64,9 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public MainWindowViewModel(ICustomerRepository customerRepository, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService)
+        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService)
         {
-            this.repository = customerRepository;
+            this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
             this.browsingService = browsingService;
@@ -82,15 +82,15 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Commands Implementation
 
-        private async void onSearchExecuted(string query)
+        private async void onSearchExecuted(string searchQuery)
         {
-            var customers = await this.repository.ReadCustomers(query);
-            this.Customers = customers.Select(C => new FullNameViewModel(C)).ToArray();
+            var customers = await this.customerService.Read(searchQuery);
+            this.Customers = customers.Select(c => new FullNameViewModel(c)).ToArray();
         }
 
-        private bool onSearchCanExecute(string query)
+        private bool onSearchCanExecute(string searchQuery)
         {
-            return !string.IsNullOrWhiteSpace(query);
+            return !string.IsNullOrWhiteSpace(searchQuery);
         }
 
         private void onRepositoryExecuted()
@@ -117,7 +117,7 @@ namespace MicroERP.Business.Core.ViewModels
         {
             try
             {
-                await this.repository.DeleteCustomer(customer.model.ID);
+                await this.customerService.Delete(customer.model.ID);
 
                 var list = this.customers.ToList();
                 list.Remove(customer);

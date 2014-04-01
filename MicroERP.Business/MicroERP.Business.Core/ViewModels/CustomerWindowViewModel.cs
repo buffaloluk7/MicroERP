@@ -1,12 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Domain.Exceptions;
-using MicroERP.Business.Domain.Interfaces;
+using MicroERP.Business.Domain.Repositories;
 using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
 using ViHo.Service.Navigation;
 using ViHo.Service.Notification;
 using ViHo.Json.Extension;
+using MicroERP.Business.Core.Services.Interfaces;
 
 namespace MicroERP.Business.Core.ViewModels
 {
@@ -14,7 +15,7 @@ namespace MicroERP.Business.Core.ViewModels
     {
         #region Properties
 
-        private readonly ICustomerRepository repository;
+        private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private CustomerModel customer;
@@ -45,9 +46,9 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public CustomerWindowViewModel(ICustomerRepository customerRepository, INotificationService notificationService, INavigationService windowService)
+        public CustomerWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService windowService)
         {
-            this.repository = customerRepository;
+            this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = windowService;
 
@@ -70,7 +71,18 @@ namespace MicroERP.Business.Core.ViewModels
         {
             try
             {
-                this.repository.UpdateCustomer(this.customer);
+                if (this.customer.ID == 0)
+                {
+                    this.customerService.Create(this.customer);
+                }
+                else
+                {
+                    this.customerService.Update(this.customer);
+                }
+            }
+            catch (CustomerAlreadyExistsException)
+            {
+                this.notificationService.ShowAsync("Fehler", "Kunde existiert bereits.");
             }
             catch (CustomerNotFoundException)
             {

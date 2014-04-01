@@ -1,13 +1,13 @@
 ﻿using MicroERP.Business.Domain.Exceptions;
-using MicroERP.Business.Domain.Interfaces;
 using MicroERP.Business.Domain.Models;
+using MicroERP.Business.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.Fake
+namespace MicroERP.Data.Fake.Repositories
 {
     public class FakeCustomerRepository : ICustomerRepository
     {
@@ -50,9 +50,9 @@ namespace MicroERP.Data.Fake
 
         #endregion
 
-        #region Implementations
+        #region ICustomerRepository
 
-        public async Task<CustomerModel> CreateCustomer(CustomerModel customer)
+        public async Task<CustomerModel> Create(CustomerModel customer)
         {
             return await Task.Run(() => 
             {
@@ -66,51 +66,61 @@ namespace MicroERP.Data.Fake
             });
         }
 
-        public async Task<IEnumerable<CustomerModel>> ReadCustomers(string query)
+        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery)
         {
             return await Task.Run(() =>
             {
-                if (string.IsNullOrWhiteSpace(query))
-                {
-                    throw new ArgumentException("PLEASE ENTER SOME SEARCH QUERY");
-                }
+                searchQuery = searchQuery.ToLower();
 
-                query = query.ToLower();
-
-                var persons = this.customers.OfType<PersonModel>().Where(P => P.FirstName.ToLower().Contains(query) || P.LastName.ToLower().Contains(query));
-                var companies = this.customers.OfType<CompanyModel>().Where(C => C != null && C.Name.ToLower().Contains(query));
+                var persons = this.customers.OfType<PersonModel>().Where(P => P.FirstName.ToLower().Contains(searchQuery) || P.LastName.ToLower().Contains(searchQuery));
+                var companies = this.customers.OfType<CompanyModel>().Where(C => C != null && C.Name.ToLower().Contains(searchQuery));
 
                 return persons.Concat<CustomerModel>(companies);
             });
         }
 
-        public async Task<CustomerModel> UpdateCustomer(CustomerModel customer)
+        public async Task<CustomerModel> Read(int customerID)
+        {
+            return await Task.Run(() =>
+            {
+                var customer = this.customers.FirstOrDefault(c => c.ID == customerID);
+
+                if (customer != null)
+                {
+                    return customer;
+                }
+
+                throw new CustomerNotFoundException();
+            });
+        }
+
+        public async Task<CustomerModel> Update(CustomerModel customer)
         {
             return await Task.Run(() =>
             {
                 int index = this.customers.FindIndex(C => C.ID == customer.ID);
 
-                if (index < 0)
+                if (index >= 0)
                 {
-                    throw new CustomerNotFoundException();
+                    return this.customers[index] = customer;
                 }
 
-                return this.customers[index] = customer;
+                throw new CustomerNotFoundException();
             });
         }
 
-        public Task DeleteCustomer(int customerID)
+        public Task Delete(int customerID)
         {
             return Task.Run(() =>
             {
                 var customer = this.customers.FirstOrDefault(C => C.ID == customerID);
 
-                if (customer == null)
+                if (customer != null)
                 {
-                    throw new CustomerNotFoundException();
+                    return this.customers.Remove(customer);
                 }
 
-                this.customers.Remove(customer);
+                throw new CustomerNotFoundException();
             });
         }
 

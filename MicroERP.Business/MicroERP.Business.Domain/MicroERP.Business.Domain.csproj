@@ -39,7 +39,7 @@
     <Compile Include="Exceptions\CustomerAlreadyExistsException.cs" />
     <Compile Include="Exceptions\CustomerException.cs" />
     <Compile Include="Exceptions\CustomerNotFoundException.cs" />
-    <Compile Include="Interfaces\ICustomerRepository.cs" />
+    <Compile Include="Repositories\ICustomerRepository.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\InvoiceItemModel.cs" />

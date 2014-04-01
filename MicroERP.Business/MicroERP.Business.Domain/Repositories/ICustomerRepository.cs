@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MicroERP.Business.Core.Services.Interfaces
+namespace MicroERP.Business.Domain.Repositories
 {
-    public interface ICustomerService
+    public interface ICustomerRepository
     {
         Task<CustomerModel> Create(CustomerModel customer);
 
-        Task<IEnumerable<CustomerModel>> Read(string searchQuery, bool ordered = true);
+        Task<IEnumerable<CustomerModel>> Read(string searchQuery);
 
         Task<CustomerModel> Read(int customerID);
 
