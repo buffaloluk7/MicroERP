@@ -10,7 +10,7 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Properties
 
-        private DateTime date;
+        private DateTime issueDate;
         private DateTime dueDate;
         private int number;
         private string comment;
@@ -21,8 +21,8 @@ namespace MicroERP.Business.Domain.Models
         [DataMember]
         public DateTime Date
         {
-            get { return this.date; }
-            set { base.Set<DateTime>(ref this.date, value); }
+            get { return this.issueDate; }
+            set { base.Set<DateTime>(ref this.issueDate, value); }
         }
 
         [DataMember]
@@ -70,9 +70,9 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel(DateTime date, DateTime dueDate, int number, string comment, string message, CustomerModel customer, ObservableCollection<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel(DateTime isseuDate, DateTime dueDate, int number, string comment, string message, CustomerModel customer, ObservableCollection<InvoiceItemModel> invoiceItems = null)
         {
-            this.date = date;
+            this.issueDate = isseuDate;
             this.dueDate = dueDate;
             this.number = number;
             this.comment = comment;
@@ -91,7 +91,7 @@ namespace MicroERP.Business.Domain.Models
 
             return base.Equals(obj)
                 && obj is InvoiceModel
-                && invoice.date.Equals(this.date)
+                && invoice.issueDate.Equals(this.issueDate)
                 && invoice.dueDate.Equals(this.dueDate)
                 && invoice.number.Equals(this.number)
                 && invoice.comment.Equals(this.comment)
@@ -102,7 +102,7 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
-            int hash = 31 * this.date.GetHashCode();
+            int hash = 31 * this.issueDate.GetHashCode();
                 hash = 31 * hash + this.dueDate.GetHashCode();
                 hash = 31 * hash + this.number.GetHashCode();
                 hash = 31 * hash + this.comment.GetHashCode();

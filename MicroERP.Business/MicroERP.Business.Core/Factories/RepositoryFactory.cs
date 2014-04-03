@@ -1,4 +1,6 @@
-﻿using MicroERP.Business.Domain.Repositories;
+﻿using GalaSoft.MvvmLight;
+using MicroERP.Business.Domain.Repositories;
+using MicroERP.Data.Api.Repositories;
 using MicroERP.Data.Fake.Repositories;
 
 namespace MicroERP.Business.Core.Factories
@@ -15,7 +17,7 @@ namespace MicroERP.Business.Core.Factories
                     return new FakeCustomerRepository();
                 }
 
-                return new ApiCustomerRepository();
+                return new ApiCustomerRepository();    
             #endif
         }
     }

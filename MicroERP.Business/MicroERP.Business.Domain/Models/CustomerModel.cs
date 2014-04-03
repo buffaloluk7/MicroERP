@@ -16,35 +16,35 @@ namespace MicroERP.Business.Domain.Models
         private string shippingAddress;
         private readonly ObservableCollection<InvoiceModel> invoices;
 
-        [DataMember]
+        [DataMember(Name="id")]
         public int ID
         {
             get { return this.id; }
             set { base.Set<int>(ref this.id, value); }
         }
 
-        [DataMember]
+        [DataMember(Name="address")]
         public string Address
         {
             get { return this.address; }
             set { base.Set<string>(ref this.address, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "billingAddress")]
         public string BillingAddress
         {
             get { return this.billingAddress; }
             set { base.Set<string>(ref this.billingAddress, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "shippingAddress")]
         public string ShippingAddress
         {
             get { return this.shippingAddress; }
             set { base.Set<string>(ref this.shippingAddress, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "invoices")]
         public ObservableCollection<InvoiceModel> Invoices
         {
             get { return this.invoices; }

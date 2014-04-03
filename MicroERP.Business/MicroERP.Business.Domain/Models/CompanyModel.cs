@@ -11,14 +11,14 @@ namespace MicroERP.Business.Domain.Models
         private string name;
         private string uid;
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public string Name
         {
             get { return this.name; }
             set { base.Set<string>(ref this.name, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "uid")]
         public string UID
         {
             get { return this.uid; }

@@ -1,12 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Luvi.Service.Browsing;
+using Luvi.Service.Navigation;
+using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.Exceptions;
 using Newtonsoft.Json;
 using System.Linq;
-using ViHo.Service.Browsing;
-using ViHo.Service.Navigation;
-using ViHo.Service.Notification;
 
 namespace MicroERP.Business.Core.ViewModels
 {
@@ -29,7 +29,7 @@ namespace MicroERP.Business.Core.ViewModels
         #endregion
 
         #region Command Properties
-
+        
         public RelayCommand<string> SearchCommand
         {
             get;

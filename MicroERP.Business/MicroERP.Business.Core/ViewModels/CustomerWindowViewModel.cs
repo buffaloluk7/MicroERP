@@ -4,9 +4,9 @@ using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
-using ViHo.Service.Navigation;
-using ViHo.Service.Notification;
-using ViHo.Json.Extension;
+using Luvi.Service.Navigation;
+using Luvi.Service.Notification;
+using Luvi.Json.Extension;
 using MicroERP.Business.Core.Services.Interfaces;
 
 namespace MicroERP.Business.Core.ViewModels

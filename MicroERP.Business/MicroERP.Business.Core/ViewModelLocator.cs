@@ -4,9 +4,9 @@ using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels;
 using MicroERP.Business.Domain.Repositories;
 using Ninject;
-using ViHo.Service.Browsing;
-using ViHo.Service.Navigation;
-using ViHo.Service.Notification;
+using Luvi.Service.Browsing;
+using Luvi.Service.Navigation;
+using Luvi.Service.Notification;
 
 namespace MicroERP.Business.Core
 {
@@ -24,7 +24,7 @@ namespace MicroERP.Business.Core
         {
             this.kernel = kernel;
 
-            // ViHo services
+            // Luvi services
             this.kernel.Bind<INavigationService>().ToConstant(navigationService);
             this.kernel.Bind<INotificationService>().ToConstant(notificationService);
             this.kernel.Bind<IBrowsingService>().ToConstant(browsingService);

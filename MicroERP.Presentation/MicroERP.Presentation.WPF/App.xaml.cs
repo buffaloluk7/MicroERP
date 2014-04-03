@@ -5,9 +5,9 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using ViHo.WPF.Service.Browsing;
-using ViHo.WPF.Service.Navigation;
-using ViHo.WPF.Service.Notification;
+using Luvi.WPF.Service.Browsing;
+using Luvi.WPF.Service.Navigation;
+using Luvi.WPF.Service.Notification;
 
 namespace MicroERP.Presentation
 {

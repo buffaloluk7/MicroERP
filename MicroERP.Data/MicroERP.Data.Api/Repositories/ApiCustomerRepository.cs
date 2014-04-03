@@ -1,4 +1,7 @@
-﻿using MicroERP.Business.Domain.Exceptions;
+﻿using Luvi.Http;
+using Luvi.Http.Extension;
+using Luvi.Json.Converter;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Exceptions;
@@ -7,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using ViHo.Http;
-using ViHo.Http.Extension;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -16,7 +17,7 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Properties
 
-        private const string baseURL = "http://localhost:8000/api/customers/";
+        private const string baseURL = "http://10.201.94.236:8000/microerp/customer";
         private RESTRequest request;
 
         #endregion
@@ -67,14 +68,18 @@ namespace MicroERP.Data.Api.Repositories
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                try
+                Dictionary<string, Type> knownTypes = new Dictionary<string, Type>();
+                knownTypes.Add("Person", typeof(PersonModel));
+                knownTypes.Add("Company", typeof(CompanyModel));
+
+                var jsonKnownTypeConverter = new JsonKnownTypeConverter<CustomerModel>(knownTypes);
+                var jsonSerializerSettings = new JsonSerializerSettings()
                 {
-                    return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>();
-                }
-                catch (JsonReaderException e)
-                {
-                    throw new FaultyMessageException(inner: e);
-                }
+                    TypeNameHandling = TypeNameHandling.Objects
+                };
+                jsonSerializerSettings.Converters.Add(jsonKnownTypeConverter);
+
+                return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(jsonSerializerSettings);
             }
 
             throw new BadResponseException(response.StatusCode);
@@ -107,7 +112,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<CustomerModel> Update(CustomerModel customer)
         {
-            var response = await this.request.Put(baseURL + customer.ID);
+            var response = await this.request.Put(baseURL + customer.ID, customer);
 
             switch (response.StatusCode)
             {

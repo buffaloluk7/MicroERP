@@ -16,42 +16,42 @@ namespace MicroERP.Business.Domain.Models
         private DateTime birthDate;
         private CompanyModel company;
 
-        [DataMember]
+        [DataMember(Name = "title")]
         public string Title
         {
             get { return this.title; }
             set { base.Set<string>(ref this.title, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "firstname")]
         public string FirstName
         {
             get { return this.firstName; }
             set { base.Set<string>(ref this.firstName, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "lastname")]
         public string LastName
         {
             get { return this.lastName; }
             set { base.Set<string>(ref this.lastName, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "suffix")]
         public string Suffix
         {
             get { return this.suffix; }
             set { base.Set<string>(ref this.suffix, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "birthdate")]
         public DateTime BirthDate
         {
             get { return this.birthDate; }
             set { base.Set<DateTime>(ref this.birthDate, value); ; }
         }
 
-        [DataMember]
+        [DataMember(Name = "company")]
         public CompanyModel Company
         {
             get { return this.company; }
