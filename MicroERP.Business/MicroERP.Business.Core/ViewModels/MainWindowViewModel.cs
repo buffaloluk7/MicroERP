@@ -1,40 +1,37 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using Luvi.Mvvm;
 using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.Exceptions;
+using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
 using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ObservableObject
     {
-        #region Properties
+        #region Fields
 
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
-        private FullNameViewModel[] customers;
+        private readonly SearchViewModel searchViewModel;
 
-        public FullNameViewModel[] Customers
+        #endregion
+
+        #region Properties
+
+        public SearchViewModel SearchViewModel
         {
-            get { return this.customers; }
-            set { base.Set<FullNameViewModel[]>(ref this.customers, value); }
+            get { return this.searchViewModel; }
         }
-        
+
         #endregion
 
         #region Command Properties
-        
-        public RelayCommand<string> SearchCommand
-        {
-            get;
-            private set;
-        }
 
         public RelayCommand RepositoryCommand
         {
@@ -48,13 +45,13 @@ namespace MicroERP.Business.Core.ViewModels
             private set;
         }
 
-        public RelayCommand<FullNameViewModel> EditCustomerCommand
+        public RelayCommand EditCustomerCommand
         {
             get;
             private set;
         }
 
-        public RelayCommand<FullNameViewModel> DeleteCustomerCommand
+        public RelayCommand DeleteCustomerCommand
         {
             get;
             private set;
@@ -64,38 +61,27 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService)
+        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchViewModel searchViewModel)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
             this.browsingService = browsingService;
+            this.searchViewModel = searchViewModel;
 
-            this.SearchCommand = new RelayCommand<string>(onSearchExecuted, onSearchCanExecute);
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
             this.CreateCustomerCommand = new RelayCommand(onCreateCustomerExecuted);
-            this.EditCustomerCommand = new RelayCommand<FullNameViewModel>(onEditCustomerExecuted, onEditCustomerCanExecute);
-            this.DeleteCustomerCommand = new RelayCommand<FullNameViewModel>(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
+            this.EditCustomerCommand = new RelayCommand(onEditCustomerExecuted, onEditCustomerCanExecute);
+            this.DeleteCustomerCommand = new RelayCommand(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
         }
 
         #endregion
 
-        #region Commands Implementation
+        #region Command Implementations
 
-        private async void onSearchExecuted(string searchQuery)
+        private async void onRepositoryExecuted()
         {
-            var customers = await this.customerService.Read(searchQuery);
-            this.Customers = customers.Select(c => new FullNameViewModel(c)).ToArray();
-        }
-
-        private bool onSearchCanExecute(string searchQuery)
-        {
-            return !string.IsNullOrWhiteSpace(searchQuery);
-        }
-
-        private void onRepositoryExecuted()
-        {
-            this.browsingService.OpenLinkAsync("https://github.com/buffaloluk7/micro_erp.git");
+            await this.browsingService.OpenLinkAsync("https://github.com/buffaloluk7/micro_erp.git");
         }
 
         private void onCreateCustomerExecuted()
@@ -103,35 +89,50 @@ namespace MicroERP.Business.Core.ViewModels
             this.navigationService.Navigate<CustomerWindowViewModel>();
         }
 
-        private void onEditCustomerExecuted(FullNameViewModel customer)
+        private async void onEditCustomerExecuted()
         {
-            this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer.model, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
-        }
+            CustomerModel customer;
 
-        private bool onEditCustomerCanExecute(FullNameViewModel customer)
-        {
-            return customer != null;
-        }
-
-        private async void onDeleteCustomerExecuted(FullNameViewModel customer)
-        {
             try
             {
-                await this.customerService.Delete(customer.model.ID);
-
-                var list = this.customers.ToList();
-                list.Remove(customer);
-                this.Customers = list.ToArray();
+                customer = await this.customerService.Read(this.searchViewModel.SelectedCustomer.model.ID);
             }
             catch (CustomerNotFoundException)
             {
                 var x = this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
+                return;
             }
+
+            await this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
         }
 
-        private bool onDeleteCustomerCanExecute(FullNameViewModel customer)
+        private bool onEditCustomerCanExecute()
         {
-            return customer != null;
+            return this.searchViewModel.SelectedCustomer != null;
+        }
+
+        private async void onDeleteCustomerExecuted()
+        {
+            var customer = this.searchViewModel.SelectedCustomer;
+
+            try
+            {
+                await this.customerService.Delete(customer.model.ID);
+            }
+            catch (CustomerNotFoundException)
+            {
+                var x = this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
+                return;
+            }
+
+            var customers = this.searchViewModel.Customers.ToList();
+            customers.Remove(customer);
+            this.searchViewModel.Customers = customers;
+        }
+
+        private bool onDeleteCustomerCanExecute()
+        {
+            return this.searchViewModel.SelectedCustomer != null;
         }
 
         #endregion

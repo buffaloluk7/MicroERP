@@ -1,13 +1,12 @@
-﻿using MicroERP.Business.Core;
+﻿using Luvi.WPF.Service.Browsing;
+using Luvi.WPF.Service.Navigation;
+using Luvi.WPF.Service.Notification;
+using MicroERP.Business.Core;
 using MicroERP.Business.Core.ViewModels;
 using MicroERP.Presentation.Views;
-using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using Luvi.WPF.Service.Browsing;
-using Luvi.WPF.Service.Navigation;
-using Luvi.WPF.Service.Notification;
 
 namespace MicroERP.Presentation
 {
@@ -30,7 +29,7 @@ namespace MicroERP.Presentation
             var locator = App.Current.Resources["Locator"] as ViewModelLocator;
             var navigationService = new NavigationService(viewViewModelMapper);
 
-            locator.Register(new StandardKernel(), navigationService, new NotificationService(), new BrowsingService());
+            locator.Register(navigationService, new NotificationService(), new BrowsingService());
 
             this.Navigating -= App_Navigating;
         }

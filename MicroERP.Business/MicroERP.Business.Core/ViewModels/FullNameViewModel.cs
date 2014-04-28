@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Luvi.Mvvm;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using System;
@@ -7,9 +7,33 @@ namespace MicroERP.Business.Core.ViewModels
 {
     public class FullNameViewModel : ObservableObject
     {
-        #region Properties
+        #region Fields
 
         internal readonly CustomerModel model;
+
+        #endregion
+
+        #region Properties
+
+        public string FullName
+        {
+            get
+            {
+                var person = this.model as PersonModel;
+                if (person != null)
+                {
+                    return string.Format("{0} {1}", person.FirstName, person.LastName);
+                }
+
+                var company = this.model as CompanyModel;
+                if (company != null)
+                {
+                    return company.Name;
+                }
+
+                throw new InvalidOperationException("Invalid customer type");
+            }
+        }
 
         public CustomerType Type
         {
@@ -24,26 +48,7 @@ namespace MicroERP.Business.Core.ViewModels
                     return CustomerType.Company;
                 }
 
-                throw new Exception("Invalid customer type");
-            }
-        }
-
-        public string FullName
-        {
-            get
-            {
-                if (this.model is PersonModel)
-                {
-                    return string.Format("{0} {1}", (this.model as PersonModel).FirstName, (this.model as PersonModel).LastName);
-                }
-                else if (this.model is CompanyModel)
-                {
-                    return (this.model as CompanyModel).Name;
-                }
-                else
-                {
-                    return this.model.ToString();
-                }
+                throw new InvalidOperationException("Invalid customer type");
             }
         }
 
@@ -53,6 +58,11 @@ namespace MicroERP.Business.Core.ViewModels
 
         public FullNameViewModel(CustomerModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException("Model cannot be null");
+            }
+
             this.model = model;
             model.PropertyChanged += model_PropertyChanged;
         }

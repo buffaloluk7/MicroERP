@@ -1,12 +1,11 @@
-﻿using MicroERP.Business.Core;
-using MicroERP.Business.Core.ViewModels;
-using MicroERP.Presentation.WinRT.Views;
-using Ninject;
-using System;
-using System.Collections.Generic;
-using Luvi.WinRT.Service.Browsing;
+﻿using Luvi.WinRT.Service.Browsing;
 using Luvi.WinRT.Service.Navigation;
 using Luvi.WinRT.Service.Notification;
+using MicroERP.Business.Core;
+using MicroERP.Business.Core.ViewModels;
+using MicroERP.Presentation.WinRT.Views;
+using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -49,7 +48,7 @@ namespace MicroERP.Presentation.WinRT
                 var locator = App.Current.Resources["Locator"] as ViewModelLocator;
                 var navigationService = new NavigationService(viewViewModelMapper);
 
-                locator.Register(new StandardKernel(), navigationService, new NotificationService(), new BrowsingService());
+                locator.Register(navigationService, new NotificationService(), new BrowsingService());
             }
 
             if (rootFrame.Content == null)

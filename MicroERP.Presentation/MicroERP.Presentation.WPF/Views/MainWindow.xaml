@@ -1,8 +1,6 @@
 ﻿<Controls:MetroWindow
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
- xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
  xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
  x:Class="MicroERP.Presentation.Views.MainWindow"
@@ -49,16 +47,11 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold"/>
                 <TextBox VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Stretch" x:Name="SearchBox">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="GotFocus">
-                            <ei:CallMethodAction MethodName="SelectAll"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Return" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" />
+                        <KeyBinding Key="Return" Command="{Binding SearchViewModel.SearchCommand}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" />
                     </TextBox.InputBindings>
                 </TextBox>
-                <Button Grid.Row="0" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchBox, Path=Text}" VerticalAlignment="Center" />
+                <Button Grid.Row="0" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchViewModel.SearchCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchBox, Path=Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1">
@@ -68,12 +61,7 @@
                     <Run Text="{Binding ElementName=CustomersListBox, Path=Items.Count, Mode=OneWay}" /> TREFFER
                 </TextBlock>
             </GroupBox.Header>
-            <ListBox x:Name="CustomersListBox" ItemsSource="{Binding Customers}" BorderBrush="Transparent" Margin="-5.2,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <ei:ChangePropertyAction PropertyName="SelectedItem" Value="{x:Null}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <ListBox x:Name="CustomersListBox" ItemsSource="{Binding SearchViewModel.Customers}" SelectedItem="{Binding SearchViewModel.SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

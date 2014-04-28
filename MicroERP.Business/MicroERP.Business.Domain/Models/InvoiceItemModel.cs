@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Luvi.Mvvm;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models

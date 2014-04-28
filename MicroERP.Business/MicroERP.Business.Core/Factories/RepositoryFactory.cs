@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using MicroERP.Business.Domain.Repositories;
-using MicroERP.Data.Api.Repositories;
+﻿using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Fake.Repositories;
 
 namespace MicroERP.Business.Core.Factories
@@ -12,11 +10,6 @@ namespace MicroERP.Business.Core.Factories
             #if DEBUG
                 return new FakeCustomerRepository();
             #else
-                if (ViewModelBase.IsInDesignModeStatic)
-                {
-                    return new FakeCustomerRepository();
-                }
-
                 return new ApiCustomerRepository();    
             #endif
         }

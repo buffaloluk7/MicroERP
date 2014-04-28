@@ -15,10 +15,6 @@
  WindowTransitionsEnabled="False">
     
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Stammdaten">
                 <StackPanel>
@@ -79,6 +75,21 @@
                         </Grid>
                     </GroupBox>
 
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,0">
+                        <Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
+                            <TextBlock>
+                                <Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" />
+                                <Run Text="ABBRECHEN"/>
+                            </TextBlock>
+                        </Button>
+                        <Button Command="{Binding SaveCustomerCommand}" Margin="0,0,6,0">
+                            <TextBlock>
+                                <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
+                                <Run Text="SPEICHERN"/>
+                            </TextBlock>
+                        </Button>
+                    </StackPanel>
+
                 </StackPanel>
             </TabItem>
             <TabItem Header="Rechnungen">
@@ -87,21 +98,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Grid Grid.Row="1">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
-                    <TextBlock>
-                        <Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" />
-                        <Run Text="ABBRECHEN"/>
-                    </TextBlock>
-                </Button>
-                <Button Command="{Binding SaveCustomerCommand}" Margin="0,0,8,0">
-                    <TextBlock>
-                        <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
-                        <Run Text="SPEICHERN"/>
-                    </TextBlock>
-                </Button>
-            </StackPanel>
-        </Grid>
     </Grid>
 </Controls:MetroWindow>

@@ -1,17 +1,15 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MicroERP.Business.Domain.Exceptions;
-using MicroERP.Business.Domain.Repositories;
-using MicroERP.Business.Domain.Models;
-using Newtonsoft.Json;
+﻿using Luvi.Json.Extension;
+using Luvi.Mvvm;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
-using Luvi.Json.Extension;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.Exceptions;
+using MicroERP.Business.Domain.Models;
+using Newtonsoft.Json;
 
 namespace MicroERP.Business.Core.ViewModels
 {
-    public class CustomerWindowViewModel : ViewModelBase, INavigationAware
+    public class CustomerWindowViewModel : ObservableObject, INavigationAware
     {
         #region Properties
 
@@ -46,11 +44,11 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public CustomerWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService windowService)
+        public CustomerWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
-            this.navigationService = windowService;
+            this.navigationService = navigationService;
 
             this.SaveCustomerCommand = new RelayCommand(onSaveCustomerExecuted, onSaveCustomerCanExecute);
             this.CancelCommand = new RelayCommand(onCloseExecuted);
@@ -58,7 +56,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         #endregion
 
-        #region Commands Implementations
+        #region Command Implementations
 
         private bool onSaveCustomerCanExecute()
         {
@@ -82,11 +80,11 @@ namespace MicroERP.Business.Core.ViewModels
             }
             catch (CustomerAlreadyExistsException)
             {
-                this.notificationService.ShowAsync("Fehler", "Kunde existiert bereits.");
+                this.notificationService.ShowAsync("Kunde existiert bereits.", "Fehler");
             }
             catch (CustomerNotFoundException)
             {
-                this.notificationService.ShowAsync("Fehler", "Der Kunde wurde in der Datenbank nicht gefunden.");
+                this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
             }
 
             // TODO: notify mainwindow that search box items need to refresh?

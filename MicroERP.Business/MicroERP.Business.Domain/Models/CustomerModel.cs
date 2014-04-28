@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Luvi.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
