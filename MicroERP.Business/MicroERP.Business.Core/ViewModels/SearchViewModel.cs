@@ -1,4 +1,5 @@
-﻿using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,24 @@ namespace MicroERP.Business.Core.ViewModels
         private readonly ICustomerService customerService;
         private IEnumerable<FullNameViewModel> customers;
         private FullNameViewModel selectedCustomer;
+        private string searchQuery;
 
         #endregion
 
         #region Properties
+
+        public string SearchQuery
+        {
+            get
+            {
+                return this.searchQuery;
+            }
+            set
+            {
+                base.Set<string>(ref this.searchQuery, value);
+                this.SearchCommand.RaiseCanExecuteChanged();
+            }
+        }
 
         public IEnumerable<FullNameViewModel> Customers
         {
@@ -60,7 +75,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Commands
 
-        public RelayCommand<string> SearchCommand
+        public RelayCommand SearchCommand
         {
             get;
             private set;
@@ -73,21 +88,26 @@ namespace MicroERP.Business.Core.ViewModels
         public SearchViewModel(ICustomerService customerService)
         {
             this.customerService = customerService;
-            this.SearchCommand = new RelayCommand<string>(this.onSearchExecuted, this.onSearchCanExecute);
+            this.SearchCommand = new RelayCommand(this.onSearchExecuted, this.onSearchCanExecute);
         }
 
         #endregion
 
         #region Command Implementations
 
-        private bool onSearchCanExecute(string searchQuery)
+        private bool onSearchCanExecute()
         {
-            return !string.IsNullOrWhiteSpace(searchQuery);
+            if (string.IsNullOrWhiteSpace(this.searchQuery))
+            {
+                this.Customers = null;
+                return false;
+            }
+            return true;
         }
 
-        private async void onSearchExecuted(string searchQuery)
+        private async void onSearchExecuted()
         {
-            var customers = await this.customerService.Read(searchQuery);
+            var customers = await this.customerService.Read(this.SearchQuery);
 
             this.Customers = customers.Select(customer => new FullNameViewModel(customer));
         }

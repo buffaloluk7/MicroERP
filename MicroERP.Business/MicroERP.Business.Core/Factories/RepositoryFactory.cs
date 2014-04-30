@@ -10,7 +10,7 @@ namespace MicroERP.Business.Core.Factories
             #if DEBUG
                 return new FakeCustomerRepository();
             #else
-                return new ApiCustomerRepository();    
+                return new ApiCustomerRepository();
             #endif
         }
     }

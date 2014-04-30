@@ -7,7 +7,7 @@ namespace MicroERP.Business.Domain.Models
     [DataContract]
     public class PersonModel : CustomerModel
     {
-        #region Properties
+        #region Fields
 
         private string title;
         private string firstName;
@@ -15,6 +15,11 @@ namespace MicroERP.Business.Domain.Models
         private string suffix;
         private DateTime birthDate;
         private CompanyModel company;
+        private int? companyID;
+
+        #endregion
+
+        #region Properties
 
         [DataMember(Name = "title")]
         public string Title
@@ -23,14 +28,14 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<string>(ref this.title, value); }
         }
 
-        [DataMember(Name = "firstname")]
+        [DataMember(Name = "firstName")]
         public string FirstName
         {
             get { return this.firstName; }
             set { base.Set<string>(ref this.firstName, value); }
         }
 
-        [DataMember(Name = "lastname")]
+        [DataMember(Name = "lastName")]
         public string LastName
         {
             get { return this.lastName; }
@@ -44,14 +49,21 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<string>(ref this.suffix, value); }
         }
 
-        [DataMember(Name = "birthdate")]
+        [DataMember(Name = "birthDate")]
         public DateTime BirthDate
         {
             get { return this.birthDate; }
             set { base.Set<DateTime>(ref this.birthDate, value); ; }
         }
 
-        [DataMember(Name = "company")]
+        [DataMember(Name = "companyID")]
+        public int? CompanyID
+        {
+            get { return this.companyID; }
+            set { base.Set<int?>(ref this.companyID, value); }
+        }
+
+        [IgnoreDataMember]
         public CompanyModel Company
         {
             get { return this.company; }
@@ -62,7 +74,7 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public PersonModel(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, CompanyModel company = null, IEnumerable<InvoiceModel> invoices = null) : base(id, address, billingAddress, shippingAddress, invoices)
+        public PersonModel(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, CompanyModel company = null) : base(id, address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;

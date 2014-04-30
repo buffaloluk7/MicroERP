@@ -1,4 +1,4 @@
-﻿using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
@@ -14,16 +14,15 @@ namespace MicroERP.Business.Domain.Models
         private string address;
         private string billingAddress;
         private string shippingAddress;
-        private readonly ObservableCollection<InvoiceModel> invoices;
 
-        [DataMember(Name="id")]
+        [DataMember(Name = "id")]
         public int ID
         {
             get { return this.id; }
             set { base.Set<int>(ref this.id, value); }
         }
 
-        [DataMember(Name="address")]
+        [DataMember(Name = "address")]
         public string Address
         {
             get { return this.address; }
@@ -44,23 +43,23 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<string>(ref this.shippingAddress, value); }
         }
 
-        [DataMember(Name = "invoices")]
+        [IgnoreDataMember]
         public ObservableCollection<InvoiceModel> Invoices
         {
-            get { return this.invoices; }
+            get;
+            set;
         }
 
         #endregion
 
         #region Constructors
 
-        public CustomerModel(int id, string address, string billingAddress, string shippingAddress, IEnumerable<InvoiceModel> invoices = null)
+        public CustomerModel(int id, string address, string billingAddress, string shippingAddress)
         {
             this.id = id;
             this.address = address;
             this.billingAddress = billingAddress;
             this.shippingAddress = shippingAddress;
-            this.invoices = (invoices != null) ? new ObservableCollection<InvoiceModel>(invoices) : new ObservableCollection<InvoiceModel>();
         }
 
         #endregion
@@ -74,8 +73,7 @@ namespace MicroERP.Business.Domain.Models
             return obj is CustomerModel
                 && customer.address.Equals(this.address)
                 && customer.billingAddress.Equals(this.billingAddress)
-                && customer.shippingAddress.Equals(this.shippingAddress)
-                && customer.invoices.Equals(this.invoices);
+                && customer.shippingAddress.Equals(this.shippingAddress);
         }
 
         public override int GetHashCode()
@@ -83,7 +81,6 @@ namespace MicroERP.Business.Domain.Models
             int hash = 31 * this.address.GetHashCode();
                 hash = 31 * hash + this.billingAddress.GetHashCode();
                 hash = 31 * hash + this.shippingAddress.GetHashCode();
-                hash = 31 * hash + this.invoices.GetHashCode();
 
             return hash;
         }

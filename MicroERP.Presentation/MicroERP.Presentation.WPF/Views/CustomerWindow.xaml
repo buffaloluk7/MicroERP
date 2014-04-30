@@ -19,7 +19,7 @@
             <TabItem Header="Stammdaten">
                 <StackPanel>
                     <GroupBox Header="Firma">
-                        <Grid>
+                        <Grid DataContext="Company">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -28,15 +28,19 @@
                                 <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
+                            
                             <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold"/>
                             <TextBlock Text="UID" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Customer.Name, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Customer.UID, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay}" />
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Person">
-                        <Grid>
+                        <Grid DataContext="{Binding Person}">
                             <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -46,12 +50,19 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Vorname" VerticalAlignment="Center" FontWeight="Bold"/>
-                            <TextBlock Text="Nachname" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Firma" VerticalAlignment="Center" Grid.Row="2" FontWeight="Bold" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Customer.FirstName, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding Customer.LastName, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Customer.Company}" />
+                            <TextBlock Text="Titel" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Vorname" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Nachname" Grid.Row="2" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Suffix" Grid.Row="3" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Geburtstag" Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Firma" Grid.Row="5" VerticalAlignment="Center" FontWeight="Bold" />
+
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay}" />
+                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Company}" />
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Adresse">

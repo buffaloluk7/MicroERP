@@ -1,4 +1,4 @@
-﻿using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models
@@ -6,20 +6,24 @@ namespace MicroERP.Business.Domain.Models
     [DataContract]
     public class InvoiceItemModel : ObservableObject
     {
-        #region Properties
+        #region Fields
 
         private int amount;
         private double unitPrice;
         private double tax;
 
-        [DataMember]
+        #endregion
+
+        #region Properties
+
+        [DataMember(Name = "amount")]
         public int Amount
         {
             get { return this.amount; }
             set { base.Set<int>(ref this.amount, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "unitPrice")]
         public double UnitPrice
         {
             get { return this.unitPrice; }
@@ -29,7 +33,7 @@ namespace MicroERP.Business.Domain.Models
         /// <summary>
         /// For example: 12.5
         /// </summary>
-        [DataMember]
+        [DataMember(Name = "tax")]
         public double Tax
         {
             get { return this.tax; }

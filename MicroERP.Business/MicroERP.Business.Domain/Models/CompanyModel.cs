@@ -6,10 +6,14 @@ namespace MicroERP.Business.Domain.Models
     [DataContract]
     public class CompanyModel : CustomerModel
     {
-        #region Properties
+        #region Fields
 
         private string name;
         private string uid;
+
+        #endregion
+
+        #region Properties
 
         [DataMember(Name = "name")]
         public string Name
@@ -29,7 +33,7 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public CompanyModel(int id, string address, string billingAddress, string shippingAddress, string name, string uid, IEnumerable<InvoiceModel> invoices = null) : base(id, address, billingAddress, shippingAddress, invoices)
+        public CompanyModel(int id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
         {
             this.name = name;
             this.uid = uid;

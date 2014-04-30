@@ -1,4 +1,5 @@
-﻿using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
@@ -31,7 +32,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         #endregion
 
-        #region Command Properties
+        #region Commands
 
         public RelayCommand RepositoryCommand
         {
@@ -68,6 +69,15 @@ namespace MicroERP.Business.Core.ViewModels
             this.navigationService = navigationService;
             this.browsingService = browsingService;
             this.searchViewModel = searchViewModel;
+
+            this.searchViewModel.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == "SelectedCustomer")
+                {
+                    this.EditCustomerCommand.RaiseCanExecuteChanged();
+                    this.DeleteCustomerCommand.RaiseCanExecuteChanged();
+                }
+            };
 
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
             this.CreateCustomerCommand = new RelayCommand(onCreateCustomerExecuted);

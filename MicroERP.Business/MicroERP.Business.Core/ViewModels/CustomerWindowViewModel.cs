@@ -1,5 +1,6 @@
-﻿using Luvi.Json.Extension;
-using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Luvi.Json.Extension;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
@@ -16,12 +17,19 @@ namespace MicroERP.Business.Core.ViewModels
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
-        private CustomerModel customer;
+        private CompanyModel company;
+        private PersonModel person;
 
-        public CustomerModel Customer
+        public CompanyModel Company
         {
-            get { return this.customer; }
-            set { base.Set<CustomerModel>(ref this.customer, value); }
+            get { return this.company; }
+            set { base.Set<CompanyModel>(ref this.company, value); }
+        }
+
+        public PersonModel Person
+        {
+            get { return this.person; }
+            set { base.Set<PersonModel>(ref this.person, value); }
         }
 
         #endregion
@@ -69,14 +77,14 @@ namespace MicroERP.Business.Core.ViewModels
         {
             try
             {
-                if (this.customer.ID == 0)
+               /* if (this.customer.ID == 0)
                 {
                     this.customerService.Create(this.customer);
                 }
                 else
                 {
                     this.customerService.Update(this.customer);
-                }
+                }*/
             }
             catch (CustomerAlreadyExistsException)
             {
@@ -113,7 +121,7 @@ namespace MicroERP.Business.Core.ViewModels
             var jsonString = argument as string;
             if (jsonString != null)
             {
-                this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+                //this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             }
         }
 

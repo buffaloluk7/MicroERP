@@ -1,4 +1,4 @@
-﻿using Luvi.Mvvm;
+﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
@@ -8,7 +8,7 @@ namespace MicroERP.Business.Domain.Models
     [DataContract]
     public class InvoiceModel : ObservableObject
     {
-        #region Properties
+        #region Fields
 
         private DateTime issueDate;
         private DateTime dueDate;
@@ -17,49 +17,61 @@ namespace MicroERP.Business.Domain.Models
         private string message;
         private readonly ObservableCollection<InvoiceItemModel> invoiceItems;
         private CustomerModel customer;
+        private int customerID;
 
-        [DataMember]
+        #endregion
+
+        #region Properties
+
+        [DataMember(Name = "date")]
         public DateTime Date
         {
             get { return this.issueDate; }
             set { base.Set<DateTime>(ref this.issueDate, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "dueDate")]
         public DateTime DueDate
         {
             get { return this.dueDate; }
             set { base.Set<DateTime>(ref this.dueDate, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public int Number
         {
             get { return this.number; }
             set { base.Set<int>(ref this.number, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "comment")]
         public string Comment
         {
             get { return this.comment; }
             set { base.Set<string>(ref this.comment, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "message")]
         public string Message
         {
             get { return this.message; }
             set { base.Set<string>(ref this.message, value); }
         }
 
-        [DataMember]
+        [DataMember(Name = "invoiceItems")]
         public ObservableCollection<InvoiceItemModel> InvoiceItems
         {
             get { return this.invoiceItems; }
         }
 
-        [DataMember]
+        [IgnoreDataMember]
+        public int CustomerID
+        {
+            get { return this.customerID; }
+            set { base.Set<int>(ref this.customerID, value); }
+        }
+
+        [IgnoreDataMember]
         public CustomerModel Customer
         {
             get { return this.customer; }
