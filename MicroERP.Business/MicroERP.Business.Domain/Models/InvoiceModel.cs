@@ -10,18 +10,26 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Fields
 
+        private int id;
         private DateTime issueDate;
         private DateTime dueDate;
         private int number;
         private string comment;
         private string message;
-        private readonly ObservableCollection<InvoiceItemModel> invoiceItems;
-        private CustomerModel customer;
+        private ObservableCollection<InvoiceItemModel> invoiceItems;
         private int customerID;
+        private CustomerModel customer;
 
         #endregion
 
         #region Properties
+
+        [DataMember(Name = "id")]
+        public int ID
+        {
+            get { return this.id; }
+            set { base.Set<int>(ref this.id, value); }
+        }
 
         [DataMember(Name = "date")]
         public DateTime Date
@@ -58,10 +66,11 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<string>(ref this.message, value); }
         }
 
-        [DataMember(Name = "invoiceItems")]
+        [IgnoreDataMember]
         public ObservableCollection<InvoiceItemModel> InvoiceItems
         {
             get { return this.invoiceItems; }
+            set { base.Set<ObservableCollection<InvoiceItemModel>>(ref this.invoiceItems, value); }
         }
 
         [IgnoreDataMember]
@@ -82,15 +91,14 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel(DateTime isseuDate, DateTime dueDate, int number, string comment, string message, CustomerModel customer, ObservableCollection<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, int number, string comment, string message)
         {
+            this.id = id;
             this.issueDate = isseuDate;
             this.dueDate = dueDate;
             this.number = number;
             this.comment = comment;
             this.message = message;
-            this.customer = customer;
-            this.invoiceItems = invoiceItems ?? new ObservableCollection<InvoiceItemModel>();
         }
 
         #endregion

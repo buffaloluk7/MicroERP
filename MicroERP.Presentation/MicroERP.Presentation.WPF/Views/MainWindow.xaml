@@ -69,7 +69,7 @@
                     <Run Text="{Binding ElementName=CustomersListBox, Path=Items.Count, Mode=OneWay}" /> TREFFER
                 </TextBlock>
             </GroupBox.Header>
-            <ListBox x:Name="CustomersListBox" ItemsSource="{Binding SearchViewModel.Customers}" SelectedItem="{Binding SearchViewModel.SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
+            <ListBox x:Name="CustomersListBox" DataContext="{Binding SearchViewModel}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonDown">
                         <ei:ChangePropertyAction PropertyName="SelectedItem" Value="{x:Null}"/>

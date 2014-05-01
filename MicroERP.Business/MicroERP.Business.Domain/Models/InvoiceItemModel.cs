@@ -8,6 +8,7 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Fields
 
+        private int id;
         private int amount;
         private double unitPrice;
         private double tax;
@@ -15,6 +16,13 @@ namespace MicroERP.Business.Domain.Models
         #endregion
 
         #region Properties
+
+        [DataMember(Name = "id")]
+        public int ID
+        {
+            get { return this.id; }
+            set { base.Set<int>(ref this.id, value); }
+        }
 
         [DataMember(Name = "amount")]
         public int Amount
@@ -40,12 +48,27 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<double>(ref this.tax, value); }
         }
 
+        [IgnoreDataMember]
+        public int InvoiceID
+        {
+            get;
+            set;
+        }
+
+        [IgnoreDataMember]
+        public InvoiceModel Invoice
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Constructors
 
-        public InvoiceItemModel(int amount, double unitPrice, double tax)
+        public InvoiceItemModel(int id, int amount, double unitPrice, double tax)
         {
+            this.id = id;
             this.amount = amount;
             this.unitPrice = unitPrice;
             this.tax = tax;

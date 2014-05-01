@@ -12,13 +12,18 @@ namespace MicroERP.Business.Core.ViewModels
 {
     public class CustomerWindowViewModel : ObservableObject, INavigationAware
     {
-        #region Properties
+        #region Fields
 
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private CompanyModel company;
         private PersonModel person;
+        private CustomerModel customer;
+
+        #endregion
+
+        #region Propterties
 
         public CompanyModel Company
         {
@@ -30,6 +35,12 @@ namespace MicroERP.Business.Core.ViewModels
         {
             get { return this.person; }
             set { base.Set<PersonModel>(ref this.person, value); }
+        }
+
+        public CustomerModel Customer
+        {
+            get  {return this.customer; }
+            set { base.Set<CustomerModel>(ref this.customer, value); }
         }
 
         #endregion
@@ -121,7 +132,7 @@ namespace MicroERP.Business.Core.ViewModels
             var jsonString = argument as string;
             if (jsonString != null)
             {
-                //this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+                this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
             }
         }
 

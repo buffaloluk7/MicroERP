@@ -39,6 +39,9 @@
     <Compile Include="Exceptions\CustomerAlreadyExistsException.cs" />
     <Compile Include="Exceptions\CustomerException.cs" />
     <Compile Include="Exceptions\CustomerNotFoundException.cs" />
+    <Compile Include="Exceptions\InvoiceAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\InvoiceException.cs" />
+    <Compile Include="Exceptions\InvoiceNotFoundException.cs" />
     <Compile Include="Repositories\ICustomerRepository.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
@@ -46,6 +49,7 @@
     <Compile Include="Models\InvoiceModel.cs" />
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IInvoiceRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

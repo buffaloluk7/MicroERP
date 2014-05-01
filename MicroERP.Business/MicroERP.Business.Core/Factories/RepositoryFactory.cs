@@ -13,5 +13,14 @@ namespace MicroERP.Business.Core.Factories
                 return new ApiCustomerRepository();
             #endif
         }
+
+        public static IInvoiceRepository CreateInvoiceRepository()
+        {
+            #if DEBUG
+                return new FakeInvoiceRepository();
+            #else
+                return new ApiInvoiceRepository();
+            #endif
+        }
     }
 }

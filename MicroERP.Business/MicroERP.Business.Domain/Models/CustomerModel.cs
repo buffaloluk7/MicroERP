@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -8,12 +7,16 @@ namespace MicroERP.Business.Domain.Models
     [DataContract]
     public abstract class CustomerModel : ObservableObject
     {
-        #region Properties
+        #region Fields
 
         private int id;
         private string address;
         private string billingAddress;
         private string shippingAddress;
+
+        #endregion
+
+        #region Properties
 
         [DataMember(Name = "id")]
         public int ID
