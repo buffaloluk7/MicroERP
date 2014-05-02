@@ -3,10 +3,15 @@ using GalaSoft.MvvmLight.Command;
 using Luvi.Json.Extension;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
+using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Domain.Exceptions;
+using MicroERP.Business.Core.ViewModels.Customers;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
+using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels
 {
@@ -14,44 +19,24 @@ namespace MicroERP.Business.Core.ViewModels
     {
         #region Fields
 
+        private readonly IUnityContainer container;
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
-        private CompanyModel company;
-        private PersonModel person;
-        private CustomerModel customer;
 
         #endregion
 
         #region Propterties
 
-        public CompanyModel Company
+        public CustomerDataViewModel CustomerData
         {
-            get { return this.company; }
-            set { base.Set<CompanyModel>(ref this.company, value); }
-        }
-
-        public PersonModel Person
-        {
-            get { return this.person; }
-            set { base.Set<PersonModel>(ref this.person, value); }
-        }
-
-        public CustomerModel Customer
-        {
-            get  {return this.customer; }
-            set { base.Set<CustomerModel>(ref this.customer, value); }
+            get;
+            private set;
         }
 
         #endregion
 
         #region Commands
-
-        public RelayCommand SaveCustomerCommand
-        {
-            get;
-            private set;
-        }
 
         public RelayCommand CancelCommand
         {
@@ -63,55 +48,31 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public CustomerWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService)
+        public CustomerWindowViewModel(IUnityContainer container, ICustomerService customerService, INotificationService notificationService, INavigationService navigationService)
         {
+            this.container = container;
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
 
-            this.SaveCustomerCommand = new RelayCommand(onSaveCustomerExecuted, onSaveCustomerCanExecute);
-            this.CancelCommand = new RelayCommand(onCloseExecuted);
+            this.CancelCommand = new RelayCommand(onCancelExecuted);
+
+#if DEBUG
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                var customer = this.customerService.Read("lukas").ContinueWith((t) =>
+                {
+                    this.OnNavigatedTo(t.Result.First().ToJson(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }), NavigationType.Forward);
+                });
+            }
+#endif
         }
 
         #endregion
 
         #region Command Implementations
 
-        private bool onSaveCustomerCanExecute()
-        {
-            // TODO: check if customer has been created or just modified
-
-            return true;
-        }
-
-        private void onSaveCustomerExecuted()
-        {
-            try
-            {
-               /* if (this.customer.ID == 0)
-                {
-                    this.customerService.Create(this.customer);
-                }
-                else
-                {
-                    this.customerService.Update(this.customer);
-                }*/
-            }
-            catch (CustomerAlreadyExistsException)
-            {
-                this.notificationService.ShowAsync("Kunde existiert bereits.", "Fehler");
-            }
-            catch (CustomerNotFoundException)
-            {
-                this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
-            }
-
-            // TODO: notify mainwindow that search box items need to refresh?
-
-            this.onCloseExecuted();
-        }
-
-        private void onCloseExecuted()
+        private void onCancelExecuted()
         {
             if (navigationService is IFrameNavigationService)
             {
@@ -122,24 +83,34 @@ namespace MicroERP.Business.Core.ViewModels
                 (navigationService as IWindowNavigationService).Close(this);
             }
         }
-        
+
         #endregion
 
         #region INavigationAware
 
         public async void OnNavigatedTo(object argument, NavigationType navigationMode)
         {
-            var jsonString = argument as string;
-            if (jsonString != null)
+            var customerRaw = argument as string;
+            CustomerModel customer = null;
+
+            if (argument is CustomerType)
             {
-                this.Customer = await jsonString.FromJson<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+                customer = CustomerModelFactory.FromType((CustomerType)argument);
             }
+            else if (customerRaw != null)
+            {
+                customer = await customerRaw.FromJsonAsync<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("argument");
+            }
+
+            this.CustomerData = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
+            this.RaisePropertyChanged(() => this.CustomerData);
         }
 
-        public void OnNavigatedFrom()
-        {
-            return;
-        }
+        public void OnNavigatedFrom() { }
 
         #endregion
     }

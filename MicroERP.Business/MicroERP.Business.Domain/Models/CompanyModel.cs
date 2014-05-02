@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models
 {
     [DataContract]
-    public class CompanyModel : CustomerModel
+    public class CompanyModel : CustomerModel, IEquatable<CompanyModel>
     {
         #region Fields
 
@@ -32,7 +33,9 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public CompanyModel(int id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
+        public CompanyModel() { }
+
+        public CompanyModel(int? id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
         {
             this.name = name;
             this.uid = uid;
@@ -40,25 +43,24 @@ namespace MicroERP.Business.Domain.Models
 
         #endregion
 
-        #region Override
-
-        public override bool Equals(object obj)
-        {
-            var company = obj as CompanyModel;
-
-            return base.Equals(obj)
-                && obj is CompanyModel
-                && company.name.Equals(this.name)
-                && company.uid.Equals(this.uid);
-        }
+        #region IEquatable
 
         public override int GetHashCode()
         {
-            int hash = 31 * base.GetHashCode();
-                hash = 31 * hash + this.name.GetHashCode();
-                hash = 31 * hash + this.uid.GetHashCode();
+            return base.GetHashCode();
+        }
 
-            return hash;
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as CompanyModel);
+        }
+
+        public bool Equals(CompanyModel other)
+        {
+            return other != null &&
+                base.Equals(other) &&
+                other.name == this.name &&
+                other.uid == this.uid;
         }
 
         #endregion

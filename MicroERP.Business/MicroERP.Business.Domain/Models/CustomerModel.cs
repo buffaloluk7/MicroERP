@@ -1,15 +1,16 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models
 {
     [DataContract]
-    public abstract class CustomerModel : ObservableObject
+    public abstract class CustomerModel : ObservableObject, IEquatable<CustomerModel>
     {
         #region Fields
 
-        private int id;
+        private int? id;
         private string address;
         private string billingAddress;
         private string shippingAddress;
@@ -19,10 +20,10 @@ namespace MicroERP.Business.Domain.Models
         #region Properties
 
         [DataMember(Name = "id")]
-        public int ID
+        public int? ID
         {
             get { return this.id; }
-            set { base.Set<int>(ref this.id, value); }
+            set { base.Set<int?>(ref this.id, value); }
         }
 
         [DataMember(Name = "address")]
@@ -57,7 +58,9 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public CustomerModel(int id, string address, string billingAddress, string shippingAddress)
+        public CustomerModel() { }
+
+        public CustomerModel(int? id, string address, string billingAddress, string shippingAddress)
         {
             this.id = id;
             this.address = address;
@@ -67,25 +70,25 @@ namespace MicroERP.Business.Domain.Models
 
         #endregion
 
-        #region Override
-
-        public override bool Equals(object obj)
-        {
-            var customer = obj as CustomerModel;
-
-            return obj is CustomerModel
-                && customer.address.Equals(this.address)
-                && customer.billingAddress.Equals(this.billingAddress)
-                && customer.shippingAddress.Equals(this.shippingAddress);
-        }
+        #region IEquatable
 
         public override int GetHashCode()
         {
-            int hash = 31 * this.address.GetHashCode();
-                hash = 31 * hash + this.billingAddress.GetHashCode();
-                hash = 31 * hash + this.shippingAddress.GetHashCode();
+            return this.id.GetHashCode();
+        }
 
-            return hash;
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as CustomerModel);
+        }
+
+        public virtual bool Equals(CustomerModel other)
+        {
+            return other.id == this.id
+                && other.address == this.address
+                && other.billingAddress == this.billingAddress
+                && other.shippingAddress == this.shippingAddress
+                && other.Invoices == this.Invoices;
         }
 
         #endregion

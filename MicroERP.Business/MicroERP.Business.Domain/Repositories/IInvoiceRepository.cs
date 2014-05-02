@@ -5,8 +5,8 @@ namespace MicroERP.Business.Domain.Repositories
 {
     public interface IInvoiceRepository
     {
-        Task<InvoiceModel> Create(InvoiceModel invoice);
+        Task<InvoiceModel> Create(int customerID, InvoiceModel invoice);
 
-        Task<InvoiceModel> Read(int invoiceID);
+        Task<InvoiceModel> Read(int customerID, int invoiceID);
     }
 }

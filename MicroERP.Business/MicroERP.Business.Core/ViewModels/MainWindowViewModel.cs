@@ -4,6 +4,7 @@ using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
@@ -40,7 +41,7 @@ namespace MicroERP.Business.Core.ViewModels
             private set;
         }
 
-        public RelayCommand CreateCustomerCommand
+        public RelayCommand<CustomerType> CreateCustomerCommand
         {
             get;
             private set;
@@ -80,7 +81,7 @@ namespace MicroERP.Business.Core.ViewModels
             };
 
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
-            this.CreateCustomerCommand = new RelayCommand(onCreateCustomerExecuted);
+            this.CreateCustomerCommand = new RelayCommand<CustomerType>(onCreateCustomerExecuted);
             this.EditCustomerCommand = new RelayCommand(onEditCustomerExecuted, onEditCustomerCanExecute);
             this.DeleteCustomerCommand = new RelayCommand(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
         }
@@ -94,9 +95,9 @@ namespace MicroERP.Business.Core.ViewModels
             await this.browsingService.OpenLinkAsync("https://github.com/buffaloluk7/micro_erp.git");
         }
 
-        private void onCreateCustomerExecuted()
+        private void onCreateCustomerExecuted(CustomerType type)
         {
-            this.navigationService.Navigate<CustomerWindowViewModel>();
+            this.navigationService.Navigate<CustomerWindowViewModel>(type);
         }
 
         private async void onEditCustomerExecuted()
@@ -105,7 +106,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                customer = await this.customerService.Read(this.searchViewModel.SelectedCustomer.model.ID);
+                customer = await this.customerService.Read(this.searchViewModel.SelectedCustomer.model.ID.Value);
             }
             catch (CustomerNotFoundException)
             {
@@ -127,7 +128,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                await this.customerService.Delete(customer.model.ID);
+                await this.customerService.Delete(customer.model.ID.Value);
             }
             catch (CustomerNotFoundException)
             {

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace MicroERP.Business.Domain.Models
 {
     [DataContract]
-    public class PersonModel : CustomerModel
+    public class PersonModel : CustomerModel, IEquatable<PersonModel>
     {
         #region Fields
 
@@ -12,7 +12,7 @@ namespace MicroERP.Business.Domain.Models
         private string firstName;
         private string lastName;
         private string suffix;
-        private DateTime birthDate;
+        private DateTime? birthDate;
         private CompanyModel company;
         private int? companyID;
 
@@ -49,10 +49,10 @@ namespace MicroERP.Business.Domain.Models
         }
 
         [DataMember(Name = "birthDate")]
-        public DateTime BirthDate
+        public DateTime? BirthDate
         {
             get { return this.birthDate; }
-            set { base.Set<DateTime>(ref this.birthDate, value); ; }
+            set { base.Set<DateTime?>(ref this.birthDate, value); ; }
         }
 
         [DataMember(Name = "companyID")]
@@ -73,7 +73,9 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public PersonModel(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime birthDate, int? companyID = null) : base(id, address, billingAddress, shippingAddress)
+        public PersonModel() { }
+
+        public PersonModel(int? id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime? birthDate, int? companyID = null) : base(id, address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;
@@ -85,33 +87,28 @@ namespace MicroERP.Business.Domain.Models
 
         #endregion
 
-        #region Override
-
-        public override bool Equals(object obj)
-        {
-            var person = obj as PersonModel;
-
-            return base.Equals(obj)
-                && obj is PersonModel
-                && person.title.Equals(this.title)
-                && person.firstName.Equals(this.firstName)
-                && person.lastName.Equals(this.lastName)
-                && person.suffix.Equals(this.suffix)
-                && person.birthDate.Equals(this.birthDate)
-                && person.company == this.company;
-        }
+        #region IEquatable
 
         public override int GetHashCode()
         {
-            int hash = 31 * base.GetHashCode();
-                hash = 31 * hash + this.title.GetHashCode();
-                hash = 31 * hash + this.firstName.GetHashCode();
-                hash = 31 * hash + this.lastName.GetHashCode();
-                hash = 31 * hash + this.suffix.GetHashCode();
-                hash = 31 * hash + this.birthDate.GetHashCode();
-                hash = 31 * hash + (this.company != null ? this.company.GetHashCode() : 0);
+            return base.GetHashCode();
+        }
 
-            return hash;
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as PersonModel);
+        }
+
+        public bool Equals(PersonModel other)
+        {
+            return other != null &&
+                base.Equals(other) &&
+                other.title == this.title &&
+                other.firstName == this.firstName &&
+                other.lastName == this.lastName &&
+                other.suffix == this.suffix &&
+                other.birthDate == this.birthDate &&
+                other.company == this.company;
         }
 
         #endregion

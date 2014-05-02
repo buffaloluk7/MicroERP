@@ -1,51 +1,52 @@
 ﻿using GalaSoft.MvvmLight;
+using System;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models
 {
     [DataContract]
-    public class InvoiceItemModel : ObservableObject
+    public class InvoiceItemModel : ObservableObject, IEquatable<InvoiceItemModel>
     {
         #region Fields
 
-        private int id;
-        private int amount;
-        private double unitPrice;
-        private double tax;
+        private int? id;
+        private int? amount;
+        private double? unitPrice;
+        private double? tax;
 
         #endregion
 
         #region Properties
 
         [DataMember(Name = "id")]
-        public int ID
+        public int? ID
         {
             get { return this.id; }
-            set { base.Set<int>(ref this.id, value); }
+            set { base.Set<int?>(ref this.id, value); }
         }
 
         [DataMember(Name = "amount")]
-        public int Amount
+        public int? Amount
         {
             get { return this.amount; }
-            set { base.Set<int>(ref this.amount, value); }
+            set { base.Set<int?>(ref this.amount, value); }
         }
 
         [DataMember(Name = "unitPrice")]
-        public double UnitPrice
+        public double? UnitPrice
         {
             get { return this.unitPrice; }
-            set { base.Set<double>(ref this.unitPrice, value); }
+            set { base.Set<double?>(ref this.unitPrice, value); }
         }
 
         /// <summary>
         /// For example: 12.5
         /// </summary>
         [DataMember(Name = "tax")]
-        public double Tax
+        public double? Tax
         {
             get { return this.tax; }
-            set { base.Set<double>(ref this.tax, value); }
+            set { base.Set<double?>(ref this.tax, value); }
         }
 
         [IgnoreDataMember]
@@ -66,7 +67,7 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceItemModel(int id, int amount, double unitPrice, double tax)
+        public InvoiceItemModel(int? id, int? amount, double? unitPrice, double? tax)
         {
             this.id = id;
             this.amount = amount;
@@ -76,26 +77,25 @@ namespace MicroERP.Business.Domain.Models
 
         #endregion
 
-        #region Override
+        #region IEquatable
 
         public override bool Equals(object obj)
         {
-            var item = obj as InvoiceItemModel;
-
-            return base.Equals(obj)
-                && item is InvoiceItemModel
-                && item.amount.Equals(this.amount)
-                && item.tax.Equals(this.tax)
-                && item.unitPrice.Equals(this.unitPrice);
+            return this.Equals(obj as InvoiceItemModel);
         }
 
         public override int GetHashCode()
         {
-            int hash = 31 * this.amount.GetHashCode();
-                hash = 31 * hash + this.tax.GetHashCode();
-                hash = 31 * hash + this.unitPrice.GetHashCode();
+            return this.id.GetHashCode();
+        }
 
-            return hash;
+        public bool Equals(InvoiceItemModel other)
+        {
+            return other != null &&
+                other.id == this.id &&
+                other.amount == this.amount &&
+                other.tax == this.tax &&
+                other.unitPrice == this.unitPrice;
         }
 
         #endregion

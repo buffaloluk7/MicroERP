@@ -75,13 +75,13 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\..\packages\Portable.MvvmLightLibs.4.3.31.2\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Luvi, Version=1.1.5233.24772, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Luvi, Version=1.1.5235.27159, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Luvi.1.1.5233.24772\lib\portable-net45+win+WindowsPhoneApp81+wp80\Luvi.dll</HintPath>
+      <HintPath>..\..\packages\Luvi.1.1.5235.27159\lib\portable-net45+win+WindowsPhoneApp81+wp80\Luvi.dll</HintPath>
     </Reference>
-    <Reference Include="Luvi.WPF, Version=1.1.5233.24774, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Luvi.WPF, Version=1.1.5235.27247, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Luvi.WPF.1.1.5233.24774\lib\net45\Luvi.WPF.dll</HintPath>
+      <HintPath>..\..\packages\Luvi.WPF.1.1.5235.27247\lib\net45\Luvi.WPF.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\..\packages\MahApps.Metro.0.13.1.0\lib\net45\MahApps.Metro.dll</HintPath>

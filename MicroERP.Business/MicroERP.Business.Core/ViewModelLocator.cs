@@ -1,10 +1,12 @@
-﻿using Luvi.Service.Browsing;
+﻿using GalaSoft.MvvmLight;
+using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels;
+using MicroERP.Business.Core.ViewModels.Customers;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.Practices.Unity;
 
@@ -14,7 +16,7 @@ namespace MicroERP.Business.Core
     {
         #region Fields
 
-        private readonly UnityContainer container;
+        internal readonly UnityContainer container;
 
         #endregion
 
@@ -38,8 +40,17 @@ namespace MicroERP.Business.Core
         {
             this.container = new UnityContainer();
 
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                // Inject sample plattform services
+                container.RegisterType<INavigationService, SampleNavigationService>();
+                container.RegisterType<INotificationService, SampleNotificationService>();
+                container.RegisterType<IBrowsingService, SampleBrowsingService>();
+            }
+
             // Services
             this.container.RegisterType<ICustomerService, CustomerService>(new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance<IUnityContainer>(this.container, new ContainerControlledLifetimeManager());
 
             // Repositories
             this.container.RegisterInstance<ICustomerRepository>(RepositoryFactory.CreateCustomerRepository(), new ContainerControlledLifetimeManager());
@@ -48,6 +59,7 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<CustomerWindowViewModel>();
             this.container.RegisterType<SearchViewModel>();
+            this.container.RegisterType<CustomerDataViewModel>();
         }
 
         #endregion

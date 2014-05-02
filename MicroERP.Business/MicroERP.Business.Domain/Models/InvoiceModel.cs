@@ -6,14 +6,14 @@ using System.Runtime.Serialization;
 namespace MicroERP.Business.Domain.Models
 {
     [DataContract]
-    public class InvoiceModel : ObservableObject
+    public class InvoiceModel : ObservableObject, IEquatable<InvoiceModel>
     {
         #region Fields
 
-        private int id;
-        private DateTime issueDate;
-        private DateTime dueDate;
-        private int number;
+        private int? id;
+        private DateTime? issueDate;
+        private DateTime? dueDate;
+        private int? number;
         private string comment;
         private string message;
         private ObservableCollection<InvoiceItemModel> invoiceItems;
@@ -25,31 +25,31 @@ namespace MicroERP.Business.Domain.Models
         #region Properties
 
         [DataMember(Name = "id")]
-        public int ID
+        public int? ID
         {
             get { return this.id; }
-            set { base.Set<int>(ref this.id, value); }
+            set { base.Set<int?>(ref this.id, value); }
         }
 
         [DataMember(Name = "date")]
-        public DateTime Date
+        public DateTime? Date
         {
             get { return this.issueDate; }
-            set { base.Set<DateTime>(ref this.issueDate, value); }
+            set { base.Set<DateTime?>(ref this.issueDate, value); }
         }
 
         [DataMember(Name = "dueDate")]
-        public DateTime DueDate
+        public DateTime? DueDate
         {
             get { return this.dueDate; }
-            set { base.Set<DateTime>(ref this.dueDate, value); }
+            set { base.Set<DateTime?>(ref this.dueDate, value); }
         }
 
-        [DataMember(Name = "name")]
-        public int Number
+        [DataMember(Name = "number")]
+        public int? Number
         {
             get { return this.number; }
-            set { base.Set<int>(ref this.number, value); }
+            set { base.Set<int?>(ref this.number, value); }
         }
 
         [DataMember(Name = "comment")]
@@ -91,7 +91,7 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, int number, string comment, string message)
+        public InvoiceModel(int? id, DateTime? isseuDate, DateTime? dueDate, int? number, string comment, string message)
         {
             this.id = id;
             this.issueDate = isseuDate;
@@ -103,34 +103,28 @@ namespace MicroERP.Business.Domain.Models
 
         #endregion
 
-        #region Override
+        #region IEquatable
 
         public override bool Equals(object obj)
         {
-            var invoice = obj as InvoiceModel;
-
-            return base.Equals(obj)
-                && obj is InvoiceModel
-                && invoice.issueDate.Equals(this.issueDate)
-                && invoice.dueDate.Equals(this.dueDate)
-                && invoice.number.Equals(this.number)
-                && invoice.comment.Equals(this.comment)
-                && invoice.message.Equals(this.message)
-                && invoice.customer.Equals(this.customer)
-                && invoice.invoiceItems.Equals(this.invoiceItems);
+            return this.Equals(obj as InvoiceModel);
         }
 
         public override int GetHashCode()
         {
-            int hash = 31 * this.issueDate.GetHashCode();
-                hash = 31 * hash + this.dueDate.GetHashCode();
-                hash = 31 * hash + this.number.GetHashCode();
-                hash = 31 * hash + this.comment.GetHashCode();
-                hash = 31 * hash + this.message.GetHashCode();
-                hash = 31 * hash + this.customer.GetHashCode();
-                hash = 31 * hash + this.invoiceItems.GetHashCode();
+            return this.id.GetHashCode();
+        }
 
-            return hash;
+        public bool Equals(InvoiceModel other)
+        {
+            return other != null &&
+                other.id == this.id &&
+                other.dueDate == this.dueDate &&
+                other.number == this.number &&
+                other.comment == this.comment &&
+                other.message == this.message &&
+                other.customer == this.customer &&
+                other.invoiceItems == this.invoiceItems;
         }
 
         #endregion

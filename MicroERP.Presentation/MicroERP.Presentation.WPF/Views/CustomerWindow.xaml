@@ -4,23 +4,50 @@
  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+ xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ mc:Ignorable="d"
  x:Class="MicroERP.Presentation.Views.CustomerWindow"
  x:Name="Window"
  Title="MicroERP"
  Width="640"
- Height="490"
+ SizeToContent="Height"
  DataContext="{Binding CustomerWindow, Mode=OneWay, Source={StaticResource Locator}}"
  BorderThickness="1"
  BorderBrush="#FF41B1E1"
- WindowTransitionsEnabled="False">
-    
+ WindowTransitionsEnabled="False"
+ WindowStartupLocation="CenterScreen">
+
     <Grid>
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="CustomerStateGroup">
+    			<VisualState x:Name="CompanyState">
+    				<Storyboard>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="groupBox">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+    					</ObjectAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="PersonState">
+    				<Storyboard>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="groupBox1">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+    					</ObjectAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
         <TabControl>
-            <TabItem Header="Stammdaten">
+            <TabItem Header="Stammdaten" DataContext="{Binding CustomerData, Mode=OneWay}">
+            	<i:Interaction.Behaviors>
+            		<ei:DataStateBehavior Binding="{Binding Company, Mode=OneWay}" Value="{x:Null}" TrueState="PersonState" FalseState="CompanyState"/>
+            		<ei:DataStateBehavior Binding="{Binding Person, Mode=OneWay}" Value="{x:Null}" TrueState="CompanyState" FalseState="PersonState"/>
+            	</i:Interaction.Behaviors>
                 <StackPanel>
-                    <GroupBox Header="Firma">
-                        <Grid DataContext="Company">
+                    <GroupBox x:Name="groupBox1" Header="Firma" DataContext="{Binding Company, Mode=OneWay}">
+                        <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
@@ -28,15 +55,16 @@
                                 <ColumnDefinition Width="110" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            
+
                             <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold"/>
                             <TextBlock Text="UID" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay}" />
+
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Person">
-                        <Grid DataContext="{Binding Person}">
+                    <GroupBox x:Name="groupBox" Header="Person" DataContext="{Binding Person, Mode=OneWay}">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -57,15 +85,15 @@
                             <TextBlock Text="Geburtstag" Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" />
                             <TextBlock Text="Firma" Grid.Row="5" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay}" />
-                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay}" />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Company}" />
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Adresse">
+                    <GroupBox Header="Adresse" DataContext="{Binding Customer, Mode=OneWay}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -80,33 +108,26 @@
                             <TextBlock Text="Adresse" VerticalAlignment="Center" FontWeight="Bold"/>
                             <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1" FontWeight="Bold" />
                             <TextBlock Text="Lieferadresse" VerticalAlignment="Center" Grid.Row="2" FontWeight="Bold" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Customer.Address, Mode=TwoWay}" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding Customer.BillingAddress}" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Customer.ShippingAddress, Mode=TwoWay}" />
+                            
+                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding BillingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ShippingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,0">
-                        <Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
-                            <TextBlock>
-                                <Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" />
-                                <Run Text="ABBRECHEN"/>
-                            </TextBlock>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                        <Button Command="{Binding DataContext.CancelCommand, ElementName=Window}" Margin="0,0,6,0">
+                            <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" /><Run Text=" "/><Run Text="ABBRECHEN"/></TextBlock>
                         </Button>
                         <Button Command="{Binding SaveCustomerCommand}" Margin="0,0,6,0">
-                            <TextBlock>
-                                <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
-                                <Run Text="SPEICHERN"/>
-                            </TextBlock>
+                            <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE105;" /><Run Text=" "/><Run Text="SPEICHERN"/></TextBlock>
                         </Button>
                     </StackPanel>
 
                 </StackPanel>
             </TabItem>
             <TabItem Header="Rechnungen">
-                <Grid>
-
-                </Grid>
+                <Grid/>
             </TabItem>
         </TabControl>
     </Grid>

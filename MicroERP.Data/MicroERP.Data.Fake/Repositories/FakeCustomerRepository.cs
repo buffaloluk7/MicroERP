@@ -41,7 +41,7 @@ namespace MicroERP.Data.Fake.Repositories
 
         #region ICustomerRepository
 
-        public async Task<CustomerModel> Create(CustomerModel customer)
+        public async Task<int> Create(CustomerModel customer)
         {
             return await Task.Run(() => 
             {
@@ -50,8 +50,9 @@ namespace MicroERP.Data.Fake.Repositories
                     throw new CustomerAlreadyExistsException(customer);
                 }
 
+                customer.ID = this.customers.Max(i => i.ID) + 1;
                 this.customers.Add(customer);
-                return customer;     
+                return customer.ID.Value;
             });
         }
 
@@ -87,7 +88,7 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                int index = this.customers.FindIndex(C => C.ID == customer.ID);
+                int index = this.customers.FindIndex(c => c.ID == customer.ID);
 
                 if (index >= 0)
                 {

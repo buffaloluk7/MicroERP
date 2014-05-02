@@ -48,7 +48,7 @@ namespace MicroERP.Data.Fake.Repositories
 
         #region IInvoiceRepository
 
-        public async Task<InvoiceModel> Create(InvoiceModel invoice)
+        public async Task<InvoiceModel> Create(int customerID, InvoiceModel invoice)
         {
             return await Task.Run(() =>
             {
@@ -63,11 +63,11 @@ namespace MicroERP.Data.Fake.Repositories
             });
         }
 
-        public async Task<InvoiceModel> Read(int invoiceID)
+        public async Task<InvoiceModel> Read(int customerID, int invoiceID)
         {
             return await Task.Run(() =>
             {
-                var invoice = this.invoices.FirstOrDefault<InvoiceModel>(i => i.ID == invoiceID);
+                var invoice = this.invoices.FirstOrDefault<InvoiceModel>(i => i.CustomerID == customerID && i.ID == invoiceID);
 
                 if (invoice != null)
                 {

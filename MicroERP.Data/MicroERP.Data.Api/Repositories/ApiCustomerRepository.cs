@@ -1,10 +1,10 @@
-﻿using Luvi.Http;
-using Luvi.Http.Extension;
+﻿using Luvi.Http.Extension;
 using Luvi.Json.Converter;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Exceptions;
+using MicroERP.Data.Api.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,40 +13,26 @@ using System.Threading.Tasks;
 
 namespace MicroERP.Data.Api.Repositories
 {
-    public class ApiCustomerRepository : ICustomerRepository
+    public class ApiCustomerRepository : ApiRepositoryBase, ICustomerRepository
     {
-        #region Properties
+        #region Fields
 
-        private const string baseURL = "http://10.201.94.236:8000/microerp/customer";
-        private RESTRequest request;
-
-        #endregion
-
-        #region Constructors
-        
-        public ApiCustomerRepository()
-        {
-            this.request = new RESTRequest()
-            {
-                Timeout = new TimeSpan(0, 0, 15),
-                UseTransferEncodingChunked = true
-            };
-        }
+        private string url = Resources.apiURL + "/customers";
 
         #endregion
 
         #region ICustomerRepository
 
-        public async Task<CustomerModel> Create(CustomerModel customer)
+        public async Task<int> Create(CustomerModel customer)
         {
-            var response = await this.request.Post(ApiCustomerRepository.baseURL, customer);
+            var response = await this.request.Post(this.url, customer);
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.Created:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<CustomerModel>();
+                        return await response.Content.ReadAsObjectAsync<int>();
                     }
                     catch (JsonReaderException e)
                     {
@@ -63,7 +49,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<IEnumerable<CustomerModel>> Read(string searchQuery)
         {
-            string url = string.Format("{0}?q={1}", ApiCustomerRepository.baseURL, searchQuery);
+            string url = string.Format("{0}?q={1}", this.url, searchQuery);
             var response = await this.request.Get(url);
 
             if (response.StatusCode == HttpStatusCode.OK)
@@ -87,7 +73,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<CustomerModel> Read(int customerID)
         {
-            string url = string.Format("{0}/{1}", baseURL, customerID);
+            string url = string.Format("{0}/{1}", this.url, customerID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)
@@ -112,7 +98,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<CustomerModel> Update(CustomerModel customer)
         {
-            var response = await this.request.Put(baseURL + customer.ID, customer);
+            var response = await this.request.Put(this.url + customer.ID, customer);
 
             switch (response.StatusCode)
             {
@@ -139,7 +125,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task Delete(int customerID)
         {
-            var response = await this.request.Delete(baseURL + customerID);
+            var response = await this.request.Delete(this.url + customerID);
 
             switch (response.StatusCode)
             {

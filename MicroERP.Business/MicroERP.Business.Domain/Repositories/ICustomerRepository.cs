@@ -6,7 +6,7 @@ namespace MicroERP.Business.Domain.Repositories
 {
     public interface ICustomerRepository
     {
-        Task<CustomerModel> Create(CustomerModel customer);
+        Task<int> Create(CustomerModel customer);
 
         Task<IEnumerable<CustomerModel>> Read(string searchQuery);
 

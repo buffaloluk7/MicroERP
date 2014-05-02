@@ -89,6 +89,14 @@ namespace MicroERP.Business.Core.ViewModels
         {
             this.customerService = customerService;
             this.SearchCommand = new RelayCommand(this.onSearchExecuted, this.onSearchCanExecute);
+
+#if DEBUG
+            if (ViewModelBase.IsInDesignModeStatic)
+            {
+                this.searchQuery = "i";
+                this.onSearchExecuted();
+            }
+#endif
         }
 
         #endregion

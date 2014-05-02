@@ -27,7 +27,7 @@ namespace MicroERP.Business.Core.Services
 
         #region ICustomerService
 
-        public async Task<CustomerModel> Create(CustomerModel customer)
+        public async Task<int> Create(CustomerModel customer)
         {
             if (customer == null)
             {
