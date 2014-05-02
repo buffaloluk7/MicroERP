@@ -22,13 +22,13 @@ namespace MicroERP.Data.Fake.Repositories
         {
             var c1 = new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
             var c2 = new CompanyModel(4, "Simonweg", "Simonweg 1", "Simonweg 2", "Simon GmbH", "0123456789");
-            var c3 = new CompanyModel(4, "Thomasweg", "Thomasweg 1", "Thomasweg 2", "Thomas GmbH", "6543217890");
+            var c3 = new CompanyModel(5, "Thomasweg", "Thomasweg 1", "Thomasweg 2", "Thomas GmbH", "6543217890");
 
             var p1 = new PersonModel(1, "Wehlistraße", "Wehlistraße 1", "Wehlistraße 2", "Dr", "Thomas", "Eizinger", "Bsc", DateTime.Now, 3);
             var p2 = new PersonModel(2, "Lukasweg", "Lukasweg 1", "Lukasweg 2", "Dr", "Lukas", "Streiter", "Msc", DateTime.Now);
-            var p3 = new PersonModel(5, "Wehlistraße", "Wehlistraße 1", "Wehlistraße 2", "Dr.", "Viktor", "Hofinger", "Bsc", DateTime.Now, 4);
-            var p4 = new PersonModel(5, "Anotherstreet", "Anotherstreet 1", "Anotherstreet 2", "Dr.", "Another", "Person", "Bsc", DateTime.Now, 4);
-            var p5 = new PersonModel(5, "Copy ninja street", "Copy ninja street 1", "Copy ninja street 2", "DDr.", "Copy", "Ninja", "Msc", DateTime.Now, 3);
+            var p3 = new PersonModel(6, "Wehlistraße", "Wehlistraße 1", "Wehlistraße 2", "Dr.", "Viktor", "Hofinger", "Bsc", DateTime.Now, 4);
+            var p4 = new PersonModel(7, "Anotherstreet", "Anotherstreet 1", "Anotherstreet 2", "Dr.", "Another", "Person", "Bsc", DateTime.Now, 4);
+            var p5 = new PersonModel(8, "Copy ninja street", "Copy ninja street 1", "Copy ninja street 2", "DDr.", "Copy", "Ninja", "Msc", DateTime.Now, 3);
 
             this.customers = new List<CustomerModel>(new CustomerModel[]
             {
