@@ -28,6 +28,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Business.Core", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Business.Domain", "MicroERP.Business\MicroERP.Business.Domain\MicroERP.Business.Domain.csproj", "{DA03CDEB-BA42-446D-8610-2244AC85F8C3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroERP.Testing", "MicroERP.Testing", "{E2A4E52E-542A-4914-B5EE-09551E063617}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroERP.Testing.Component", "MicroERP.Testing\MicroERP.Testing.Component\MicroERP.Testing.Component.csproj", "{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +118,16 @@ Global
 		{DA03CDEB-BA42-446D-8610-2244AC85F8C3}.Release|ARM.ActiveCfg = Release|Any CPU
 		{DA03CDEB-BA42-446D-8610-2244AC85F8C3}.Release|x64.ActiveCfg = Release|Any CPU
 		{DA03CDEB-BA42-446D-8610-2244AC85F8C3}.Release|x86.ActiveCfg = Release|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,5 +139,6 @@ Global
 		{EBB5CDB9-48A2-44E4-8D7F-2203B988A465} = {B4488879-40D8-4618-9E6A-160E543ADA5D}
 		{AE39A37C-0E3B-46E1-9308-1C93BF6222CA} = {391AB92B-A80C-487A-9F89-79C3E6978466}
 		{DA03CDEB-BA42-446D-8610-2244AC85F8C3} = {391AB92B-A80C-487A-9F89-79C3E6978466}
+		{9D84E9ED-4902-4A4A-9F72-91F66756B3CE} = {E2A4E52E-542A-4914-B5EE-09551E063617}
 	EndGlobalSection
 EndGlobal
