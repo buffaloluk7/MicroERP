@@ -74,6 +74,11 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
+            if (!this.id.HasValue)
+            {
+                throw new InvalidOperationException("Hashcode cannot be calculated from a customer without an ID");
+            }
+
             return this.id.GetHashCode();
         }
 

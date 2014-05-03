@@ -86,7 +86,12 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
-            return this.id.GetHashCode();
+            if (!this.id.HasValue)
+            {
+                throw new InvalidOperationException("Hashcode cannot be calculated from an invoice item without an ID");
+            }
+
+            return this.id.Value.GetHashCode();
         }
 
         public bool Equals(InvoiceItemModel other)

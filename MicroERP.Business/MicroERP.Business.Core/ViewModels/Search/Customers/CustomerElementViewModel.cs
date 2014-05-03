@@ -3,9 +3,9 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using System;
 
-namespace MicroERP.Business.Core.ViewModels
+namespace MicroERP.Business.Core.ViewModels.Search.Customers
 {
-    public class FullNameViewModel : ObservableObject
+    public class CustomerElementViewModel : ObservableObject
     {
         #region Fields
 
@@ -56,7 +56,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public FullNameViewModel(CustomerModel model)
+        public CustomerElementViewModel(CustomerModel model)
         {
             if (model == null)
             {

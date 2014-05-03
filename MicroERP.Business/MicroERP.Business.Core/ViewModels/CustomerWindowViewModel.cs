@@ -6,6 +6,7 @@ using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Customers;
+using MicroERP.Business.Core.ViewModels.Search.Invoices;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -34,6 +35,12 @@ namespace MicroERP.Business.Core.ViewModels
             private set;
         }
 
+        public SearchInvoicesViewModel SearchInvoicesViewModel
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Commands
@@ -57,15 +64,15 @@ namespace MicroERP.Business.Core.ViewModels
 
             this.CancelCommand = new RelayCommand(onCancelExecuted);
 
-#if DEBUG
+            #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                var customer = this.customerService.Read("lukas").ContinueWith((t) =>
+                var customer = this.customerService.Search("lukas").ContinueWith((t) =>
                 {
                     this.OnNavigatedTo(t.Result.First().ToJson(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }), NavigationType.Forward);
                 });
             }
-#endif
+            #endif
         }
 
         #endregion
@@ -106,8 +113,18 @@ namespace MicroERP.Business.Core.ViewModels
                 throw new ArgumentOutOfRangeException("argument");
             }
 
+            var person = customer as PersonModel;
+
+            if (person != null && person.CompanyID.HasValue)
+            {
+                person.Company = await this.customerService.Read<CompanyModel>(person.CompanyID.Value);
+                customer = person;
+            }
+
             this.CustomerData = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
+            this.SearchInvoicesViewModel = this.container.Resolve<SearchInvoicesViewModel>(new ParameterOverride("customerID", customer.ID.HasValue ? customer.ID.Value : 0));
             this.RaisePropertyChanged(() => this.CustomerData);
+            this.RaisePropertyChanged(() => this.SearchInvoicesViewModel);
         }
 
         public void OnNavigatedFrom() { }

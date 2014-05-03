@@ -4,6 +4,7 @@ using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Core.ViewModels.Search.Customers;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -20,15 +21,15 @@ namespace MicroERP.Business.Core.ViewModels
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
-        private readonly SearchViewModel searchViewModel;
+        private readonly SearchCustomersViewModel searchCustomersViewModel;
 
         #endregion
 
         #region Properties
 
-        public SearchViewModel SearchViewModel
+        public SearchCustomersViewModel SearchCustomersViewModel
         {
-            get { return this.searchViewModel; }
+            get { return this.searchCustomersViewModel; }
         }
 
         #endregion
@@ -63,15 +64,15 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchViewModel searchViewModel)
+        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
             this.browsingService = browsingService;
-            this.searchViewModel = searchViewModel;
+            this.searchCustomersViewModel = searchCustomersViewModel;
 
-            this.searchViewModel.PropertyChanged += (s, e) =>
+            this.searchCustomersViewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "SelectedCustomer")
                 {
@@ -106,7 +107,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                customer = await this.customerService.Read(this.searchViewModel.SelectedCustomer.model.ID.Value);
+                customer = await this.customerService.Read(this.searchCustomersViewModel.SelectedCustomer.model.ID.Value);
             }
             catch (CustomerNotFoundException)
             {
@@ -119,12 +120,12 @@ namespace MicroERP.Business.Core.ViewModels
 
         private bool onEditCustomerCanExecute()
         {
-            return this.searchViewModel.SelectedCustomer != null;
+            return this.searchCustomersViewModel.SelectedCustomer != null;
         }
 
         private async void onDeleteCustomerExecuted()
         {
-            var customer = this.searchViewModel.SelectedCustomer;
+            var customer = this.searchCustomersViewModel.SelectedCustomer;
 
             try
             {
@@ -136,14 +137,14 @@ namespace MicroERP.Business.Core.ViewModels
                 return;
             }
 
-            var customers = this.searchViewModel.Customers.ToList();
+            var customers = this.searchCustomersViewModel.Customers.ToList();
             customers.Remove(customer);
-            this.searchViewModel.Customers = customers;
+            this.searchCustomersViewModel.Customers = customers;
         }
 
         private bool onDeleteCustomerCanExecute()
         {
-            return this.searchViewModel.SelectedCustomer != null;
+            return this.searchCustomersViewModel.SelectedCustomer != null;
         }
 
         #endregion

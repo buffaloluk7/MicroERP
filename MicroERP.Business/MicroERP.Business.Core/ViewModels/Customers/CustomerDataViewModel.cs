@@ -24,6 +24,11 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         #region Properties
 
+        public bool IsCreating
+        {
+            get { return !this.customer.ID.HasValue; }
+        }
+
         public CustomerViewModel Customer
         {
             get { return this.customerViewModel; }
@@ -74,6 +79,8 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             {
                 throw new ArgumentOutOfRangeException("customer");
             }
+
+            this.RaisePropertyChanged(() => this.IsCreating);
         }
 
         #endregion
@@ -92,11 +99,15 @@ namespace MicroERP.Business.Core.ViewModels.Customers
                 if (this.customer.ID.HasValue)
                 {
                     this.customerService.Update(this.customer);
+                    this.notificationService.ShowAsync("Kunde erfolgreich aktualisiert.", "Kunde bearbeitet");
                 }
                 else
                 {
                     this.customerService.Create(this.customer);
+                    this.notificationService.ShowAsync("Kunde erfolgreich erstellt. Sie können nun Rechnungen für diesen Kunden ausstellen.", "Kunde erstellt");
                 }
+
+                this.RaisePropertyChanged(() => this.IsCreating);
             }
             catch (CustomerAlreadyExistsException)
             {

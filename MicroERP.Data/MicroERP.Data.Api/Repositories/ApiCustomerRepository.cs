@@ -3,8 +3,8 @@ using Luvi.Json.Converter;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
+using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
-using MicroERP.Data.Api.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Fields
 
-        private string url = Resources.apiURL + "/customers";
+        private string url;
 
         #endregion
 
@@ -138,6 +138,15 @@ namespace MicroERP.Data.Api.Repositories
                 default:
                     throw new BadResponseException(response.StatusCode);
             }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration)
+        {
+            this.url = this.ConnectionString + "customers";
         }
 
         #endregion

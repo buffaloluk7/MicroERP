@@ -6,7 +6,8 @@
              StartupUri="Views/MainWindow.xaml"
              xmlns:local="clr-namespace:MicroERP.Presentation.WPF"
              xmlns:business="clr-namespace:MicroERP.Business.Core;assembly=MicroERP.Business.Core"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <business:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />

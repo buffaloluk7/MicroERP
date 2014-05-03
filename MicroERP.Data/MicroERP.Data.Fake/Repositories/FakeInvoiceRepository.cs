@@ -34,12 +34,16 @@ namespace MicroERP.Data.Fake.Repositories
             });
 
             this.invoices = new List<InvoiceModel>(new InvoiceModel[] {
-                new InvoiceModel(1, DateTime.Now, DateTime.Now, 1234, "Test-Kommentar", "Test-Message"),
-                new InvoiceModel(2, DateTime.Now, DateTime.Now, 1235, "Test-Kommentar", "Test-Message")
+                new InvoiceModel(1, DateTime.Now, DateTime.Now, 1234, "Test-KommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentar", "Test-Message"),
+                new InvoiceModel(2, DateTime.Now, DateTime.Now, 1235, "Test-Kommentar", "Test-MesKommentarKommentarKommentarKommentarKommentarsage"),
+                new InvoiceModel(3, DateTime.Now, DateTime.Now, 1236, "Test-KomKommentarKommentarKommentarmentar", "TesKommentarKommentarKommentart-Message"),
+                new InvoiceModel(4, DateTime.Now, DateTime.Now, 1237, "Test-Kommentar", "Test-Message")
             });
 
             this.invoices[0].CustomerID = 1;
-            this.invoices[1].CustomerID = 2;
+            this.invoices[1].CustomerID = 1;
+            this.invoices[2].CustomerID = 2;
+            this.invoices[3].CustomerID = 3;
             this.invoices[0].InvoiceItems = ii1;
             this.invoices[1].InvoiceItems = ii2;
         }
@@ -60,6 +64,14 @@ namespace MicroERP.Data.Fake.Repositories
                 invoice.ID = this.invoices.Max(i => i.ID) + 1;
                 this.invoices.Add(invoice);
                 return invoice;
+            });
+        }
+
+        public async Task<IEnumerable<InvoiceModel>> Search(int customerID, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        {
+            return await Task.Run(() =>
+            {
+                return this.invoices.Where(i => i.CustomerID == customerID);
             });
         }
 

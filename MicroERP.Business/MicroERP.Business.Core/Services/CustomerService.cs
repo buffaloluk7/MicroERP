@@ -10,7 +10,7 @@ namespace MicroERP.Business.Core.Services
 {
     public class CustomerService : ICustomerService
     {
-        #region Properties
+        #region Fields
 
         private readonly ICustomerRepository customerRepository;
 
@@ -37,7 +37,7 @@ namespace MicroERP.Business.Core.Services
             return await this.customerRepository.Create(customer);
         }
 
-        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery, bool ordered = true)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true)
         {
             if (searchQuery == null)
             {
@@ -69,7 +69,16 @@ namespace MicroERP.Business.Core.Services
             }
 
             return await this.customerRepository.Read(customerID);
+        }
 
+        public async Task<T> Read<T>(int customerID) where T : CustomerModel
+        {
+            if (customerID < 1)
+            {
+                throw new ArgumentOutOfRangeException("customerID", "customerID cannot be negative");
+            }
+
+            return await this.customerRepository.Read(customerID) as T;
         }
 
         public Task<CustomerModel> Update(CustomerModel customer)

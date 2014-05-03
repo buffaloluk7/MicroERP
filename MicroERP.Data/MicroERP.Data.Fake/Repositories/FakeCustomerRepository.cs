@@ -30,6 +30,11 @@ namespace MicroERP.Data.Fake.Repositories
             var p4 = new PersonModel(7, "Anotherstreet", "Anotherstreet 1", "Anotherstreet 2", "Dr.", "Another", "Person", "Bsc", DateTime.Now, 4);
             var p5 = new PersonModel(8, "Copy ninja street", "Copy ninja street 1", "Copy ninja street 2", "DDr.", "Copy", "Ninja", "Msc", DateTime.Now, 3);
 
+            p1.Company = c1;
+            p3.Company = c2;
+            p4.Company = c2;
+            p5.Company = c1;
+
             this.customers = new List<CustomerModel>(new CustomerModel[]
             {
                 c1, c2, c3,

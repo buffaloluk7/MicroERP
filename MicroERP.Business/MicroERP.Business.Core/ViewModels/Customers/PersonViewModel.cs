@@ -9,6 +9,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         #region Fields
 
         private readonly PersonModel person;
+        private readonly CompanyViewModel company;
 
         #endregion
 
@@ -44,6 +45,11 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             set { this.person.BirthDate = value; }
         }
 
+        public string Company
+        {
+            get { return this.company.Name; }
+        }
+
         #endregion
 
         #region Constructors
@@ -52,6 +58,8 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         {
             this.person = person;
             this.person.PropertyChanged += person_PropertyChanged;
+
+            this.company = new CompanyViewModel(this.person.Company ?? new CompanyModel());
         }
 
         #endregion

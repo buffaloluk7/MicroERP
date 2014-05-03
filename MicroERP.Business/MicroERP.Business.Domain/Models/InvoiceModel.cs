@@ -31,8 +31,8 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<int?>(ref this.id, value); }
         }
 
-        [DataMember(Name = "date")]
-        public DateTime? Date
+        [DataMember(Name = "issueDate")]
+        public DateTime? IssueDate
         {
             get { return this.issueDate; }
             set { base.Set<DateTime?>(ref this.issueDate, value); }
@@ -112,6 +112,11 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
+            if (!this.id.HasValue)
+            {
+                throw new InvalidOperationException("Hashcode cannot be calculated from an invoice without an ID");
+            }
+
             return this.id.GetHashCode();
         }
 
