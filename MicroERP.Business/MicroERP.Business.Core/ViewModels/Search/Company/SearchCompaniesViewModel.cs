@@ -43,16 +43,10 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             get { return this.selectedCompany; }
             set
             {
-                // selectedCompany is set to null, when changing the company.
-                // This will clear the companies list, which calls the SelectedCompany property.
-                // In this case, the value is set to null and we should not update the company.
-                // Unless I know how to hide the dropdown with a behaviour when a item gets selected,
-                // I will go this way. Maybe it is then possible to bind only the selectedCompany and
-                // remove the searchQuery? I dont think so, where do I store the searchQuery then?
                 if (value != null)
                 {
                     base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
-                    this.changeCompany(value == null ? null : value.Model);
+                    this.changeCompany(value);
                 }
             }
         }
@@ -86,7 +80,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
             if (this.person.Company != null)
             {
-                this.SearchQuery = this.person.Company.Name;
+                this.SearchQuery = new CompanyElementViewModel(this.person.Company).DisplayName;
             }
 
             #if DEBUG
@@ -119,12 +113,12 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
             if (companies.Count() == 1)
             {
-                this.changeCompany((companies.First() as CompanyModel));
+                var company = companies.First() as CompanyModel;
+                this.changeCompany(new CompanyElementViewModel(company));
             }
             else
             {
                 this.Companies = companies.OfType<CompanyModel>().Select(company => new CompanyElementViewModel(company));
-                this.RaisePropertyChanged(() => this.Companies);
             }
         }
 
@@ -140,11 +134,18 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         #endregion
 
-        private void changeCompany(CompanyModel company)
+        private void changeCompany(CompanyElementViewModel company)
         {
-            //this.Companies = null;
-            this.person.Company = company;
-            this.SearchQuery = (company == null) ? null : company.Name;
+            if (company == null)
+            {
+                this.person.Company = null;
+                this.SearchQuery = null;
+            }
+            else
+            {
+                this.person.Company = company.Model;
+                this.SearchQuery = company.DisplayName;
+            }
         }
     }
 }

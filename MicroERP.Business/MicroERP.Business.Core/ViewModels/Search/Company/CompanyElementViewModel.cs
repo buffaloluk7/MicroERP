@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
+using System;
 
 namespace MicroERP.Business.Core.ViewModels.Search.Company
 {
@@ -29,11 +30,20 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         public CompanyElementViewModel(CompanyModel company)
         {
+            if (company == null)
+            {
+                throw new ArgumentNullException("Company cannot be null");
+            }
+
             this.company = company;
             company.PropertyChanged += model_PropertyChanged;
         }
 
-        void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        #endregion
+
+        #region Property Changed
+
+        private void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

@@ -44,6 +44,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             set { this.person.BirthDate = value; }
         }
 
+        // Currently not in use, but maybe one day. :-)
         public CompanyViewModel Company
         {
             get;

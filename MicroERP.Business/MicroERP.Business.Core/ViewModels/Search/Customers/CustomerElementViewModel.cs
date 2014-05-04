@@ -67,7 +67,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
             model.PropertyChanged += model_PropertyChanged;
         }
 
-        void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        #endregion
+
+        #region Property Changed
+
+        private void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

@@ -61,7 +61,7 @@
         <GroupBox Height="400">
             <GroupBox.Header>
                 <TextBlock Foreground="White">
-                    <Run FontFamily="Segoe UI Symbol" Text="&#xE125;  " />
+                    <Run FontFamily="Segoe UI Symbol" Text="&#xE125; " />
                     <Run Text="{Binding Items.Count, ElementName=CustomersListBox, Mode=OneWay}" />
                     <Run Text=" TREFFER"/>
                 </TextBlock>
