@@ -114,7 +114,6 @@ namespace MicroERP.Business.Core.ViewModels
             }
 
             var person = customer as PersonModel;
-
             if (person != null && person.CompanyID.HasValue)
             {
                 person.Company = await this.customerService.Read<CompanyModel>(person.CompanyID.Value);

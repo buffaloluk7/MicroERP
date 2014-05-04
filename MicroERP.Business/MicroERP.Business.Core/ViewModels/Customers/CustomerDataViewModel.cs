@@ -75,14 +75,17 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             this.customer = customer;
             this.customerViewModel = new CustomerViewModel(customer);
 
-            if (customer is CompanyModel)
+            var company = customer as CompanyModel;
+            var person = customer as PersonModel;
+
+            if (company != null)
             {
-                this.companyViewModel = new CompanyViewModel(customer as CompanyModel);
+                this.companyViewModel = new CompanyViewModel(company);
             }
-            else if (customer is PersonModel)
+            else if (person != null)
             {
-                this.personViewModel = new PersonViewModel(customer as PersonModel);
-                this.SearchCompaniesViewModel = container.Resolve<SearchCompaniesViewModel>(new ParameterOverride("person", this.personViewModel));
+                this.personViewModel = new PersonViewModel(person);
+                this.SearchCompaniesViewModel = container.Resolve<SearchCompaniesViewModel>(new ParameterOverride("person", person));
             }
             else
             {

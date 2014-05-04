@@ -1,13 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels.Customers;
 using MicroERP.Business.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MicroERP.Business.Core.ViewModels.Search.Company
 {
@@ -15,7 +11,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
     {
         #region Fields
 
-        private readonly PersonViewModel person;
+        private readonly PersonModel person;
         private readonly ICustomerService customerService;
         private IEnumerable<CompanyElementViewModel> companies;
         private CompanyElementViewModel selectedCompany;
@@ -32,6 +28,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             {
                 base.Set<string>(ref this.searchQuery, value);
                 this.SearchCompaniesCommand.RaiseCanExecuteChanged();
+                this.RemoveFromCompanyCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -67,14 +64,17 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         #region Constructors
 
-        public SearchCompaniesViewModel(ICustomerService customerService, PersonViewModel person)
+        public SearchCompaniesViewModel(ICustomerService customerService, PersonModel person)
         {
             this.customerService = customerService;
             this.person = person;
             this.SearchCompaniesCommand = new RelayCommand(this.onSearchCompaniesExecuted, this.onSearchCompaniesCanExecute);
             this.RemoveFromCompanyCommand = new RelayCommand(this.onRemoveFromCompanyExecuted, this.onRemoveFromCompanyCanExecute);
 
-            this.SearchQuery = this.person.Company.Name;
+            if (this.person.Company != null)
+            {
+                this.SearchQuery = this.person.Company.Name;
+            }
 
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
@@ -110,7 +110,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
                 this.SearchQuery = newCompany.Name;
                 this.Companies = null;
-                this.person.Company = new CompanyViewModel(newCompany);
+                this.person.Company = newCompany;
             }
             else
             {
@@ -120,13 +120,21 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         private bool onRemoveFromCompanyCanExecute()
         {
-            return !string.IsNullOrWhiteSpace(this.searchQuery);
+            if (this.person.CompanyID.HasValue || !string.IsNullOrWhiteSpace(this.searchQuery))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void onRemoveFromCompanyExecuted()
         {
-            this.SearchQuery = null;
+            this.person.CompanyID = null;
+            this.person.Company = null;
+
             this.Companies = null;
+            this.SearchQuery = null;
         }
 
         #endregion
