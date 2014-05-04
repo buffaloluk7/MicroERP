@@ -7,11 +7,17 @@ namespace MicroERP.Business.Core.ViewModels.Customers
     {
         #region Fields
 
-        private readonly CompanyModel company;
+        internal readonly CompanyModel company;
 
         #endregion
 
         #region Properties
+
+        public int? ID
+        {
+            get { return this.company.ID; }
+            set { this.company.ID = value; }
+        }
 
         public string UID
         {
@@ -43,6 +49,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         {
             switch (e.PropertyName)
             {
+                case "ID":
                 case "UID":
                 case "Name":
                     base.RaisePropertyChanged(e.PropertyName);

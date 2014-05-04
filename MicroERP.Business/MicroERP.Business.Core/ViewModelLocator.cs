@@ -7,6 +7,7 @@ using MicroERP.Business.Core.Services;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels;
 using MicroERP.Business.Core.ViewModels.Customers;
+using MicroERP.Business.Core.ViewModels.Search.Company;
 using MicroERP.Business.Core.ViewModels.Search.Customers;
 using MicroERP.Business.Core.ViewModels.Search.Invoices;
 using MicroERP.Business.Domain.Repositories;
@@ -63,6 +64,7 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<CustomerWindowViewModel>();
             this.container.RegisterType<SearchCustomersViewModel>();
+            this.container.RegisterType<SearchCompaniesViewModel>();
             this.container.RegisterType<SearchInvoicesViewModel>();
             this.container.RegisterType<CustomerDataViewModel>();
         }

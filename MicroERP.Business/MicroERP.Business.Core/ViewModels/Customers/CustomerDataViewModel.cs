@@ -2,8 +2,10 @@
 using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Core.ViewModels.Search.Company;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
+using Microsoft.Practices.Unity;
 using System;
 
 namespace MicroERP.Business.Core.ViewModels.Customers
@@ -44,6 +46,12 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             get { return this.personViewModel; }
         }
 
+        public SearchCompaniesViewModel SearchCompaniesViewModel
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Commands
@@ -58,7 +66,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         #region Constructors
 
-        public CustomerDataViewModel(ICustomerService customerService, INotificationService notificationService, CustomerModel customer)
+        public CustomerDataViewModel(IUnityContainer container, ICustomerService customerService, INotificationService notificationService, CustomerModel customer)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
@@ -74,6 +82,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             else if (customer is PersonModel)
             {
                 this.personViewModel = new PersonViewModel(customer as PersonModel);
+                this.SearchCompaniesViewModel = container.Resolve<SearchCompaniesViewModel>(new ParameterOverride("person", this.personViewModel));
             }
             else
             {

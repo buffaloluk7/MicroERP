@@ -8,7 +8,7 @@ namespace MicroERP.Business.Core.Services.Interfaces
     {
         Task<int> Create(CustomerModel customer);
 
-        Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true);
+        Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, bool companiesOnly = false);
 
         Task<CustomerModel> Read(int customerID);
 

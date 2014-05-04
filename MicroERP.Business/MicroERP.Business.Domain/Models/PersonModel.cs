@@ -66,7 +66,15 @@ namespace MicroERP.Business.Domain.Models
         public CompanyModel Company
         {
             get { return this.company; }
-            set { base.Set<CompanyModel>(ref this.company, value); }
+            set
+            {
+                base.Set<CompanyModel>(ref this.company, value);
+                
+                if (this.company != null)
+                {
+                    this.CompanyID = this.company.ID.Value;
+                }
+            }
         }
 
         #endregion

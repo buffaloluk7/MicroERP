@@ -9,7 +9,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         #region Fields
 
         private readonly PersonModel person;
-        private readonly CompanyViewModel company;
+        private CompanyViewModel company;
 
         #endregion
 
@@ -45,9 +45,14 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             set { this.person.BirthDate = value; }
         }
 
-        public string Company
+        public CompanyViewModel Company
         {
-            get { return this.company.Name; }
+            get { return this.company; }
+            set
+            {
+                base.Set<CompanyViewModel>(ref this.company, value);
+                this.person.Company = value.company;
+            }
         }
 
         #endregion
@@ -60,6 +65,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             this.person.PropertyChanged += person_PropertyChanged;
 
             this.company = new CompanyViewModel(this.person.Company ?? new CompanyModel());
+            this.RaisePropertyChanged(() => this.Company);
         }
 
         #endregion
@@ -75,6 +81,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
                 case "LastName":
                 case "Suffix":
                 case "BirthDate":
+                case "Company":
                     base.RaisePropertyChanged(e.PropertyName);
                     break;
             }

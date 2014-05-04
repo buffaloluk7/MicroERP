@@ -63,6 +63,8 @@
     <Compile Include="ViewModels\Customers\CustomerViewModel.cs" />
     <Compile Include="ViewModels\Customers\PersonViewModel.cs" />
     <Compile Include="ViewModels\CustomerWindowViewModel.cs" />
+    <Compile Include="ViewModels\Search\Company\CompanyElementViewModel.cs" />
+    <Compile Include="ViewModels\Search\Company\SearchCompaniesViewModel.cs" />
     <Compile Include="ViewModels\Search\Customers\CustomerElementViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Search\Customers\SearchCustomersViewModel.cs" />

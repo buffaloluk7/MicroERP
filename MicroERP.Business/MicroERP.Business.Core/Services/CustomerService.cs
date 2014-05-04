@@ -37,7 +37,7 @@ namespace MicroERP.Business.Core.Services
             return await this.customerRepository.Create(customer);
         }
 
-        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, bool companiesOnly = false)
         {
             if (searchQuery == null)
             {
@@ -51,11 +51,15 @@ namespace MicroERP.Business.Core.Services
 
             var customers = await this.customerRepository.Read(searchQuery);
 
-            if (ordered)
+            if (ordered && !companiesOnly)
             {
                 var persons = customers.OfType<PersonModel>().OrderBy(c => c.LastName + c.FirstName);
                 var companies = customers.OfType<CompanyModel>().OrderBy(c => c.Name);
                 customers = persons.Concat<CustomerModel>(companies);
+            }
+            else if (companiesOnly)
+            {
+                customers = customers.OfType<CompanyModel>();
             }
 
             return customers;
