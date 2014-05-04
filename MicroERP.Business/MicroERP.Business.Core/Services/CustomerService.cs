@@ -1,4 +1,5 @@
 ﻿using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using System;
@@ -37,7 +38,7 @@ namespace MicroERP.Business.Core.Services
             return await this.customerRepository.Create(customer);
         }
 
-        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, bool companiesOnly = false)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None)
         {
             if (searchQuery == null)
             {
@@ -49,17 +50,13 @@ namespace MicroERP.Business.Core.Services
                 throw new ArgumentOutOfRangeException("searchQuery");
             }
 
-            var customers = await this.customerRepository.Read(searchQuery);
+            var customers = await this.customerRepository.Read(searchQuery, customerType);
 
-            if (ordered && !companiesOnly)
+            if (ordered)
             {
                 var persons = customers.OfType<PersonModel>().OrderBy(c => c.LastName + c.FirstName);
                 var companies = customers.OfType<CompanyModel>().OrderBy(c => c.Name);
                 customers = persons.Concat<CustomerModel>(companies);
-            }
-            else if (companiesOnly)
-            {
-                customers = customers.OfType<CompanyModel>();
             }
 
             return customers;

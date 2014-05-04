@@ -1,4 +1,5 @@
-﻿using MicroERP.Business.Domain.Models;
+﻿using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace MicroERP.Business.Core.Services.Interfaces
     {
         Task<int> Create(CustomerModel customer);
 
-        Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, bool companiesOnly = false);
+        Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None);
 
         Task<CustomerModel> Read(int customerID);
 

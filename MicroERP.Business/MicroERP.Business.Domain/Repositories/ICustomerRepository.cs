@@ -1,4 +1,5 @@
-﻿using MicroERP.Business.Domain.Models;
+﻿using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace MicroERP.Business.Domain.Repositories
     {
         Task<int> Create(CustomerModel customer);
 
-        Task<IEnumerable<CustomerModel>> Read(string searchQuery);
+        Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None);
 
         Task<CustomerModel> Read(int customerID);
 

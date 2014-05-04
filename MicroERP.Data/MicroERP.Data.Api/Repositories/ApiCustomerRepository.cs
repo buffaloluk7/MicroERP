@@ -1,5 +1,6 @@
 ﻿using Luvi.Http.Extension;
 using Luvi.Json.Converter;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
@@ -18,6 +19,15 @@ namespace MicroERP.Data.Api.Repositories
         #region Fields
 
         private string url;
+
+        #endregion
+
+        #region Constructors
+
+        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration)
+        {
+            this.url = this.ConnectionString + "customer";
+        }
 
         #endregion
 
@@ -47,8 +57,13 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery)
+        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None)
         {
+            if (customerType == CustomerType.Company)
+            {
+                searchQuery += "&type=company";
+            }
+
             string url = string.Format("{0}?q={1}", this.url, searchQuery);
             var response = await this.request.Get(url);
 
@@ -138,15 +153,6 @@ namespace MicroERP.Data.Api.Repositories
                 default:
                     throw new BadResponseException(response.StatusCode);
             }
-        }
-
-        #endregion
-
-        #region Constructors
-
-        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration)
-        {
-            this.url = this.ConnectionString + "customers";
         }
 
         #endregion

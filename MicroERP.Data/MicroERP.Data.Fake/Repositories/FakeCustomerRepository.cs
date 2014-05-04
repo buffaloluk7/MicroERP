@@ -1,4 +1,5 @@
-﻿using MicroERP.Business.Domain.Exceptions;
+﻿using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using System;
@@ -61,16 +62,29 @@ namespace MicroERP.Data.Fake.Repositories
             });
         }
 
-        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery)
+        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None)
         {
             return await Task.Run(() =>
             {
                 searchQuery = searchQuery.ToLower();
 
-                var persons = this.customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                var companies = this.customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                switch (customerType)
+                {
+                    case CustomerType.None:
+                        var persons = this.customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        var companies = this.customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
-                return persons.Concat<CustomerModel>(companies);
+                        return persons.Concat<CustomerModel>(companies);
+
+                    case CustomerType.Company:
+                        return this.customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+
+                    case CustomerType.Person:
+                        return this.customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+
+                    default:
+                        throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
+                }
             });
         }
 

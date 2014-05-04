@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,7 +110,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         private async void onSearchCompaniesExecuted()
         {
-            var companies = await this.customerService.Search(this.searchQuery, false, true);
+            var companies = await this.customerService.Search(this.searchQuery, false, CustomerType.Company);
 
             if (companies.Count() == 1)
             {
