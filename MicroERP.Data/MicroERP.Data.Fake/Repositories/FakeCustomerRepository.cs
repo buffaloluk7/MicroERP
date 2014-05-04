@@ -112,6 +112,16 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (customer != null)
                 {
+                    if (customer is CompanyModel)
+                    {
+                        var employees = this.customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
+                        
+                        foreach (var employee in employees)
+                        {
+                            employee.Company = null;
+                        }
+                    }
+
                     return this.customers.Remove(customer);
                 }
 

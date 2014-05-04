@@ -107,7 +107,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                customer = await this.customerService.Read(this.searchCustomersViewModel.SelectedCustomer.model.ID.Value);
+                customer = await this.customerService.Read(this.searchCustomersViewModel.SelectedCustomer.customer.ID.Value);
             }
             catch (CustomerNotFoundException)
             {
@@ -129,7 +129,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                await this.customerService.Delete(customer.model.ID.Value);
+                await this.customerService.Delete(customer.customer.ID.Value);
             }
             catch (CustomerNotFoundException)
             {

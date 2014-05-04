@@ -1,7 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
-using System;
 
 namespace MicroERP.Business.Core.ViewModels.Search.Company
 {
@@ -9,15 +7,20 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
     {
         #region Fields
 
-        internal readonly CompanyModel company;
+        private readonly CompanyModel company;
 
         #endregion
 
         #region Properties
 
-        public string Name
+        public string DisplayName
         {
             get { return this.company != null ? this.company.Name : ""; }
+        }
+
+        internal CompanyModel Model
+        {
+            get { return this.company; }
         }
 
         #endregion
@@ -35,7 +38,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             switch (e.PropertyName)
             {
                 case "Name":
-                    base.RaisePropertyChanged(() => this.Name);
+                    base.RaisePropertyChanged(() => this.DisplayName);
                     break;
             }
         }

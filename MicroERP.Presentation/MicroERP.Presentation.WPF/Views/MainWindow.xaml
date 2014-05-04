@@ -6,6 +6,7 @@
  xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
  xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
  x:Class="MicroERP.Presentation.Views.MainWindow"
+ x:Name="Window"
  Title="MicroERP"
  Width="640"
  SizeToContent="Height"
@@ -60,17 +61,15 @@
         <GroupBox Height="400">
             <GroupBox.Header>
                 <TextBlock Foreground="White">
-                    <Run FontFamily="Segoe UI Symbol" Text="&#xE125; " />
-                    <Run Text=" "/><Run Text="{Binding Items.Count, ElementName=CustomersListBox, Mode=OneWay}" />
+                    <Run FontFamily="Segoe UI Symbol" Text="&#xE125;  " />
+                    <Run Text="{Binding Items.Count, ElementName=CustomersListBox, Mode=OneWay}" />
                     <Run Text=" TREFFER"/>
                 </TextBlock>
             </GroupBox.Header>
             <ListBox x:Name="CustomersListBox" DataContext="{Binding SearchCustomersViewModel}" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonDown">
-                        <ei:ChangePropertyAction PropertyName="SelectedItem" Value="{x:Null}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <ListBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding DataContext.EditCustomerCommand, ElementName=Window}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" />
+                </ListBox.InputBindings>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -88,7 +87,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Text="{Binding FullName}" Margin="6,0,0,0" />
+                            <TextBlock Text="{Binding DisplayName}" Margin="6,0,0,0" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

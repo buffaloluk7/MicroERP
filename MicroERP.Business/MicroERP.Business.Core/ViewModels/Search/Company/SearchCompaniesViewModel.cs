@@ -41,7 +41,20 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
         public CompanyElementViewModel SelectedCompany
         {
             get { return this.selectedCompany; }
-            set { base.Set<CompanyElementViewModel>(ref this.selectedCompany, value); }
+            set
+            {
+                // selectedCompany is set to null, when changing the company.
+                // This will clear the companies list, which calls the SelectedCompany property.
+                // In this case, the value is set to null and we should not update the company.
+                // Unless I know how to hide the dropdown with a behaviour when a item gets selected,
+                // I will go this way. Maybe it is then possible to bind only the selectedCompany and
+                // remove the searchQuery? I dont think so, where do I store the searchQuery then?
+                if (value != null)
+                {
+                    base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
+                    this.changeCompany(value == null ? null : value.Model);
+                }
+            }
         }
 
         #endregion
@@ -106,37 +119,32 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
             if (companies.Count() == 1)
             {
-                var newCompany = (companies.First() as CompanyModel);
-
-                this.SearchQuery = newCompany.Name;
-                this.Companies = null;
-                this.person.Company = newCompany;
+                this.changeCompany((companies.First() as CompanyModel));
             }
             else
             {
                 this.Companies = companies.OfType<CompanyModel>().Select(company => new CompanyElementViewModel(company));
+                this.RaisePropertyChanged(() => this.Companies);
             }
         }
 
         private bool onRemoveFromCompanyCanExecute()
         {
-            if (this.person.CompanyID.HasValue || !string.IsNullOrWhiteSpace(this.searchQuery))
-            {
-                return true;
-            }
-
-            return false;
+            return this.person.CompanyID.HasValue;
         }
 
         private void onRemoveFromCompanyExecuted()
         {
-            this.person.CompanyID = null;
-            this.person.Company = null;
-
-            this.Companies = null;
-            this.SearchQuery = null;
+            this.changeCompany(null);
         }
 
         #endregion
+
+        private void changeCompany(CompanyModel company)
+        {
+            //this.Companies = null;
+            this.person.Company = company;
+            this.SearchQuery = (company == null) ? null : company.Name;
+        }
     }
 }

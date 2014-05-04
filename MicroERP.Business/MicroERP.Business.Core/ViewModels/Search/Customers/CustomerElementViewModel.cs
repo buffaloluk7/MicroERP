@@ -9,23 +9,23 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
     {
         #region Fields
 
-        internal readonly CustomerModel model;
+        internal readonly CustomerModel customer;
 
         #endregion
 
         #region Properties
 
-        public string FullName
+        public string DisplayName
         {
             get
             {
-                var person = this.model as PersonModel;
+                var person = this.customer as PersonModel;
                 if (person != null)
                 {
                     return string.Format("{0} {1}", person.FirstName, person.LastName);
                 }
 
-                var company = this.model as CompanyModel;
+                var company = this.customer as CompanyModel;
                 if (company != null)
                 {
                     return company.Name;
@@ -39,11 +39,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
         {
             get
             {
-                if (this.model is PersonModel)
+                if (this.customer is PersonModel)
                 {
                     return CustomerType.Person;
                 }
-                else if (this.model is CompanyModel)
+                else if (this.customer is CompanyModel)
                 {
                     return CustomerType.Company;
                 }
@@ -63,7 +63,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
                 throw new ArgumentNullException("Model cannot be null");
             }
 
-            this.model = model;
+            this.customer = model;
             model.PropertyChanged += model_PropertyChanged;
         }
 
@@ -74,7 +74,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
                 case "FirstName":
                 case "LastName":
                 case "Name":
-                    base.RaisePropertyChanged(() => this.FullName);
+                    base.RaisePropertyChanged(() => this.DisplayName);
                     break;
             }
         }

@@ -69,11 +69,7 @@ namespace MicroERP.Business.Domain.Models
             set
             {
                 base.Set<CompanyModel>(ref this.company, value);
-                
-                if (this.company != null)
-                {
-                    this.CompanyID = this.company.ID.Value;
-                }
+                this.CompanyID = (value != null) ? value.ID : null;
             }
         }
 

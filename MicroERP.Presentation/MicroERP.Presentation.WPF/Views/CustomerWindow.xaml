@@ -53,7 +53,7 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
-            <VisualStateGroup x:Name="SearchInvoiceElementsGroup">
+            <VisualStateGroup x:Name="SearchInvoicesElementsGroup">
             	<VisualState x:Name="InvoiceListBoxEmpty">
             		<Storyboard>
             			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="InvoicesListBox">
@@ -68,6 +68,22 @@
             			</ObjectAnimationUsingKeyFrames>
             		</Storyboard>
             	</VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="SearchCompaniesElementsGroup">
+            	<VisualState x:Name="CompanyComboBoxEmpty">
+            		<Storyboard>
+            			<BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="companiesComboBox">
+            				<DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+            			</BooleanAnimationUsingKeyFrames>
+            		</Storyboard>
+            	</VisualState>
+                <VisualState x:Name="CompanyComboBoxFilled">
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="companiesComboBox">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
@@ -137,35 +153,25 @@
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                
-                                <TextBox Grid.Column="0" x:Name="SearchCompanyTextBox" Margin="0,0,8,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="GotFocus">
-                                            <ei:CallMethodAction MethodName="SelectAll"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <TextBox.InputBindings>
+
+                                <ComboBox x:Name="companiesComboBox"
+                                          IsEditable="True"
+                                          IsDropDownOpen="False"
+                                          ItemsSource="{Binding Companies}"
+                                          SelectedItem="{Binding SelectedCompany}"
+                                          DisplayMemberPath="DisplayName"
+                                          Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Margin="0,0,8,0">
+                                	<i:Interaction.Behaviors>
+                                		<ei:DataStateBehavior Binding="{Binding Companies}" Value="{x:Null}" TrueState="CompanyComboBoxEmpty" FalseState="CompanyComboBoxFilled"/>
+                                	</i:Interaction.Behaviors>
+                                    <ComboBox.InputBindings>
                                         <KeyBinding Key="Return" Command="{Binding SearchCompaniesCommand, Mode=TwoWay}" />
-                                    </TextBox.InputBindings>
-                                </TextBox>
+                                    </ComboBox.InputBindings>
+                                </ComboBox>
 
                                 <Button FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="1" HorizontalAlignment="Right" Margin="-4,0,4,0" Padding="7,2" Command="{Binding SearchCompaniesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
                                 <Button FontFamily="Segoe UI Symbol" Content="&#xE107;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding RemoveFromCompanyCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
-
-                                <ListBox VerticalAlignment="Top" Grid.Row="1" ItemsSource="{Binding Companies}" Margin="0,0,8,0">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                                            <ei:ChangePropertyAction PropertyName="SelectedItem" Value="{x:Null}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
                             </Grid>
 
                         </Grid>
