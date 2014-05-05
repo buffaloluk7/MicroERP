@@ -86,7 +86,6 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
         private async void onSearchCustomersExecuted()
         {
             var customers = await this.customerService.Search(this.SearchQuery);
-
             this.Customers = customers.Select(customer => new CustomerElementViewModel(customer));
         }
 

@@ -8,6 +8,7 @@ using MicroERP.Data.Api.Exceptions;
 using MicroERP.Presentation.Views;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 
 namespace MicroERP.Presentation
@@ -53,8 +54,9 @@ namespace MicroERP.Presentation
                 {
                     Application.Current.Shutdown();
                 }
-
             }
+
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "\\microerp.log", e.Exception.StackTrace);
         }
 
         #endregion
