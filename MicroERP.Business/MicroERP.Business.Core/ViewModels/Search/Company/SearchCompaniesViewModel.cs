@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -44,11 +45,8 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             get { return this.selectedCompany; }
             set
             {
-                if (value != null)
-                {
-                    base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
-                    this.changeCompany(value);
-                }
+                base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
+                this.changeCompany(value);
             }
         }
 
@@ -74,6 +72,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         public SearchCompaniesViewModel(ICustomerService customerService, PersonModel person)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException("person");
+            }
+
             this.customerService = customerService;
             this.person = person;
             this.SearchCompaniesCommand = new RelayCommand(this.onSearchCompaniesExecuted, this.onSearchCompaniesCanExecute);
@@ -135,6 +138,8 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         #endregion
 
+        #region Change Company
+
         private void changeCompany(CompanyElementViewModel company)
         {
             if (company == null)
@@ -148,5 +153,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
                 this.SearchQuery = company.DisplayName;
             }
         }
+
+        #endregion
     }
 }

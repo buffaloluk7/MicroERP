@@ -70,21 +70,17 @@ namespace MicroERP.Data.Api.Repositories
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Dictionary<string, Type> knownTypes = new Dictionary<string, Type>();
-                knownTypes.Add("Person", typeof(PersonModel));
-                knownTypes.Add("Company", typeof(CompanyModel));
-
-                var jsonKnownTypeConverter = new JsonKnownTypeConverter<CustomerModel>(knownTypes);
-                var jsonSerializerSettings = new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Objects
-                };
-                jsonSerializerSettings.Converters.Add(jsonKnownTypeConverter);
-
                 // Ernsthaft, Thomas?
-                var json = await response.Content.ReadAsObjectAsync<JsonWrapperGeneric<IEnumerable<CustomerModel>>>(jsonSerializerSettings);
-                return json.List;
+                var wrapper = await response.Content.ReadAsObjectAsync<JsonWrapperGeneric<IEnumerable<CustomerModel>>>(base.jsonSettings);
+                return wrapper.List;
 
+                // Viel zu lang und unschön
+                //var anonymousType = new { list = (IEnumerable<CustomerModel>)(new CustomerModel[] { }) };
+                //var jsonString = await response.Content.ReadAsStringAsync();
+                //JsonConvert.DeserializeAnonymousType(jsonString, anonymousType);
+                //return anonymousType.list;
+
+                // Ohne root-type name
                 //return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(jsonSerializerSettings);
             }
 
