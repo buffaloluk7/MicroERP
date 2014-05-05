@@ -36,8 +36,7 @@ namespace MicroERP.Presentation
 
             if (MessageBox.Show(errorMessage, "Application Error", MessageBoxButton.YesNoCancel, MessageBoxImage.Error) == MessageBoxResult.No)
             {
-                    Application.Current.Shutdown();
-                }
+                Application.Current.Shutdown();
             }
         }
 
