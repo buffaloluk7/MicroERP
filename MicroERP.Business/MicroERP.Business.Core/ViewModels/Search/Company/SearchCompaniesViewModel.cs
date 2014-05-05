@@ -46,7 +46,8 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             set
             {
                 base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
-                this.changeCompany(value);
+                this.person.Company = value != null ? value.Model : null;
+                this.SearchQuery = value != null ? value.DisplayName : null;
             }
         }
 
@@ -118,11 +119,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             if (companies.Count() == 1)
             {
                 var company = companies.First() as CompanyModel;
-                this.changeCompany(new CompanyElementViewModel(company));
+                this.SelectedCompany = new CompanyElementViewModel(company);
             }
             else
             {
-                this.Companies = companies.OfType<CompanyModel>().Select(company => new CompanyElementViewModel(company));
+                this.Companies = companies.OfType<CompanyModel>().Select(c => new CompanyElementViewModel(c));
             }
         }
 
@@ -133,25 +134,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         private void onRemoveFromCompanyExecuted()
         {
-            this.changeCompany(null);
-        }
-
-        #endregion
-
-        #region Change Company
-
-        private void changeCompany(CompanyElementViewModel company)
-        {
-            if (company == null)
-            {
-                this.person.Company = null;
-                this.SearchQuery = null;
-            }
-            else
-            {
-                this.person.Company = company.Model;
-                this.SearchQuery = company.DisplayName;
-            }
+            this.SelectedCompany = null;
         }
 
         #endregion

@@ -38,8 +38,8 @@ namespace MicroERP.Data.Api.Repositories
             this.configuration = configuration;
 
             this.knownTypes = new Dictionary<string, Type>();
-            this.knownTypes.Add("Person", typeof(PersonModel));
-            this.knownTypes.Add("Company", typeof(CompanyModel));
+            this.knownTypes.Add("person", typeof(PersonModel));
+            this.knownTypes.Add("company", typeof(CompanyModel));
 
             this.jsonSettings = new JsonSerializerSettings()
             {

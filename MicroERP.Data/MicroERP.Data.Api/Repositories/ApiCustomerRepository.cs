@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MicroERP.Data.Api.Wrapper;
+using System.Net.Http;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -27,7 +28,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration)
         {
-            this.url = this.ConnectionString + "customer";
+            this.url = this.ConnectionString + "customers";
         }
 
         #endregion

@@ -34,6 +34,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DEBUG API|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DEBUG API\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Configuration\ApiConfiguration.cs" />
     <Compile Include="Configuration\Interfaces\IApiConfiguration.cs" />
@@ -41,7 +50,6 @@
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\EmbeddedSensorCloudException.cs" />
     <Compile Include="Exceptions\FaultyMessageException.cs" />
-    <Compile Include="Exceptions\ServerNotAvailableException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApiInvoiceRepository.cs" />
     <Compile Include="Repositories\ApiRepositoryBase.cs" />
