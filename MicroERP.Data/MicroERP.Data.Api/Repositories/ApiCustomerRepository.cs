@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using MicroERP.Data.Api.Wrapper;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -80,7 +81,11 @@ namespace MicroERP.Data.Api.Repositories
                 };
                 jsonSerializerSettings.Converters.Add(jsonKnownTypeConverter);
 
-                return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(jsonSerializerSettings);
+                // Ernsthaft, Thomas?
+                var json = await response.Content.ReadAsObjectAsync<JsonWrapperGeneric<IEnumerable<CustomerModel>>>(jsonSerializerSettings);
+                return json.List;
+
+                //return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(jsonSerializerSettings);
             }
 
             throw new BadResponseException(response.StatusCode);
