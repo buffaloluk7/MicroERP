@@ -14,7 +14,7 @@ namespace MicroERP.Business.Core.Factories
             #if (API || !DEBUG)
 
             IApiConfiguration local = new ApiConfiguration("127.0.0.1", 8000, "http", "microerp/");
-            IApiConfiguration remote = new ApiConfiguration("10.201.70.146", 8080, "http", "microerp/");
+            IApiConfiguration remote = new ApiConfiguration("lukas.cc", 80, "http", "microerp/");
             IApiConfiguration activeConfiguration = remote;
 
             return new Tuple<ICustomerRepository,IInvoiceRepository>

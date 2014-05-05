@@ -190,6 +190,10 @@
       <Project>{da03cdeb-ba42-446d-8610-2244ac85f8c3}</Project>
       <Name>MicroERP.Business.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MicroERP.Data\MicroERP.Data.Api\MicroERP.Data.Api.csproj">
+      <Project>{1f7f20bc-7a77-4be9-9461-dc2e9363cbb6}</Project>
+      <Name>MicroERP.Data.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">

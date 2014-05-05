@@ -136,7 +136,7 @@ namespace MicroERP.Business.Domain.Models
                 other.comment == this.comment &&
                 other.message == this.message &&
                 other.customer == this.customer &&
-                other.invoiceItems == this.invoiceItems;
+                object.Equals(this.invoiceItems, other.invoiceItems);
         }
 
         #endregion

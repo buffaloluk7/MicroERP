@@ -112,7 +112,7 @@ namespace MicroERP.Business.Domain.Models
                 other.lastName == this.lastName &&
                 other.suffix == this.suffix &&
                 other.birthDate == this.birthDate &&
-                other.company == this.company;
+                object.Equals(this.company, other.company);
         }
 
         #endregion

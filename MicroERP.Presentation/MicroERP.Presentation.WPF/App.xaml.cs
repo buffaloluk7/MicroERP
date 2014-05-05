@@ -1,8 +1,10 @@
-﻿using Luvi.WPF.Service.Browsing;
+﻿using Luvi.Http.Exception;
+using Luvi.WPF.Service.Browsing;
 using Luvi.WPF.Service.Navigation;
 using Luvi.WPF.Service.Notification;
 using MicroERP.Business.Core;
 using MicroERP.Business.Core.ViewModels;
+using MicroERP.Data.Api.Exceptions;
 using MicroERP.Presentation.Views;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace MicroERP.Presentation
 
         public App()
         {
-            this.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+            this.DispatcherUnhandledException += Dispatcher_UnhandledException;
             this.Navigating += App_Navigating;
         }
 
@@ -29,14 +31,29 @@ namespace MicroERP.Presentation
 
         private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
-            string errorMessage = string.Format("An application error occurred.\n\nError message: {0}\n{1}\nDo you want to continue?",
-                                                 e.Exception.Message,
-                                                 (e.Exception.InnerException != null) ? e.Exception.InnerException.Message : null);
-
-            if (MessageBox.Show(errorMessage, "Application Error", MessageBoxButton.YesNoCancel, MessageBoxImage.Error) == MessageBoxResult.No)
+            Dictionary<Type, Func<Exception, string>> knownExceptions = new Dictionary<Type, Func<Exception, string>>
             {
-                Application.Current.Shutdown();
+                { typeof(ServerNotAvailableException), (ex) => {return "Server not available.";} },
+                { typeof(FaultyMessageException), (ex) => {return "Server message could not be parsed:\n\n" + ex.Message;} },
+                { typeof(BadResponseException), (ex) => {return "Server response sent unexpected HttpStatusCode:\n" + (ex as BadResponseException).StatusCode;} }
+            };
+
+            var exceptionType = e.Exception.GetType();
+            if (knownExceptions.ContainsKey(exceptionType))
+            {
+                e.Handled = true;
+
+                string customMessage = knownExceptions[exceptionType](e.Exception);
+                string errorMessage = string.Format("An application error occured.\n\nCustom message:\n{0}\n\nError message:\n{1}\n\nFurther information:\n{2}\n\nDo you want to continue?",
+                                                    customMessage,
+                                                    e.Exception.Message,
+                                                    (e.Exception.InnerException != null) ? e.Exception.InnerException.Message : null);
+                
+                if (MessageBox.Show(errorMessage, "Application Error", MessageBoxButton.YesNoCancel, MessageBoxImage.Error) == MessageBoxResult.No)
+                {
+                    Application.Current.Shutdown();
+                }
+
             }
         }
 
