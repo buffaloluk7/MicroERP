@@ -14,7 +14,7 @@ namespace MicroERP.Business.Core.Factories
 
         public static ICustomerRepository CreateCustomerRepository()
         {
-            #if !DEBUG
+            #if DEBUG
                 return new FakeCustomerRepository();
             #else
                 return new ApiCustomerRepository(activeConfiguration);
@@ -23,7 +23,7 @@ namespace MicroERP.Business.Core.Factories
 
         public static IInvoiceRepository CreateInvoiceRepository()
         {
-            #if !DEBUG
+            #if DEBUG
                 return new FakeInvoiceRepository();
             #else
                 return new ApiInvoiceRepository(activeConfiguration);

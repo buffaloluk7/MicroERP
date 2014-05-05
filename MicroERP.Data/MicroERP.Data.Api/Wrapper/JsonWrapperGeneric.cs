@@ -18,7 +18,7 @@ namespace MicroERP.Data.Api.Wrapper
 
         #region Constructors
 
-        public GenericWrapper(T list)
+        public JsonWrapperGeneric(T list)
         {
             this.List = list;
         }
