@@ -11,7 +11,7 @@ namespace MicroERP.Business.Core.Factories
         #region Fields
 
         private static readonly IApiConfiguration local = new ApiConfiguration("127.0.0.1", 8000, "http", "microerp/");
-        private static readonly IApiConfiguration remote = new ApiConfiguration("10.201.94.236", 8000, "http", "microerp/");
+        private static readonly IApiConfiguration remote = new ApiConfiguration("10.201.70.146", 8080, "http", "microerp/");
         private static readonly IApiConfiguration activeConfiguration = RepositoryFactory.remote;
 
         #endregion

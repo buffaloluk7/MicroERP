@@ -52,7 +52,7 @@ namespace MicroERP.Data.Api.Repositories
             this.request = new RESTRequest()
             {
                 Timeout = new TimeSpan(0, 0, 15),
-                UseTransferEncodingChunked = true,
+                UseTransferEncodingChunked = false,
                 SerializationSettings = this.jsonSettings
             };
         }

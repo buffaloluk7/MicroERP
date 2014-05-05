@@ -1,18 +1,15 @@
 ﻿using Luvi.Http.Extension;
-using Luvi.Json.Converter;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
+using MicroERP.Data.Api.Wrapper;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using MicroERP.Data.Api.Wrapper;
-using System.Net.Http;
 
 namespace MicroERP.Data.Api.Repositories
 {

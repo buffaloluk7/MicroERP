@@ -104,30 +104,30 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             return true;
         }
 
-        private void onSaveCustomerExecuted()
+        private async void onSaveCustomerExecuted()
         {
             try
             {
                 if (this.customer.ID.HasValue)
                 {
-                    this.customerService.Update(this.customer);
-                    this.notificationService.ShowAsync("Kunde erfolgreich aktualisiert.", "Kunde bearbeitet");
+                    await this.customerService.Update(this.customer);
+                    await this.notificationService.ShowAsync("Kunde erfolgreich aktualisiert.", "Kunde bearbeitet");
                 }
                 else
                 {
-                    this.customerService.Create(this.customer);
-                    this.notificationService.ShowAsync("Kunde erfolgreich erstellt. Sie können nun Rechnungen für diesen Kunden ausstellen.", "Kunde erstellt");
+                    await this.customerService.Create(this.customer);
+                    await this.notificationService.ShowAsync("Kunde erfolgreich erstellt. Sie können nun Rechnungen für diesen Kunden ausstellen.", "Kunde erstellt");
                 }
 
                 this.RaisePropertyChanged(() => this.IsCreating);
             }
             catch (CustomerAlreadyExistsException)
             {
-                this.notificationService.ShowAsync("Kunde existiert bereits.", "Fehler");
+                var x = this.notificationService.ShowAsync("Kunde existiert bereits.", "Fehler");
             }
             catch (CustomerNotFoundException)
             {
-                this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
+                var x = this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
             }
         }
 

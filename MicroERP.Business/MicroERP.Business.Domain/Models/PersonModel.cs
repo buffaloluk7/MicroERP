@@ -79,14 +79,14 @@ namespace MicroERP.Business.Domain.Models
 
         public PersonModel() { }
 
-        public PersonModel(int? id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime? birthDate, int? companyID = null) : base(id, address, billingAddress, shippingAddress)
+        public PersonModel(int? id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime? birthDate, CompanyModel company = null) : base(id, address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;
             this.lastName = lastName;
             this.suffix = suffix;
             this.birthDate = birthDate;
-            this.companyID = companyID;
+            this.Company = company;
         }
 
         #endregion

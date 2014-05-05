@@ -11,53 +11,19 @@ namespace MicroERP.Data.Fake.Repositories
 {
     public class FakeCustomerRepository : ICustomerRepository
     {
-        #region Fields
-
-        private readonly List<CustomerModel> customers;
-
-        #endregion Properties
-
-        #region Constructors
-
-        public FakeCustomerRepository()
-        {
-            var c1 = new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
-            var c2 = new CompanyModel(4, "Simonweg", "Simonweg 1", "Simonweg 2", "Simon GmbH", "0123456789");
-            var c3 = new CompanyModel(5, "Thomasweg", "Thomasweg 1", "Thomasweg 2", "Thomas GmbH", "6543217890");
-
-            var p1 = new PersonModel(1, "Wehlistraße", "Wehlistraße 1", "Wehlistraße 2", "Dr", "Thomas", "Eizinger", "Bsc", DateTime.Now, 3);
-            var p2 = new PersonModel(2, "Lukasweg", "Lukasweg 1", "Lukasweg 2", "Dr", "Lukas", "Streiter", "Msc", DateTime.Now);
-            var p3 = new PersonModel(6, "Wehlistraße", "Wehlistraße 1", "Wehlistraße 2", "Dr.", "Viktor", "Hofinger", "Bsc", DateTime.Now, 4);
-            var p4 = new PersonModel(7, "Anotherstreet", "Anotherstreet 1", "Anotherstreet 2", "Dr.", "Another", "Person", "Bsc", DateTime.Now, 4);
-            var p5 = new PersonModel(8, "Copy ninja street", "Copy ninja street 1", "Copy ninja street 2", "DDr.", "Copy", "Ninja", "Msc", DateTime.Now, 3);
-
-            p1.Company = c1;
-            p3.Company = c2;
-            p4.Company = c2;
-            p5.Company = c1;
-
-            this.customers = new List<CustomerModel>(new CustomerModel[]
-            {
-                c1, c2, c3,
-                p1, p2, p3, p4, p5
-            });
-        }
-
-        #endregion
-
         #region ICustomerRepository
 
         public async Task<int> Create(CustomerModel customer)
         {
             return await Task.Run(() => 
             {
-                if (this.customers.Any(c => c.Equals(customer)))
+                if (FakeData.Instance.Customers.Any(c => c.Equals(customer)))
                 {
                     throw new CustomerAlreadyExistsException(customer);
                 }
 
-                customer.ID = this.customers.Max(i => i.ID) + 1;
-                this.customers.Add(customer);
+                customer.ID = FakeData.Instance.Customers.Max(i => i.ID) + 1;
+                FakeData.Instance.Customers.Add(customer);
                 return customer.ID.Value;
             });
         }
@@ -71,16 +37,16 @@ namespace MicroERP.Data.Fake.Repositories
                 switch (customerType)
                 {
                     case CustomerType.None:
-                        var persons = this.customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                        var companies = this.customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                        var persons = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        var companies = FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
                         return persons.Concat<CustomerModel>(companies);
 
                     case CustomerType.Company:
-                        return this.customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                        return FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
                     case CustomerType.Person:
-                        return this.customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        return FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
 
                     default:
                         throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
@@ -92,7 +58,7 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = this.customers.FirstOrDefault(c => c.ID == customerID);
+                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
 
                 if (customer != null)
                 {
@@ -107,11 +73,11 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                int index = this.customers.FindIndex(c => c.ID == customer.ID);
+                int index = FakeData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
 
                 if (index >= 0)
                 {
-                    return this.customers[index] = customer;
+                    return FakeData.Instance.Customers[index] = customer;
                 }
 
                 throw new CustomerNotFoundException();
@@ -122,13 +88,13 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return Task.Run(() =>
             {
-                var customer = this.customers.FirstOrDefault(C => C.ID == customerID);
+                var customer = FakeData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
 
                 if (customer != null)
                 {
                     if (customer is CompanyModel)
                     {
-                        var employees = this.customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
+                        var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
                         
                         foreach (var employee in employees)
                         {
@@ -136,7 +102,7 @@ namespace MicroERP.Data.Fake.Repositories
                         }
                     }
 
-                    return this.customers.Remove(customer);
+                    return FakeData.Instance.Customers.Remove(customer);
                 }
 
                 throw new CustomerNotFoundException();

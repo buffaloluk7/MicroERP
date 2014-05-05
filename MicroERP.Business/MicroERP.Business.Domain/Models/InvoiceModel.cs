@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
@@ -17,7 +18,7 @@ namespace MicroERP.Business.Domain.Models
         private string comment;
         private string message;
         private ObservableCollection<InvoiceItemModel> invoiceItems;
-        private int customerID;
+        private int? customerID;
         private CustomerModel customer;
 
         #endregion
@@ -74,24 +75,28 @@ namespace MicroERP.Business.Domain.Models
         }
 
         [IgnoreDataMember]
-        public int CustomerID
+        public int? CustomerID
         {
             get { return this.customerID; }
-            set { base.Set<int>(ref this.customerID, value); }
+            set { base.Set<int?>(ref this.customerID, value); }
         }
 
         [IgnoreDataMember]
         public CustomerModel Customer
         {
             get { return this.customer; }
-            set { base.Set<CustomerModel>(ref this.customer, value); }
+            set
+            {
+                base.Set<CustomerModel>(ref this.customer, value);
+                this.CustomerID = (value != null) ? value.ID : null;
+            }
         }
 
         #endregion
 
         #region Constructors
 
-        public InvoiceModel(int? id, DateTime? isseuDate, DateTime? dueDate, int? number, string comment, string message)
+        public InvoiceModel(int? id, DateTime? isseuDate, DateTime? dueDate, int? number, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
         {
             this.id = id;
             this.issueDate = isseuDate;
@@ -99,6 +104,8 @@ namespace MicroERP.Business.Domain.Models
             this.number = number;
             this.comment = comment;
             this.message = message;
+            this.Customer = customer;
+            this.invoiceItems = invoiceItems != null ? new ObservableCollection<InvoiceItemModel>(invoiceItems) : null;
         }
 
         #endregion
