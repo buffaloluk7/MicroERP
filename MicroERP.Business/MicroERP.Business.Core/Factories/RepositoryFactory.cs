@@ -3,39 +3,36 @@ using MicroERP.Data.Api.Configuration;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Repositories;
 using MicroERP.Data.Fake.Repositories;
+using System;
 
 namespace MicroERP.Business.Core.Factories
 {
     public static class RepositoryFactory
     {
-        #region Fields
-
-        private static readonly IApiConfiguration local = new ApiConfiguration("127.0.0.1", 8000, "http", "microerp/");
-        private static readonly IApiConfiguration remote = new ApiConfiguration("10.201.70.146", 8080, "http", "microerp/");
-        private static readonly IApiConfiguration activeConfiguration = RepositoryFactory.remote;
-
-        #endregion
-
-        #region Create repositories
-
-        public static ICustomerRepository CreateCustomerRepository()
+        public static Tuple<ICustomerRepository, IInvoiceRepository> CreateRepositories()
         {
             #if (API || !DEBUG)
-                return new ApiCustomerRepository(activeConfiguration);
-            #else
-                return new FakeCustomerRepository();
-            #endif
-        }
 
-        public static IInvoiceRepository CreateInvoiceRepository()
-        {
-            #if (API || !DEBUG)
-                return new ApiInvoiceRepository(activeConfiguration);
-            #else
-                return new FakeInvoiceRepository();
-            #endif
-        }
+            IApiConfiguration local = new ApiConfiguration("127.0.0.1", 8000, "http", "microerp/");
+            IApiConfiguration remote = new ApiConfiguration("10.201.70.146", 8080, "http", "microerp/");
+            IApiConfiguration activeConfiguration = remote;
 
-        #endregion
+            return new Tuple<ICustomerRepository,IInvoiceRepository>
+            (
+                new ApiCustomerRepository(activeConfiguration),
+                new ApiInvoiceRepository(activeConfiguration)
+            );
+
+            #else
+
+            return new Tuple<ICustomerRepository, IInvoiceRepository>
+            (
+                new FakeCustomerRepository(),
+                new FakeInvoiceRepository()
+            );
+
+            #endif
+
+        }
     }
 }

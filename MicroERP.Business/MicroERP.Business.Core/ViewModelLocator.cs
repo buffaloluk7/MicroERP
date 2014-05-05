@@ -19,7 +19,7 @@ namespace MicroERP.Business.Core
     {
         #region Fields
 
-        internal readonly UnityContainer container;
+        private readonly UnityContainer container;
 
         #endregion
 
@@ -57,8 +57,9 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<IInvoiceService, InvoiceService>(new ContainerControlledLifetimeManager());
 
             // Repositories
-            this.container.RegisterInstance<ICustomerRepository>(RepositoryFactory.CreateCustomerRepository(), new ContainerControlledLifetimeManager());
-            this.container.RegisterInstance<IInvoiceRepository>(RepositoryFactory.CreateInvoiceRepository(), new ContainerControlledLifetimeManager());
+            var repositories = RepositoryFactory.CreateRepositories();
+            this.container.RegisterInstance<ICustomerRepository>(repositories.Item1, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance<IInvoiceRepository>(repositories.Item2, new ContainerControlledLifetimeManager());
 
             // ViewModels
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());

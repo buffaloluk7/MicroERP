@@ -85,7 +85,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
             if (this.person.Company != null)
             {
-                this.SearchQuery = new CompanyElementViewModel(this.person.Company).DisplayName;
+                this.searchQuery = new CompanyElementViewModel(this.person.Company).DisplayName;
             }
 
             #if DEBUG

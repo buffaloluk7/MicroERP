@@ -13,18 +13,7 @@ namespace MicroERP.Testing.Component.FakeDAL
 
         public CustomerRepositoryTests()
         {
-            this.customerRepository = RepositoryFactory.CreateCustomerRepository();
-        }
-
-        [TestMethod]
-        public void TestCustomersSearch_CustomerType()
-        {
-            var customers = this.customerRepository.Read("i", CustomerType.None).Result;
-
-            foreach (var c in customers)
-            {
-                Assert.IsInstanceOfType(c, typeof(CustomerModel));
-            }
+            this.customerRepository = RepositoryFactory.CreateRepositories().Item1;
         }
 
         [TestMethod]
