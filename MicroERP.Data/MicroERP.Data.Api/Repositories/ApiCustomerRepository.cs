@@ -5,7 +5,6 @@ using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
-using MicroERP.Data.Api.Wrapper;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
@@ -15,18 +14,9 @@ namespace MicroERP.Data.Api.Repositories
 {
     public class ApiCustomerRepository : ApiRepositoryBase, ICustomerRepository
     {
-        #region Fields
-
-        private string url;
-
-        #endregion
-
         #region Constructors
 
-        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration)
-        {
-            this.url = this.ConnectionString + "customers";
-        }
+        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration, "customers") { }
 
         #endregion
 
@@ -34,7 +24,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<int> Create(CustomerModel customer)
         {
-            var response = await this.request.Post(this.url, customer);
+            var response = await base.request.Post(base.ConnectionString, customer);
 
             switch (response.StatusCode)
             {
@@ -63,23 +53,12 @@ namespace MicroERP.Data.Api.Repositories
                 searchQuery += "&type=company";
             }
 
-            string url = string.Format("{0}?q={1}", this.url, searchQuery);
-            var response = await this.request.Get(url);
+            string url = string.Format("{0}?q={1}", base.ConnectionString, searchQuery);
+            var response = await base.request.Get(url);
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                // Ernsthaft, Thomas?
-                var wrapper = await response.Content.ReadAsObjectAsync<JsonWrapperGeneric<IEnumerable<CustomerModel>>>(base.jsonSettings);
-                return wrapper.List;
-
-                // Viel zu lang und unschön
-                //var anonymousType = new { list = (IEnumerable<CustomerModel>)(new CustomerModel[] { }) };
-                //var jsonString = await response.Content.ReadAsStringAsync();
-                //JsonConvert.DeserializeAnonymousType(jsonString, anonymousType);
-                //return anonymousType.list;
-
-                // Ohne root-type name
-                //return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(jsonSerializerSettings);
+                return await response.Content.ReadAsObjectAsync<IEnumerable<CustomerModel>>(base.jsonSettings);
             }
 
             throw new BadResponseException(response.StatusCode);
@@ -87,15 +66,15 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<CustomerModel> Read(int customerID)
         {
-            string url = string.Format("{0}/{1}", this.url, customerID);
-            var response = await this.request.Get(url);
+            string url = string.Format("{0}/{1}", base.ConnectionString, customerID);
+            var response = await base.request.Get(url);
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<CustomerModel>();
+                        return await response.Content.ReadAsObjectAsync<CustomerModel>(base.jsonSettings);
                     }
                     catch (JsonReaderException e)
                     {
@@ -112,22 +91,13 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<CustomerModel> Update(CustomerModel customer)
         {
-            var response = await this.request.Put(this.url + customer.ID, customer);
+            string url = string.Format("{0}/{1}", base.ConnectionString, customer.ID);
+            var response = await base.request.Put(url, customer);
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.NoContent:
                     return customer;
-
-                case HttpStatusCode.OK:
-                    try
-                    {
-                        return await response.Content.ReadAsObjectAsync<CustomerModel>();
-                    }
-                    catch (JsonReaderException e)
-                    {
-                        throw new FaultyMessageException(inner: e);
-                    }
 
                 case HttpStatusCode.NotFound:
                     throw new CustomerNotFoundException();
@@ -139,7 +109,8 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task Delete(int customerID)
         {
-            var response = await this.request.Delete(this.url + customerID);
+            string url = string.Format("{0}/{1}", base.ConnectionString, customerID);
+            var response = await base.request.Delete(url);
 
             switch (response.StatusCode)
             {

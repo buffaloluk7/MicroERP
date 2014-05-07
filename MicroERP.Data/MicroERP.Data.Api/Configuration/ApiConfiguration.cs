@@ -27,7 +27,7 @@ namespace MicroERP.Data.Api.Configuration
         public string Path
         {
             get;
-            private set;
+            set;
         }
 
         #endregion

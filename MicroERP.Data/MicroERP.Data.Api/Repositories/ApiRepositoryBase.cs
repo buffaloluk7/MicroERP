@@ -1,10 +1,7 @@
 ﻿using Luvi.Http;
-using Luvi.Json.Converter;
-using MicroERP.Business.Domain.Models;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -13,7 +10,6 @@ namespace MicroERP.Data.Api.Repositories
         #region Fields
 
         private readonly IApiConfiguration configuration;
-        private readonly Dictionary<string, Type> knownTypes;
         protected readonly JsonSerializerSettings jsonSettings;
         protected readonly RESTRequest request;
 
@@ -33,13 +29,10 @@ namespace MicroERP.Data.Api.Repositories
 
         #region Constructors
 
-        public ApiRepositoryBase(IApiConfiguration configuration)
+        public ApiRepositoryBase(IApiConfiguration configuration, string path = "")
         {
             this.configuration = configuration;
-
-            this.knownTypes = new Dictionary<string, Type>();
-            this.knownTypes.Add("person", typeof(PersonModel));
-            this.knownTypes.Add("company", typeof(CompanyModel));
+            this.configuration.Path += path;
 
             this.jsonSettings = new JsonSerializerSettings()
             {
@@ -47,13 +40,14 @@ namespace MicroERP.Data.Api.Repositories
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
             };
-            this.jsonSettings.Converters.Add(new JsonKnownTypeConverter<CustomerModel>(this.knownTypes));
 
             this.request = new RESTRequest()
             {
                 Timeout = new TimeSpan(0, 0, 15),
                 UseTransferEncodingChunked = false,
-                SerializationSettings = this.jsonSettings
+                SerializationSettings = this.jsonSettings,
+                UseJsonSerialization = true,
+                UseContinueHeader = false
             };
         }
 

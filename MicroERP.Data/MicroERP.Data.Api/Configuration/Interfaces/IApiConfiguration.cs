@@ -8,6 +8,6 @@
 
         int Port { get; }
 
-        string Path { get; }
+        string Path { get; set; }
     }
 }
