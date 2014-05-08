@@ -10,7 +10,6 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
     {
         #region Fields
 
-        private readonly int customerID;
         private readonly IInvoiceService invoiceService;
         private IEnumerable<InvoiceElementViewModel> invoices;
         private InvoiceElementViewModel selectedInvoice;
@@ -56,10 +55,9 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
 
         #region Constructors
 
-        public SearchInvoicesViewModel(IInvoiceService invoiceService, int customerID)
+        public SearchInvoicesViewModel(IInvoiceService invoiceService)
         {
             this.invoiceService = invoiceService;
-            this.customerID = customerID;
             this.SearchInvoicesCommand = new RelayCommand(this.onSearchInvoicesExecuted, this.onSearchInvoicesCanExecute);
 
             #if DEBUG
@@ -88,7 +86,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
         private async void onSearchInvoicesExecuted()
         {
             double? minPrice = double.Parse(this.searchQuery);
-            var invoices = await this.invoiceService.Search(customerID: this.customerID, minPrice: minPrice);
+            var invoices = await this.invoiceService.Search(minPrice: minPrice);
 
             this.Invoices = invoices.Select(invoice => new InvoiceElementViewModel(invoice));
         }

@@ -29,6 +29,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
             get { return this.invoice.Number; }
         }
 
+        public int CustomerID
+        {
+            get { return this.invoice.CustomerID.Value; }
+        }
+
         public string Comment
         {
             get { return this.invoice.Comment; }
@@ -45,6 +50,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
 
         public InvoiceElementViewModel(InvoiceModel invoice)
         {
+            if (invoice == null)
+            {
+                throw new ArgumentNullException("invoice");
+            }
+
             this.invoice = invoice;
         }
 

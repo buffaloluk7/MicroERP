@@ -1,5 +1,6 @@
 ﻿using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -73,6 +74,21 @@ namespace MicroERP.Testing.Component.FakeDAL
             // Validate new name
             Assert.AreEqual(updatedCustomer.FirstName, "Thomas");
             Assert.AreEqual(updatedCustomer.LastName, "Eizinger");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public void Test_DeleteCustomer()
+        {
+            // Create new customer
+            var person = new PersonModel() { FirstName = "Lukas", LastName = "Streiter" };
+            person.ID = this.customerRepository.Create(person).Result;
+
+            // Delete newly created customer
+            this.customerRepository.Delete(person.ID.Value);
+
+            // Try to retrieve deleted customer
+            this.customerRepository.Read(person.ID.Value);
         }
     }
 }

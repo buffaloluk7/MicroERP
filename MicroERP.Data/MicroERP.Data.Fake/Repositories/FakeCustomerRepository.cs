@@ -15,98 +15,83 @@ namespace MicroERP.Data.Fake.Repositories
 
         public async Task<int> Create(CustomerModel customer)
         {
-            return await Task.Run(() => 
+            if (FakeData.Instance.Customers.Any(c => c.Equals(customer)))
             {
-                if (FakeData.Instance.Customers.Any(c => c.Equals(customer)))
-                {
-                    throw new CustomerAlreadyExistsException(customer);
-                }
+                throw new CustomerAlreadyExistsException(customer);
+            }
 
-                customer.ID = FakeData.Instance.Customers.Max(i => i.ID) + 1;
-                FakeData.Instance.Customers.Add(customer);
-                return customer.ID.Value;
-            });
+            customer.ID = FakeData.Instance.Customers.Max(i => i.ID) + 1;
+            FakeData.Instance.Customers.Add(customer);
+            return customer.ID.Value;
         }
 
         public async Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None)
         {
-            return await Task.Run(() =>
+            searchQuery = searchQuery.ToLower();
+
+            switch (customerType)
             {
-                searchQuery = searchQuery.ToLower();
+                case CustomerType.None:
+                    var persons = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                    var companies = FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
-                switch (customerType)
-                {
-                    case CustomerType.None:
-                        var persons = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                        var companies = FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                    return persons.Concat<CustomerModel>(companies);
 
-                        return persons.Concat<CustomerModel>(companies);
+                case CustomerType.Company:
+                    return FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
-                    case CustomerType.Company:
-                        return FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                case CustomerType.Person:
+                    return FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
 
-                    case CustomerType.Person:
-                        return FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-
-                    default:
-                        throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
-                }
-            });
+                default:
+                    throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
+            }
         }
 
         public async Task<CustomerModel> Read(int customerID)
         {
-            return await Task.Run(() =>
+            var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
+
+            if (customer != null)
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
+                return customer;
+            }
 
-                if (customer != null)
-                {
-                    return customer;
-                }
-
-                throw new CustomerNotFoundException();
-            });
+            throw new CustomerNotFoundException();
         }
 
         public async Task<CustomerModel> Update(CustomerModel customer)
         {
-            return await Task.Run(() =>
+            int index = FakeData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
+
+            if (index >= 0)
             {
-                int index = FakeData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
+                return FakeData.Instance.Customers[index] = customer;
+            }
 
-                if (index >= 0)
-                {
-                    return FakeData.Instance.Customers[index] = customer;
-                }
-
-                throw new CustomerNotFoundException();
-            });
+            throw new CustomerNotFoundException();
         }
 
         public Task Delete(int customerID)
         {
-            return Task.Run(() =>
+            var customer = FakeData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
+
+            if (customer != null)
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
-
-                if (customer != null)
+                if (customer is CompanyModel)
                 {
-                    if (customer is CompanyModel)
-                    {
-                        var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
+                    var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
                         
-                        foreach (var employee in employees)
-                        {
-                            employee.Company = null;
-                        }
+                    foreach (var employee in employees)
+                    {
+                        employee.Company = null;
                     }
-
-                    return FakeData.Instance.Customers.Remove(customer);
                 }
 
-                throw new CustomerNotFoundException();
-            });
+                FakeData.Instance.Customers.Remove(customer);
+            }
+
+            throw new CustomerNotFoundException();
         }
 
         #endregion

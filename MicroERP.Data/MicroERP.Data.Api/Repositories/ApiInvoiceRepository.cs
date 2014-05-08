@@ -5,6 +5,8 @@ using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -12,12 +14,17 @@ namespace MicroERP.Data.Api.Repositories
 {
     public class ApiInvoiceRepository : ApiRepositoryBase, IInvoiceRepository
     {
+        #region Constructors
+
+        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration) { }
+
+        #endregion
+
         #region IInvoiceRepository
 
         public async Task<InvoiceModel> Create(int customerID, InvoiceModel invoice)
         {
             string url = string.Format("{0}/customers/{1}/invoices", this.ConnectionString, customerID);
-
             var response = await this.request.Post(url, invoice);
 
             switch (response.StatusCode)
@@ -40,16 +47,21 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public Task<System.Collections.Generic.IEnumerable<InvoiceModel>> Search(int customerID, System.DateTime? begin = null, System.DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
         {
-            string url = string.Format("{0}/customers/{1}/invoices?", this.ConnectionString, customerID);
+            string url = string.Format("{0}/invoices?q=", this.ConnectionString, customerID);
 
-            throw new System.NotImplementedException();
+            if (customerID.HasValue)
+            {
+                url += string.Format("customerID={0}", customerID.Value);
+            }
+            
+            throw new NotImplementedException();
         }
 
-        public async Task<InvoiceModel> Read(int customerID, int invoiceID)
+        public async Task<InvoiceModel> Read(int invoiceID)
         {
-            string url = string.Format("{0}/customers/{1}/invoices/{2}", this.ConnectionString, customerID, invoiceID);
+            string url = string.Format("{0}/invoices/{1}", this.ConnectionString, invoiceID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)
@@ -71,12 +83,6 @@ namespace MicroERP.Data.Api.Repositories
                     throw new BadResponseException(response.StatusCode);
             }
         }
-
-        #endregion
-
-        #region Constructors
-
-        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration) { }
 
         #endregion
     }

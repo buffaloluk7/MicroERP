@@ -26,14 +26,21 @@ namespace MicroERP.Business.Core.Services
 
         #region IInvoiceService
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int customerID, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(CustomerModel customer = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        {
+            var customerID = customer != null ? customer.ID : null;
+
+            return await this.invoiceRepository.Search(customerID);
+        }
+
+        public async Task<IEnumerable<InvoiceModel>> All(int customerID)
         {
             return await this.invoiceRepository.Search(customerID);
         }
 
-        public Task<InvoiceModel> Read(int customerID, int invoiceID)
+        public async Task<InvoiceModel> Single(int invoiceID)
         {
-            throw new NotImplementedException();
+            return await this.invoiceRepository.Read(invoiceID);
         }
 
         #endregion

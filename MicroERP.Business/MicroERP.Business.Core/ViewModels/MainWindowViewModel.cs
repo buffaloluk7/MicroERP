@@ -5,6 +5,7 @@ using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Search.Customers;
+using MicroERP.Business.Core.ViewModels.Search.Invoices;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -22,6 +23,7 @@ namespace MicroERP.Business.Core.ViewModels
         private readonly INavigationService navigationService;
         private readonly IBrowsingService browsingService;
         private readonly SearchCustomersViewModel searchCustomersViewModel;
+        private readonly SearchInvoicesViewModel searchInvoicesViewModel;
 
         #endregion
 
@@ -30,6 +32,11 @@ namespace MicroERP.Business.Core.ViewModels
         public SearchCustomersViewModel SearchCustomersViewModel
         {
             get { return this.searchCustomersViewModel; }
+        }
+
+        public SearchInvoicesViewModel SearchInvoicesViewModel
+        {
+            get { return this.searchInvoicesViewModel; }
         }
 
         #endregion
@@ -64,13 +71,14 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Constructors
 
-        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel)
+        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel, SearchInvoicesViewModel searchInvoicesViewModel)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
             this.browsingService = browsingService;
             this.searchCustomersViewModel = searchCustomersViewModel;
+            this.searchInvoicesViewModel = searchInvoicesViewModel;
 
             this.searchCustomersViewModel.PropertyChanged += (s, e) =>
             {

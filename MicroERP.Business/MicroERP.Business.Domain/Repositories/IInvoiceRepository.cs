@@ -9,8 +9,8 @@ namespace MicroERP.Business.Domain.Repositories
     {
         Task<InvoiceModel> Create(int customerID, InvoiceModel invoice);
 
-        Task<IEnumerable<InvoiceModel>> Search(int customerID, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null);
+        Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null);
 
-        Task<InvoiceModel> Read(int customerID, int invoiceID);
+        Task<InvoiceModel> Read(int invoiceID);
     }
 }

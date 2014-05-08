@@ -38,7 +38,7 @@ namespace MicroERP.Data.Api.Repositories
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                DateFormatHandling = DateFormatHandling.IsoDateFormat
             };
 
             this.request = new RESTRequest()

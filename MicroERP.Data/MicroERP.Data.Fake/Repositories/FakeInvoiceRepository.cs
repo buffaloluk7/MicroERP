@@ -27,7 +27,7 @@ namespace MicroERP.Data.Fake.Repositories
             });
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int customerID, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
         {
             return await Task.Run(() =>
             {
@@ -35,11 +35,11 @@ namespace MicroERP.Data.Fake.Repositories
             });
         }
 
-        public async Task<InvoiceModel> Read(int customerID, int invoiceID)
+        public async Task<InvoiceModel> Read(int invoiceID)
         {
             return await Task.Run(() =>
             {
-                var invoice = FakeData.Instance.Invoices.FirstOrDefault<InvoiceModel>(i => i.CustomerID == customerID && i.ID == invoiceID);
+                var invoice = FakeData.Instance.Invoices.FirstOrDefault<InvoiceModel>(i => i.ID == invoiceID);
 
                 if (invoice != null)
                 {
