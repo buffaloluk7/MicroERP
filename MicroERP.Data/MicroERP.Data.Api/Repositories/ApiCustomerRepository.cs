@@ -31,7 +31,10 @@ namespace MicroERP.Data.Api.Repositories
                 case HttpStatusCode.Created:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<int>();
+                        var jsonObject = await response.Content.ReadAsStringAsync();
+                        var anonObject = new { id = default(int) };
+
+                        return JsonConvert.DeserializeAnonymousType(jsonObject, anonObject).id;
                     }
                     catch (JsonReaderException e)
                     {

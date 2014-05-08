@@ -35,7 +35,8 @@ namespace MicroERP.Business.Core.Services
                 throw new ArgumentNullException("customer", "Customer cannot be null");
             }
 
-            return await this.customerRepository.Create(customer);
+            customer.ID = await this.customerRepository.Create(customer);
+            return customer.ID.Value;
         }
 
         public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None)
