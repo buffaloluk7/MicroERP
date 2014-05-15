@@ -72,26 +72,26 @@ namespace MicroERP.Data.Fake.Repositories
             throw new CustomerNotFoundException();
         }
 
-        public Task Delete(int customerID)
+        public async Task Delete(int customerID)
         {
             var customer = FakeData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
 
-            if (customer != null)
+            if (customer == null)
             {
-                if (customer is CompanyModel)
-                {
-                    var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
-                        
-                    foreach (var employee in employees)
-                    {
-                        employee.Company = null;
-                    }
-                }
-
-                FakeData.Instance.Customers.Remove(customer);
+                throw new CustomerNotFoundException();
             }
 
-            throw new CustomerNotFoundException();
+            if (customer is CompanyModel)
+            {
+                var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
+                        
+                foreach (var employee in employees)
+                {
+                    employee.Company = null;
+                }
+            }
+
+            FakeData.Instance.Customers.Remove(customer);
         }
 
         #endregion
