@@ -25,7 +25,7 @@ namespace MicroERP.Data.Fake.Repositories
             return customer.ID.Value;
         }
 
-        public async Task<IEnumerable<CustomerModel>> Find(string searchQuery, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, CustomerType customerType = CustomerType.None)
         {
             searchQuery = searchQuery.ToLower();
 

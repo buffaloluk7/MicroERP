@@ -45,10 +45,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\CustomerType.cs" />
-    <Compile Include="Exceptions\CustomerAlreadyExistsException.cs" />
     <Compile Include="Exceptions\CustomerException.cs" />
     <Compile Include="Exceptions\CustomerNotFoundException.cs" />
-    <Compile Include="Exceptions\InvoiceAlreadyExistsException.cs" />
     <Compile Include="Exceptions\InvoiceException.cs" />
     <Compile Include="Exceptions\InvoiceNotFoundException.cs" />
     <Compile Include="Repositories\ICustomerRepository.cs" />

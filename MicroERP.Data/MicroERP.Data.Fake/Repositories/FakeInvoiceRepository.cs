@@ -16,13 +16,18 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                int invoiceID = FakeData.Instance.Invoices.Max(i => i.ID.Value) + 1;
-                invoice.ID = invoiceID;
-                invoice.CustomerID = customerID;
+                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID.Value == customerID);
+                if (customer == null)
+                {
+                    throw new CustomerNotFoundException();
+                }
+
+                invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID.Value) + 1;
+                invoice.Number = FakeData.Instance.Invoices.Max(i => i.Number.Value) + 1;
 
                 FakeData.Instance.Invoices.Add(invoice);
 
-                return invoiceID;
+                return invoice.ID.Value;
             });
         }
 
@@ -30,22 +35,13 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                return FakeData.Instance.Invoices.Where(i => i.CustomerID.Value == customerID);
-            });
-        }
-
-        public async Task<InvoiceModel> Create(int customerID, InvoiceModel invoice)
-        {
-            return await Task.Run(() =>
-            {
-                if (FakeData.Instance.Invoices.Any(i => i.ID == invoice.ID))
+                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID.Value == customerID);
+                if (customer == null)
                 {
-                    throw new InvoiceAlreadyExistsException(invoice);
+                    throw new CustomerNotFoundException();
                 }
 
-                invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID) + 1;
-                FakeData.Instance.Invoices.Add(invoice);
-                return invoice;
+                return FakeData.Instance.Invoices.Where(i => i.CustomerID.Value == customerID);
             });
         }
 
@@ -54,13 +50,12 @@ namespace MicroERP.Data.Fake.Repositories
             return await Task.Run(() =>
             {
                 var invoice = FakeData.Instance.Invoices.FirstOrDefault<InvoiceModel>(i => i.ID == invoiceID);
-
-                if (invoice != null)
+                if (invoice == null)
                 {
-                    return invoice;
+                    throw new InvoiceNotFoundException();
                 }
 
-                throw new InvoiceNotFoundException();
+                return invoice;
             });
         }
 
@@ -70,7 +65,7 @@ namespace MicroERP.Data.Fake.Repositories
             {
                 IEnumerable<InvoiceModel> invoices = null;
 
-                if (customerID != null)
+                if (customerID.HasValue)
                 {
                     invoices = FakeData.Instance.Invoices.Where(i => i.CustomerID.Value == customerID);
                 }
@@ -79,12 +74,12 @@ namespace MicroERP.Data.Fake.Repositories
                     invoices = FakeData.Instance.Invoices.ToList();
                 }
 
-                if (begin != null || end != null)
+                if (begin.HasValue || end.HasValue)
                 {
                     invoices = invoices.Where(i => i.IssueDate.Value > begin && i.IssueDate.Value < end);
                 }
 
-                if (minPrice != null || maxPrice != null)
+                if (minPrice.HasValue || maxPrice.HasValue)
                 {
                     invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice.Value * ii.Amount.Value * (ii.Tax.Value / 100 + 1)) > minPrice &&
                                                    i.InvoiceItems.Sum(ii => ii.UnitPrice.Value * ii.Amount.Value * (ii.Tax.Value / 100 + 1)) < maxPrice);

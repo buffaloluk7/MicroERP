@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MicroERP.Data.Api.Repositories
@@ -16,13 +17,16 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Constructors
 
-        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration) { }
+        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration)
+        {
+            this.jsonSettings.TypeNameHandling = TypeNameHandling.None;
+        }
 
         #endregion
 
         #region IInvoiceRepository
 
-        public async Task<InvoiceModel> Create(int customerID, InvoiceModel invoice)
+        public async Task<int> Create(int customerID, InvoiceModel invoice)
         {
             string url = string.Format("{0}/customers/{1}/invoices", this.ConnectionString, customerID);
             var response = await this.request.Post(url, invoice);
@@ -32,31 +36,44 @@ namespace MicroERP.Data.Api.Repositories
                 case HttpStatusCode.Created:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<InvoiceModel>();
+                        var jsonObject = await response.Content.ReadAsStringAsync();
+                        var anonObject = new { id = default(int) };
+
+                        return JsonConvert.DeserializeAnonymousType(jsonObject, anonObject).id;
                     }
                     catch (JsonReaderException e)
                     {
                         throw new FaultyMessageException(inner: e);
                     }
 
-                case HttpStatusCode.Conflict:
-                    throw new InvoiceAlreadyExistsException(invoice);
-
                 default:
                     throw new BadResponseException(response.StatusCode);
             }
         }
 
-        public Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> All(int customerID)
         {
-            string url = string.Format("{0}/invoices?q=", this.ConnectionString, customerID);
+            string url = string.Format("{0}/invoices?customerID=", this.ConnectionString, customerID);
+            var response = await this.request.Get(url);
 
-            if (customerID.HasValue)
+            switch (response.StatusCode)
             {
-                url += string.Format("customerID={0}", customerID.Value);
+                case HttpStatusCode.OK:
+                    try
+                    {
+                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>();
+                    }
+                    catch (JsonReaderException e)
+                    {
+                        throw new FaultyMessageException(inner: e);
+                    }
+
+                case HttpStatusCode.NotFound:
+                    throw new InvoiceNotFoundException();
+
+                default:
+                    throw new BadResponseException(response.StatusCode);
             }
-            
-            throw new NotImplementedException();
         }
 
         public async Task<InvoiceModel> Find(int invoiceID)
@@ -78,6 +95,52 @@ namespace MicroERP.Data.Api.Repositories
 
                 case HttpStatusCode.NotFound:
                     throw new InvoiceNotFoundException();
+
+                default:
+                    throw new BadResponseException(response.StatusCode);
+            }
+        }
+
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        {
+            var url = new StringBuilder(this.ConnectionString).Append("/invoices?");
+
+            if (customerID.HasValue)
+            {
+                url.AppendFormat("customerID={0}&", customerID.Value);
+            }
+            if (begin.HasValue)
+            {
+                var timestamp = (begin.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                url.AppendFormat("startDate={0}&", timestamp);
+            }
+            if (end.HasValue)
+            {
+                var timestamp = (end.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                url.AppendFormat("endDate={0}&", timestamp);
+            }
+            if (minPrice.HasValue)
+            {
+                url.AppendFormat("minPrice={0}&", minPrice.Value);
+            }
+            if (maxPrice.HasValue)
+            {
+                url.AppendFormat("maxPrice={0}", maxPrice.Value);
+            }
+
+            var response = await this.request.Get(url.ToString());
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    try
+                    {
+                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>();
+                    }
+                    catch (JsonReaderException e)
+                    {
+                        throw new FaultyMessageException(inner: e);
+                    }
 
                 default:
                     throw new BadResponseException(response.StatusCode);

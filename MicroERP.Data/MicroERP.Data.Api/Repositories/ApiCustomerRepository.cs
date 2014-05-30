@@ -41,15 +41,12 @@ namespace MicroERP.Data.Api.Repositories
                         throw new FaultyMessageException(inner: e);
                     }
 
-                case HttpStatusCode.Conflict:
-                    throw new CustomerAlreadyExistsException(customer);
-
                 default:
                     throw new BadResponseException(response.StatusCode);
             }
         }
 
-        public async Task<IEnumerable<CustomerModel>> Find(string searchQuery, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, CustomerType customerType = CustomerType.None)
         {
             if (customerType == CustomerType.Company)
             {

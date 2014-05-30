@@ -51,7 +51,7 @@ namespace MicroERP.Business.Core.Services
                 throw new ArgumentOutOfRangeException("searchQuery");
             }
 
-            var customers = await this.customerRepository.Find(searchQuery, customerType);
+            var customers = await this.customerRepository.Search(searchQuery, customerType);
 
             if (ordered)
             {

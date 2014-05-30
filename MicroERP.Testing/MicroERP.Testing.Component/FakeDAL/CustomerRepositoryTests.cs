@@ -20,7 +20,7 @@ namespace MicroERP.Testing.Component.FakeDAL
         [TestMethod]
         public void Test_CustomersSearch_CompanyType()
         {
-            var customers = this.customerRepository.Find("i", CustomerType.Company).Result;
+            var customers = this.customerRepository.Search("i", CustomerType.Company).Result;
 
             foreach (var c in customers)
             {
@@ -31,7 +31,7 @@ namespace MicroERP.Testing.Component.FakeDAL
         [TestMethod]
         public void Test_CustomersSearch_PersonType()
         {
-            var customers = this.customerRepository.Find("i", CustomerType.Person).Result;
+            var customers = this.customerRepository.Search("i", CustomerType.Person).Result;
 
             foreach (var c in customers)
             {
