@@ -11,14 +11,13 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Fields
 
-        private int? id;
-        private DateTime? issueDate;
-        private DateTime? dueDate;
-        private int? number;
+        private int id;
+        private DateTime issueDate;
+        private DateTime dueDate;
+        private int number;
         private string comment;
         private string message;
         private ObservableCollection<InvoiceItemModel> invoiceItems;
-        private int? customerID;
         private CustomerModel customer;
 
         #endregion
@@ -26,31 +25,31 @@ namespace MicroERP.Business.Domain.Models
         #region Properties
 
         [DataMember(Name = "id")]
-        public int? ID
+        public int ID
         {
             get { return this.id; }
-            set { base.Set<int?>(ref this.id, value); }
+            set { base.Set<int>(ref this.id, value); }
         }
 
         [DataMember(Name = "issueDate")]
-        public DateTime? IssueDate
+        public DateTime IssueDate
         {
             get { return this.issueDate; }
-            set { base.Set<DateTime?>(ref this.issueDate, value); }
+            set { base.Set<DateTime>(ref this.issueDate, value); }
         }
 
         [DataMember(Name = "dueDate")]
-        public DateTime? DueDate
+        public DateTime DueDate
         {
             get { return this.dueDate; }
-            set { base.Set<DateTime?>(ref this.dueDate, value); }
+            set { base.Set<DateTime>(ref this.dueDate, value); }
         }
 
         [DataMember(Name = "number")]
-        public int? Number
+        public int Number
         {
             get { return this.number; }
-            set { base.Set<int?>(ref this.number, value); }
+            set { base.Set<int>(ref this.number, value); }
         }
 
         [DataMember(Name = "comment")]
@@ -75,28 +74,19 @@ namespace MicroERP.Business.Domain.Models
         }
 
         [IgnoreDataMember]
-        public int? CustomerID
-        {
-            get { return this.customerID; }
-            set { base.Set<int?>(ref this.customerID, value); }
-        }
-
-        [IgnoreDataMember]
         public CustomerModel Customer
         {
             get { return this.customer; }
-            set
-            {
-                base.Set<CustomerModel>(ref this.customer, value);
-                this.CustomerID = (value != null) ? value.ID : null;
-            }
+            set { base.Set<CustomerModel>(ref this.customer, value); }
         }
 
         #endregion
 
         #region Constructors
 
-        public InvoiceModel(int? id, DateTime? isseuDate, DateTime? dueDate, int? number, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel() {}
+
+        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, int number, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
         {
             this.id = id;
             this.issueDate = isseuDate;
@@ -119,11 +109,6 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
-            if (!this.id.HasValue)
-            {
-                throw new InvalidOperationException("Hashcode cannot be calculated from an invoice without an ID");
-            }
-
             return this.id.GetHashCode();
         }
 

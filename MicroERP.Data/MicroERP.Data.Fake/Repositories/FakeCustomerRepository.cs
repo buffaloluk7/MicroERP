@@ -20,7 +20,7 @@ namespace MicroERP.Data.Fake.Repositories
                 customer.ID = FakeData.Instance.Customers.Max(i => i.ID) + 1;
                 FakeData.Instance.Customers.Add(customer);
 
-                return customer.ID.Value;
+                return customer.ID;
             });
         }
 
@@ -55,7 +55,6 @@ namespace MicroERP.Data.Fake.Repositories
             return await Task.Run(() =>
             {
                 var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
-
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
@@ -70,7 +69,6 @@ namespace MicroERP.Data.Fake.Repositories
             return await Task.Run(() =>
             {
                 int index = FakeData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
-
                 if (index >= 0)
                 {
                     return FakeData.Instance.Customers[index] = customer;
@@ -93,7 +91,6 @@ namespace MicroERP.Data.Fake.Repositories
                 if (customer is CompanyModel)
                 {
                     var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
-
                     foreach (var employee in employees)
                     {
                         employee.Company = null;

@@ -121,7 +121,7 @@ namespace MicroERP.Business.Core.ViewModels
             }
 
             this.CustomerData = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
-            this.SearchInvoicesViewModel = this.container.Resolve<SearchInvoicesViewModel>(new ParameterOverride("customerID", customer.ID.HasValue ? customer.ID.Value : 0));
+            this.SearchInvoicesViewModel = this.container.Resolve<SearchInvoicesViewModel>(new ParameterOverride("customerID", customer.ID));
             this.RaisePropertyChanged(() => this.CustomerData);
             this.RaisePropertyChanged(() => this.SearchInvoicesViewModel);
         }

@@ -69,7 +69,7 @@ namespace MicroERP.Business.Domain.Models
             set
             {
                 base.Set<CompanyModel>(ref this.company, value);
-                this.CompanyID = (value != null) ? value.ID : null;
+                this.CompanyID = (value == null) ? default(int?) : value.ID;
             }
         }
 
@@ -79,7 +79,7 @@ namespace MicroERP.Business.Domain.Models
 
         public PersonModel() { }
 
-        public PersonModel(int? id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime? birthDate, CompanyModel company = null) : base(id, address, billingAddress, shippingAddress)
+        public PersonModel(int id, string address, string billingAddress, string shippingAddress, string title, string firstName, string lastName, string suffix, DateTime? birthDate, CompanyModel company = null) : base(id, address, billingAddress, shippingAddress)
         {
             this.title = title;
             this.firstName = firstName;

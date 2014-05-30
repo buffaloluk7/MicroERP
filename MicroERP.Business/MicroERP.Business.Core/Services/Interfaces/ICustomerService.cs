@@ -7,7 +7,7 @@ namespace MicroERP.Business.Core.Services.Interfaces
 {
     public interface ICustomerService
     {
-        Task<int> Create(CustomerModel customer);
+        Task<CustomerModel> Create(CustomerModel customer);
 
         Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None);
 

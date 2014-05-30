@@ -9,21 +9,21 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Fields
 
-        private int? id;
+        private int id;
         private string name;
-        private int? amount;
-        private double? unitPrice;
-        private double? tax;
+        private int amount;
+        private double unitPrice;
+        private double tax;
 
         #endregion
 
         #region Properties
 
         [DataMember(Name = "id")]
-        public int? ID
+        public int ID
         {
             get { return this.id; }
-            set { base.Set<int?>(ref this.id, value); }
+            set { base.Set<int>(ref this.id, value); }
         }
 
         [DataMember(Name = "name")]
@@ -34,30 +34,30 @@ namespace MicroERP.Business.Domain.Models
         }
 
         [DataMember(Name = "amount")]
-        public int? Amount
+        public int Amount
         {
             get { return this.amount; }
-            set { base.Set<int?>(ref this.amount, value); }
+            set { base.Set<int>(ref this.amount, value); }
         }
 
         /// <summary>
         /// Net price
         /// </summary>
         [DataMember(Name = "unitPrice")]
-        public double? UnitPrice
+        public double UnitPrice
         {
             get { return this.unitPrice; }
-            set { base.Set<double?>(ref this.unitPrice, value); }
+            set { base.Set<double>(ref this.unitPrice, value); }
         }
 
         /// <summary>
         /// For example: 12.5
         /// </summary>
         [DataMember(Name = "tax")]
-        public double? Tax
+        public double Tax
         {
             get { return this.tax; }
-            set { base.Set<double?>(ref this.tax, value); }
+            set { base.Set<double>(ref this.tax, value); }
         }
 
         [IgnoreDataMember]
@@ -78,7 +78,9 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceItemModel(int? id, string name, int? amount, double? unitPrice, double? tax)
+        public InvoiceItemModel() {}
+
+        public InvoiceItemModel(int id, string name, int amount, double unitPrice, double tax)
         {
             this.id = id;
             this.name = name;
@@ -98,12 +100,7 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
-            if (!this.id.HasValue)
-            {
-                throw new InvalidOperationException("Hashcode cannot be calculated from an invoice item without an ID");
-            }
-
-            return this.id.Value.GetHashCode();
+            return this.id.GetHashCode();
         }
 
         public bool Equals(InvoiceItemModel other)

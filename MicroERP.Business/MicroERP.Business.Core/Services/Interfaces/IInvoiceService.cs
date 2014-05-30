@@ -7,7 +7,7 @@ namespace MicroERP.Business.Core.Services.Interfaces
 {
     public interface IInvoiceService
     {
-        Task<int> Create(int customerID, InvoiceModel invoice);
+        Task<InvoiceModel> Create(int customerID, InvoiceModel invoice);
 
         Task<IEnumerable<InvoiceModel>> All(int customerID);
 

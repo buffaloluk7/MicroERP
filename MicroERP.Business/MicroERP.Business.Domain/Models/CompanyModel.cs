@@ -35,7 +35,7 @@ namespace MicroERP.Business.Domain.Models
 
         public CompanyModel() { }
 
-        public CompanyModel(int? id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
+        public CompanyModel(int id, string address, string billingAddress, string shippingAddress, string name, string uid) : base(id, address, billingAddress, shippingAddress)
         {
             this.name = name;
             this.uid = uid;

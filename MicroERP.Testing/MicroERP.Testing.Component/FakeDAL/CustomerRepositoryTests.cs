@@ -63,7 +63,7 @@ namespace MicroERP.Testing.Component.FakeDAL
             person.ID = this.customerRepository.Create(person).Result;
 
             // Retrieve newly created customer
-            var customer = this.customerRepository.Find(person.ID.Value).Result as PersonModel;
+            var customer = this.customerRepository.Find(person.ID).Result as PersonModel;
             Assert.AreEqual(person.FirstName, customer.FirstName);
 
             // Update customer
@@ -85,10 +85,10 @@ namespace MicroERP.Testing.Component.FakeDAL
             person.ID = this.customerRepository.Create(person).Result;
 
             // Delete newly created customer
-            this.customerRepository.Delete(person.ID.Value);
+            this.customerRepository.Delete(person.ID);
 
             // Try to retrieve deleted customer
-            this.customerRepository.Find(person.ID.Value);
+            this.customerRepository.Find(person.ID);
             this.customerRepository.Find(1000);
         }
     }

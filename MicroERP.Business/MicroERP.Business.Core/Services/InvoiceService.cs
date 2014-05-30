@@ -26,14 +26,20 @@ namespace MicroERP.Business.Core.Services
 
         #region IInvoiceService
 
-        public async Task<int> Create(int customerID, InvoiceModel invoice)
+        public async Task<InvoiceModel> Create(int customerID, InvoiceModel invoice)
         {
+            if (customerID == default(int))
+            {
+                throw new ArgumentOutOfRangeException("Invalid customer ID");
+            }
             if (invoice == null)
             {
                 throw new ArgumentNullException("invoice");
             }
 
-            return await this.invoiceRepository.Create(customerID, invoice);
+            invoice.ID = await this.invoiceRepository.Create(customerID, invoice);
+
+            return invoice;
         }
 
         public async Task<IEnumerable<InvoiceModel>> All(int customerID)

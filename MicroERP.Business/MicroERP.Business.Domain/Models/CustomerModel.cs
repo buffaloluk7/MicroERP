@@ -10,7 +10,7 @@ namespace MicroERP.Business.Domain.Models
     {
         #region Fields
 
-        private int? id;
+        private int id;
         private string address;
         private string billingAddress;
         private string shippingAddress;
@@ -20,10 +20,10 @@ namespace MicroERP.Business.Domain.Models
         #region Properties
 
         [DataMember(Name = "id")]
-        public int? ID
+        public int ID
         {
             get { return this.id; }
-            set { base.Set<int?>(ref this.id, value); }
+            set { base.Set<int>(ref this.id, value); }
         }
 
         [DataMember(Name = "address")]
@@ -60,7 +60,7 @@ namespace MicroERP.Business.Domain.Models
 
         public CustomerModel() { }
 
-        public CustomerModel(int? id, string address, string billingAddress, string shippingAddress)
+        public CustomerModel(int id, string address, string billingAddress, string shippingAddress)
         {
             this.id = id;
             this.address = address;
@@ -74,11 +74,6 @@ namespace MicroERP.Business.Domain.Models
 
         public override int GetHashCode()
         {
-            if (!this.id.HasValue)
-            {
-                throw new InvalidOperationException("Hashcode cannot be calculated from a customer without an ID");
-            }
-
             return this.id.GetHashCode();
         }
 

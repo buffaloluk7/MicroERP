@@ -28,7 +28,7 @@ namespace MicroERP.Business.Core.Services
 
         #region ICustomerService
 
-        public async Task<int> Create(CustomerModel customer)
+        public async Task<CustomerModel> Create(CustomerModel customer)
         {
             if (customer == null)
             {
@@ -36,7 +36,8 @@ namespace MicroERP.Business.Core.Services
             }
 
             customer.ID = await this.customerRepository.Create(customer);
-            return customer.ID.Value;
+
+            return customer;
         }
 
         public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None)

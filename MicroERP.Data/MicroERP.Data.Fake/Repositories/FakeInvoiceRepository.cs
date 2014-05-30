@@ -16,18 +16,19 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID.Value == customerID);
+                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
                 }
 
-                invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID.Value) + 1;
-                invoice.Number = FakeData.Instance.Invoices.Max(i => i.Number.Value) + 1;
+                invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID) + 1;
+                invoice.Number = FakeData.Instance.Invoices.Max(i => i.Number) + 1;
+                invoice.Customer = customer;
 
                 FakeData.Instance.Invoices.Add(invoice);
 
-                return invoice.ID.Value;
+                return invoice.ID;
             });
         }
 
@@ -35,13 +36,13 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID.Value == customerID);
+                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
                 }
 
-                return FakeData.Instance.Invoices.Where(i => i.CustomerID.Value == customerID);
+                return FakeData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
             });
         }
 
@@ -67,7 +68,7 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (customerID.HasValue)
                 {
-                    invoices = FakeData.Instance.Invoices.Where(i => i.CustomerID.Value == customerID);
+                    invoices = FakeData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
                 }
                 else
                 {
@@ -76,13 +77,13 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (begin.HasValue || end.HasValue)
                 {
-                    invoices = invoices.Where(i => i.IssueDate.Value > begin && i.IssueDate.Value < end);
+                    invoices = invoices.Where(i => i.IssueDate > begin && i.IssueDate < end);
                 }
 
                 if (minPrice.HasValue || maxPrice.HasValue)
                 {
-                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice.Value * ii.Amount.Value * (ii.Tax.Value / 100 + 1)) > minPrice &&
-                                                   i.InvoiceItems.Sum(ii => ii.UnitPrice.Value * ii.Amount.Value * (ii.Tax.Value / 100 + 1)) < maxPrice);
+                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minPrice &&
+                                                   i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxPrice);
                 }
 
                 return invoices;

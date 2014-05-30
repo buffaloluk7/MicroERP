@@ -28,7 +28,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         public bool IsCreating
         {
-            get { return !this.customer.ID.HasValue; }
+            get { return this.customer.ID == default(int); }
         }
 
         public CustomerViewModel Customer
@@ -108,7 +108,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         {
             try
             {
-                if (this.customer.ID.HasValue)
+                if (this.customer.ID != default(int))
                 {
                     await this.customerService.Update(this.customer);
                     await this.notificationService.ShowAsync("Kunde erfolgreich aktualisiert.", "Kunde bearbeitet");

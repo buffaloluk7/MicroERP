@@ -14,24 +14,24 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
 
         #region Properties
 
-        public DateTime? IssueDate
+        public DateTime IssueDate
         {
             get { return this.invoice.IssueDate; }
         }
 
-        public DateTime? DueDate
+        public DateTime DueDate
         {
             get { return this.invoice.DueDate; }
         }
 
-        public int? Number
+        public int Number
         {
             get { return this.invoice.Number; }
         }
 
         public int CustomerID
         {
-            get { return this.invoice.CustomerID.Value; }
+            get { return this.invoice.Customer.ID; }
         }
 
         public string Comment
