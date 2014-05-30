@@ -115,7 +115,7 @@ namespace MicroERP.Business.Core.ViewModels
 
             try
             {
-                customer = await this.customerService.Read(this.searchCustomersViewModel.SelectedCustomer.customer.ID.Value);
+                customer = await this.customerService.Find(this.searchCustomersViewModel.SelectedCustomer.customer.ID.Value);
             }
             catch (CustomerNotFoundException)
             {

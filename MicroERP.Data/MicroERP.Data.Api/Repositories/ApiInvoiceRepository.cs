@@ -59,7 +59,7 @@ namespace MicroERP.Data.Api.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<InvoiceModel> Read(int invoiceID)
+        public async Task<InvoiceModel> Find(int invoiceID)
         {
             string url = string.Format("{0}/invoices/{1}", this.ConnectionString, invoiceID);
             var response = await this.request.Get(url);

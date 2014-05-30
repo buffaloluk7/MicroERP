@@ -9,9 +9,9 @@ namespace MicroERP.Business.Domain.Repositories
     {
         Task<int> Create(CustomerModel customer);
 
-        Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None);
+        Task<IEnumerable<CustomerModel>> Find(string searchQuery, CustomerType customerType = CustomerType.None);
 
-        Task<CustomerModel> Read(int customerID);
+        Task<CustomerModel> Find(int customerID);
 
         Task<CustomerModel> Update(CustomerModel customer);
 

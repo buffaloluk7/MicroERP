@@ -20,7 +20,7 @@ namespace MicroERP.Testing.Component.FakeDAL
         [TestMethod]
         public void Test_CustomersSearch_CompanyType()
         {
-            var customers = this.customerRepository.Read("i", CustomerType.Company).Result;
+            var customers = this.customerRepository.Find("i", CustomerType.Company).Result;
 
             foreach (var c in customers)
             {
@@ -31,7 +31,7 @@ namespace MicroERP.Testing.Component.FakeDAL
         [TestMethod]
         public void Test_CustomersSearch_PersonType()
         {
-            var customers = this.customerRepository.Read("i", CustomerType.Person).Result;
+            var customers = this.customerRepository.Find("i", CustomerType.Person).Result;
 
             foreach (var c in customers)
             {
@@ -63,7 +63,7 @@ namespace MicroERP.Testing.Component.FakeDAL
             person.ID = this.customerRepository.Create(person).Result;
 
             // Retrieve newly created customer
-            var customer = this.customerRepository.Read(person.ID.Value).Result as PersonModel;
+            var customer = this.customerRepository.Find(person.ID.Value).Result as PersonModel;
             Assert.AreEqual(person.FirstName, customer.FirstName);
 
             // Update customer
@@ -88,7 +88,7 @@ namespace MicroERP.Testing.Component.FakeDAL
             this.customerRepository.Delete(person.ID.Value);
 
             // Try to retrieve deleted customer
-            this.customerRepository.Read(person.ID.Value);
+            this.customerRepository.Find(person.ID.Value);
         }
     }
 }

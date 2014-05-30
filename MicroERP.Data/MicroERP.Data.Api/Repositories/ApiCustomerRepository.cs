@@ -49,7 +49,7 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task<IEnumerable<CustomerModel>> Read(string searchQuery, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Find(string searchQuery, CustomerType customerType = CustomerType.None)
         {
             if (customerType == CustomerType.Company)
             {
@@ -67,7 +67,7 @@ namespace MicroERP.Data.Api.Repositories
             throw new BadResponseException(response.StatusCode);
         }
 
-        public async Task<CustomerModel> Read(int customerID)
+        public async Task<CustomerModel> Find(int customerID)
         {
             string url = string.Format("{0}/{1}", base.ConnectionString, customerID);
             var response = await base.request.Get(url);

@@ -26,21 +26,48 @@ namespace MicroERP.Business.Core.Services
 
         #region IInvoiceService
 
-        public async Task<IEnumerable<InvoiceModel>> Search(CustomerModel customer = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<int> Create(int customerID, InvoiceModel invoice)
         {
-            var customerID = customer != null ? customer.ID : null;
+            if (invoice == null)
+            {
+                throw new ArgumentNullException("invoice");
+            }
 
-            return await this.invoiceRepository.Search(customerID);
+            return await this.invoiceRepository.Create(customerID, invoice);
         }
 
         public async Task<IEnumerable<InvoiceModel>> All(int customerID)
         {
-            return await this.invoiceRepository.Search(customerID);
+            if (customerID == 0)
+            {
+                throw new ArgumentOutOfRangeException("customerID must not be 0");
+            }
+
+            return await this.invoiceRepository.All(customerID);
         }
 
         public async Task<InvoiceModel> Single(int invoiceID)
         {
-            return await this.invoiceRepository.Read(invoiceID);
+            if (invoiceID == 0)
+            {
+                throw new ArgumentOutOfRangeException("invoiceID must not be 0");
+            }
+
+            return await this.invoiceRepository.Find(invoiceID);
+        }
+
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        {
+            if (customerID  == null &&
+                begin       == null &&
+                end         == null &&
+                minPrice    == null &&
+                maxPrice    == null)
+            {
+                throw new ArgumentNullException("At least one parameter needs to be not null");
+            }
+
+            return await this.Search(customerID, begin, end, minPrice, maxPrice);
         }
 
         #endregion

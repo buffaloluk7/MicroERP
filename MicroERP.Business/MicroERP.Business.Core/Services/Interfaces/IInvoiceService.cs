@@ -7,10 +7,12 @@ namespace MicroERP.Business.Core.Services.Interfaces
 {
     public interface IInvoiceService
     {
-        Task<IEnumerable<InvoiceModel>> Search(CustomerModel customer = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null);
+        Task<int> Create(int customerID, InvoiceModel invoice);
 
         Task<IEnumerable<InvoiceModel>> All(int customerID);
 
         Task<InvoiceModel> Single(int invoiceID);
+
+        Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null);
     }
 }

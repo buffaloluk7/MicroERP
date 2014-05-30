@@ -67,7 +67,7 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<string>(ref this.message, value); }
         }
 
-        [IgnoreDataMember]
+        [DataMember(Name = "invoiceItems")]
         public ObservableCollection<InvoiceItemModel> InvoiceItems
         {
             get { return this.invoiceItems; }

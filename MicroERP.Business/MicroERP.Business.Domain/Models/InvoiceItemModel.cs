@@ -32,6 +32,9 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<int?>(ref this.amount, value); }
         }
 
+        /// <summary>
+        /// Net price
+        /// </summary>
         [DataMember(Name = "unitPrice")]
         public double? UnitPrice
         {

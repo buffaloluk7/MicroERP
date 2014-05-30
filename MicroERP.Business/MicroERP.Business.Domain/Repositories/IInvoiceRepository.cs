@@ -7,10 +7,12 @@ namespace MicroERP.Business.Domain.Repositories
 {
     public interface IInvoiceRepository
     {
-        Task<InvoiceModel> Create(int customerID, InvoiceModel invoice);
+        Task<int> Create(int customerID, InvoiceModel invoice);
+
+        Task<IEnumerable<InvoiceModel>> All(int customerID);
+
+        Task<InvoiceModel> Find(int invoiceID);
 
         Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null);
-
-        Task<InvoiceModel> Read(int invoiceID);
     }
 }

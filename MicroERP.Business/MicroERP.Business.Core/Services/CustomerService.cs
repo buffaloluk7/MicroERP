@@ -51,7 +51,7 @@ namespace MicroERP.Business.Core.Services
                 throw new ArgumentOutOfRangeException("searchQuery");
             }
 
-            var customers = await this.customerRepository.Read(searchQuery, customerType);
+            var customers = await this.customerRepository.Find(searchQuery, customerType);
 
             if (ordered)
             {
@@ -63,24 +63,24 @@ namespace MicroERP.Business.Core.Services
             return customers;
         }
 
-        public async Task<CustomerModel> Read(int customerID)
+        public async Task<CustomerModel> Find(int customerID)
         {
             if (customerID < 1)
             {
                 throw new ArgumentOutOfRangeException("customerID", "customerID cannot be negative");
             }
 
-            return await this.customerRepository.Read(customerID);
+            return await this.customerRepository.Find(customerID);
         }
 
-        public async Task<T> Read<T>(int customerID) where T : CustomerModel
+        public async Task<T> Find<T>(int customerID) where T : CustomerModel
         {
             if (customerID < 1)
             {
                 throw new ArgumentOutOfRangeException("customerID", "customerID cannot be negative");
             }
 
-            return await this.customerRepository.Read(customerID) as T;
+            return await this.customerRepository.Find(customerID) as T;
         }
 
         public Task<CustomerModel> Update(CustomerModel customer)

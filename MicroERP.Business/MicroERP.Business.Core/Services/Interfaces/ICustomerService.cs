@@ -11,9 +11,9 @@ namespace MicroERP.Business.Core.Services.Interfaces
 
         Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None);
 
-        Task<CustomerModel> Read(int customerID);
+        Task<CustomerModel> Find(int customerID);
 
-        Task<T> Read<T>(int customerID) where T : CustomerModel;
+        Task<T> Find<T>(int customerID) where T : CustomerModel;
 
         Task<CustomerModel> Update(CustomerModel customer);
 
