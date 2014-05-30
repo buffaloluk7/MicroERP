@@ -97,7 +97,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FakeDAL\CustomerRepositoryTests.cs" />
+    <Compile Include="AsyncAsserts.cs" />
+    <Compile Include="MockData\CustomerRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

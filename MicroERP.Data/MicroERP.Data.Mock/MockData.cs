@@ -2,21 +2,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace MicroERP.Data.Fake
+namespace MicroERP.Data.Mock
 {
-    internal class FakeData
+    internal class MockData
     {
         #region Fields
 
-        private static readonly FakeData instance = new FakeData();
+        private static readonly MockData instance = new MockData();
 
         #endregion
 
         #region Properties
 
-        internal static FakeData Instance
+        internal static MockData Instance
         {
-            get { return FakeData.instance; }
+            get { return MockData.instance; }
         }
 
         internal List<CustomerModel> Customers
@@ -35,7 +35,7 @@ namespace MicroERP.Data.Fake
 
         #region Constructors
 
-        public FakeData()
+        public MockData()
         {
             var viktorCompany =  new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
             var simonCompany = new CompanyModel(4, "Simonweg", "Simonweg 1", "Simonweg 2", "Simon GmbH", "0123456789");

@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.Fake.Repositories
+namespace MicroERP.Data.Mock.Repositories
 {
-    public class FakeCustomerRepository : ICustomerRepository
+    public class MockCustomerRepository : ICustomerRepository
     {
         #region ICustomerRepository
 
@@ -17,8 +17,8 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                customer.ID = FakeData.Instance.Customers.Max(i => i.ID) + 1;
-                FakeData.Instance.Customers.Add(customer);
+                customer.ID = MockData.Instance.Customers.Max(i => i.ID) + 1;
+                MockData.Instance.Customers.Add(customer);
 
                 return customer.ID;
             });
@@ -33,16 +33,16 @@ namespace MicroERP.Data.Fake.Repositories
                 switch (customerType)
                 {
                     case CustomerType.None:
-                        var persons = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                        var companies = FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                        var persons = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        var companies = MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
                         return persons.Concat<CustomerModel>(companies);
 
                     case CustomerType.Company:
-                        return FakeData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                        return MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
 
                     case CustomerType.Person:
-                        return FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        return MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
 
                     default:
                         throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
@@ -54,7 +54,7 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
+                var customer = MockData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
@@ -68,10 +68,10 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                int index = FakeData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
+                int index = MockData.Instance.Customers.FindIndex(c => c.ID == customer.ID);
                 if (index >= 0)
                 {
-                    return FakeData.Instance.Customers[index] = customer;
+                    return MockData.Instance.Customers[index] = customer;
                 }
 
                 throw new CustomerNotFoundException();
@@ -82,7 +82,7 @@ namespace MicroERP.Data.Fake.Repositories
         {
             await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
+                var customer = MockData.Instance.Customers.FirstOrDefault(C => C.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
@@ -90,14 +90,14 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (customer is CompanyModel)
                 {
-                    var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.Company != null && p.Company.ID == customerID);
+                    var employees = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.Company != null && p.Company.ID == customerID);
                     foreach (var employee in employees)
                     {
                         employee.Company = null;
                     }
                 }
 
-                FakeData.Instance.Customers.Remove(customer);
+                MockData.Instance.Customers.Remove(customer);
             });
         }
 

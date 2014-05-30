@@ -5,7 +5,7 @@ using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MicroERP.Testing.Component.FakeDAL
+namespace MicroERP.Testing.Component.MockData
 {
     [TestClass]
     public class CustomerRepositoryTests
@@ -45,14 +45,14 @@ namespace MicroERP.Testing.Component.FakeDAL
             var company = new CompanyModel() { Name = "Company name", UID = "1234", Address = "Abc", BillingAddress = "Def", ShippingAddress = "Ghi" };
             var person = new PersonModel() { FirstName = "Lukas", LastName = "Streiter" };
 
-            Assert.IsNull(company.ID);
-            Assert.IsNull(person.ID);
+            Assert.AreEqual(default(int), company.ID);
+            Assert.AreEqual(default(int), person.ID);
 
             var companyID = this.customerRepository.Create(company);
             var personID = this.customerRepository.Create(person);
 
-            Assert.IsNotNull(companyID);
-            Assert.IsNotNull(personID);
+            Assert.AreNotEqual(default(int), companyID);
+            Assert.AreNotEqual(default(int), personID);
         }
 
         [TestMethod]
@@ -77,7 +77,6 @@ namespace MicroERP.Testing.Component.FakeDAL
         }
 
         [TestMethod]
-        [ExpectedException(typeof(CustomerNotFoundException))]
         public void Test_DeleteCustomer()
         {
             // Create new customer
@@ -88,8 +87,9 @@ namespace MicroERP.Testing.Component.FakeDAL
             this.customerRepository.Delete(person.ID);
 
             // Try to retrieve deleted customer
-            this.customerRepository.Find(person.ID);
-            this.customerRepository.Find(1000);
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.customerRepository.Find(person.ID)
+            );
         }
     }
 }

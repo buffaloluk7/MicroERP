@@ -2,7 +2,7 @@
 using MicroERP.Data.Api.Configuration;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Repositories;
-using MicroERP.Data.Fake.Repositories;
+using MicroERP.Data.Mock.Repositories;
 using System;
 
 namespace MicroERP.Business.Core.Factories
@@ -27,8 +27,8 @@ namespace MicroERP.Business.Core.Factories
 
             return new Tuple<ICustomerRepository, IInvoiceRepository>
             (
-                new FakeCustomerRepository(),
-                new FakeInvoiceRepository()
+                new MockCustomerRepository(),
+                new MockInvoiceRepository()
             );
 
             #endif

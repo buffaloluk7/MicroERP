@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicroERP.Data.Fake.Repositories
+namespace MicroERP.Data.Mock.Repositories
 {
-    public class FakeInvoiceRepository : IInvoiceRepository
+    public class MockInvoiceRepository : IInvoiceRepository
     {
         #region IInvoiceRepository
 
@@ -16,16 +16,16 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
+                var customer = MockData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
                 }
 
-                invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID) + 1;
+                invoice.ID = MockData.Instance.Invoices.Max(i => i.ID) + 1;
                 invoice.Customer = customer;
 
-                FakeData.Instance.Invoices.Add(invoice);
+                MockData.Instance.Invoices.Add(invoice);
 
                 return invoice.ID;
             });
@@ -35,13 +35,13 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var customer = FakeData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
+                var customer = MockData.Instance.Customers.FirstOrDefault(c => c.ID == customerID);
                 if (customer == null)
                 {
                     throw new CustomerNotFoundException();
                 }
 
-                return FakeData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
+                return MockData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
             });
         }
 
@@ -49,7 +49,7 @@ namespace MicroERP.Data.Fake.Repositories
         {
             return await Task.Run(() =>
             {
-                var invoice = FakeData.Instance.Invoices.FirstOrDefault<InvoiceModel>(i => i.ID == invoiceID);
+                var invoice = MockData.Instance.Invoices.FirstOrDefault<InvoiceModel>(i => i.ID == invoiceID);
                 if (invoice == null)
                 {
                     throw new InvoiceNotFoundException();
@@ -67,11 +67,11 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (customerID.HasValue)
                 {
-                    invoices = FakeData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
+                    invoices = MockData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
                 }
                 else
                 {
-                    invoices = FakeData.Instance.Invoices.ToList();
+                    invoices = MockData.Instance.Invoices.ToList();
                 }
 
                 if (begin.HasValue || end.HasValue)
