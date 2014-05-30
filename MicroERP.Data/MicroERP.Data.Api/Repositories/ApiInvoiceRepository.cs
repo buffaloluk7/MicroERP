@@ -101,7 +101,7 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
         {
             var url = new StringBuilder(this.ConnectionString).Append("/invoices?");
 
@@ -119,13 +119,13 @@ namespace MicroERP.Data.Api.Repositories
                 var timestamp = (end.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
                 url.AppendFormat("endDate={0}&", timestamp);
             }
-            if (minPrice.HasValue)
+            if (minTotal.HasValue)
             {
-                url.AppendFormat("minPrice={0}&", minPrice.Value);
+                url.AppendFormat("minTotal={0}&", minTotal.Value);
             }
-            if (maxPrice.HasValue)
+            if (maxTotal.HasValue)
             {
-                url.AppendFormat("maxPrice={0}", maxPrice.Value);
+                url.AppendFormat("maxTotal={0}", maxTotal.Value);
             }
 
             var response = await this.request.Get(url.ToString());

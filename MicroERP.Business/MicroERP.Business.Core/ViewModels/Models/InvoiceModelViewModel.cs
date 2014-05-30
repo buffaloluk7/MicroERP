@@ -26,12 +26,6 @@ namespace MicroERP.Business.Core.ViewModels.Models
             set { this.invoice.DueDate = value; }
         }
 
-        public int Number
-        {
-            get { return this.invoice.Number; }
-            set { this.invoice.Number = value; }
-        }
-
         public string Comment
         {
             get { return this.invoice.Comment; }
@@ -69,7 +63,6 @@ namespace MicroERP.Business.Core.ViewModels.Models
             {
                 case "IssueDate":
                 case "DueDate":
-                case "Number":
                 case "Comment":
                 case "Message":
                     base.RaisePropertyChanged(e.PropertyName);

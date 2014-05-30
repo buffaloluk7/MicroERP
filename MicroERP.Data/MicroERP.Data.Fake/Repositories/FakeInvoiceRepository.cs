@@ -23,7 +23,6 @@ namespace MicroERP.Data.Fake.Repositories
                 }
 
                 invoice.ID = FakeData.Instance.Invoices.Max(i => i.ID) + 1;
-                invoice.Number = FakeData.Instance.Invoices.Max(i => i.Number) + 1;
                 invoice.Customer = customer;
 
                 FakeData.Instance.Invoices.Add(invoice);
@@ -60,7 +59,7 @@ namespace MicroERP.Data.Fake.Repositories
             });
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
         {
             return await Task.Run(() =>
             {
@@ -80,10 +79,10 @@ namespace MicroERP.Data.Fake.Repositories
                     invoices = invoices.Where(i => i.IssueDate > begin && i.IssueDate < end);
                 }
 
-                if (minPrice.HasValue || maxPrice.HasValue)
+                if (minTotal.HasValue || maxTotal.HasValue)
                 {
-                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minPrice &&
-                                                   i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxPrice);
+                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minTotal &&
+                                                   i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxTotal);
                 }
 
                 return invoices;

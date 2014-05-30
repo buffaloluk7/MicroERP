@@ -53,19 +53,20 @@ namespace MicroERP.Data.Fake
                 new PersonModel(8, "Copy ninja street", "Copy ninja street 1", "Copy ninja street 2", "DDr.", "Copy", "Ninja", "Msc", DateTime.Now, viktorCompany),
             });
 
-            this.Invoices = new List<InvoiceModel>(new InvoiceModel[] {
-                new InvoiceModel(1, DateTime.Now, DateTime.Now, 1234, "Test-KommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentar", "Test-Message", this.Customers[0], new InvoiceItemModel[]
+            this.Invoices = new List<InvoiceModel>(new InvoiceModel[]
+            {
+                new InvoiceModel(1, DateTime.Now, DateTime.Now, "Test-KommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentarKommentar", "Test-Message", this.Customers[0], new InvoiceItemModel[]
                 {
                     new InvoiceItemModel(1, "Artikel 1", 100, 10.2, 2.3),
                     new InvoiceItemModel(2, "Artikel 2", 120, 5.4, 2.7)
                 }),
-                new InvoiceModel(2, DateTime.Now, DateTime.Now, 1235, "Test-Kommentar", "Test-MesKommentarKommentarKommentarKommentarKommentarsage", this.Customers[0], new InvoiceItemModel[]
+                new InvoiceModel(2, DateTime.Now, DateTime.Now, "Test-Kommentar", "Test-MesKommentarKommentarKommentarKommentarKommentarsage", this.Customers[0], new InvoiceItemModel[]
                 {
                     new InvoiceItemModel(3, "Artikel 3", 70, 14.2, 6.3),
                     new InvoiceItemModel(4, "Artikel 4", 132, 1.4, 8.7)
                 }),
-                new InvoiceModel(3, DateTime.Now, DateTime.Now, 1236, "Test-KomKommentarKommentarKommentarmentar", "TesKommentarKommentarKommentart-Message", this.Customers[1]),
-                new InvoiceModel(4, DateTime.Now, DateTime.Now, 1237, "Test-Kommentar", "Test-Message", this.Customers[2])
+                new InvoiceModel(3, DateTime.Now, DateTime.Now, "Test-KomKommentarKommentarKommentarmentar", "TesKommentarKommentarKommentart-Message", this.Customers[1]),
+                new InvoiceModel(4, DateTime.Now, DateTime.Now, "Test-Kommentar", "Test-Message", this.Customers[2])
             });
         }
 

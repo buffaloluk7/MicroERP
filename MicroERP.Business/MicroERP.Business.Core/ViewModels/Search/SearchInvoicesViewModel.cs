@@ -87,7 +87,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
         private async void onSearchInvoicesExecuted()
         {
             double? minPrice = double.Parse(this.searchQuery);
-            var invoices = await this.invoiceService.Search(minPrice: minPrice);
+            var invoices = await this.invoiceService.Search(minTotal: minPrice);
 
             this.Invoices = invoices.Select(invoice => new InvoiceModelViewModel(invoice));
         }

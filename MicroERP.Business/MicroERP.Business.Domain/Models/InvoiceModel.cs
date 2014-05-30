@@ -12,9 +12,9 @@ namespace MicroERP.Business.Domain.Models
         #region Fields
 
         private int id;
+        private double grossTotal;
         private DateTime issueDate;
         private DateTime dueDate;
-        private int number;
         private string comment;
         private string message;
         private ObservableCollection<InvoiceItemModel> invoiceItems;
@@ -31,6 +31,13 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<int>(ref this.id, value); }
         }
 
+        [DataMember(Name = "bruttoTotal")]
+        public double GrossTotal
+        {
+            get { return this.grossTotal; }
+            set { base.Set<double>(ref this.grossTotal, value); }
+        }
+
         [DataMember(Name = "issueDate")]
         public DateTime IssueDate
         {
@@ -43,13 +50,6 @@ namespace MicroERP.Business.Domain.Models
         {
             get { return this.dueDate; }
             set { base.Set<DateTime>(ref this.dueDate, value); }
-        }
-
-        [DataMember(Name = "number")]
-        public int Number
-        {
-            get { return this.number; }
-            set { base.Set<int>(ref this.number, value); }
         }
 
         [DataMember(Name = "comment")]
@@ -86,12 +86,11 @@ namespace MicroERP.Business.Domain.Models
 
         public InvoiceModel() {}
 
-        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, int number, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
         {
             this.id = id;
             this.issueDate = isseuDate;
             this.dueDate = dueDate;
-            this.number = number;
             this.comment = comment;
             this.message = message;
             this.Customer = customer;
@@ -117,7 +116,6 @@ namespace MicroERP.Business.Domain.Models
             return other != null &&
                 other.id == this.id &&
                 other.dueDate == this.dueDate &&
-                other.number == this.number &&
                 other.comment == this.comment &&
                 other.message == this.message &&
                 other.customer == this.customer &&

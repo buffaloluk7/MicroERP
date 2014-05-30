@@ -62,18 +62,18 @@ namespace MicroERP.Business.Core.Services
             return await this.invoiceRepository.Find(invoiceID);
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minPrice = null, double? maxPrice = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
         {
             if (customerID  == null &&
                 begin       == null &&
                 end         == null &&
-                minPrice    == null &&
-                maxPrice    == null)
+                minTotal    == null &&
+                maxTotal    == null)
             {
                 throw new ArgumentNullException("At least one parameter needs to be not null");
             }
 
-            return await this.Search(customerID, begin, end, minPrice, maxPrice);
+            return await this.Search(customerID, begin, end, minTotal, maxTotal);
         }
 
         #endregion
