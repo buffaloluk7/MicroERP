@@ -10,6 +10,7 @@ namespace MicroERP.Business.Domain.Models
         #region Fields
 
         private int? id;
+        private string name;
         private int? amount;
         private double? unitPrice;
         private double? tax;
@@ -23,6 +24,13 @@ namespace MicroERP.Business.Domain.Models
         {
             get { return this.id; }
             set { base.Set<int?>(ref this.id, value); }
+        }
+
+        [DataMember(Name = "name")]
+        public string Name
+        {
+            get { return this.name; }
+            set { base.Set<string>(ref this.name, value); }
         }
 
         [DataMember(Name = "amount")]
@@ -70,9 +78,10 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceItemModel(int? id, int? amount, double? unitPrice, double? tax)
+        public InvoiceItemModel(int? id, string name, int? amount, double? unitPrice, double? tax)
         {
             this.id = id;
+            this.name = name;
             this.amount = amount;
             this.unitPrice = unitPrice;
             this.tax = tax;
@@ -101,6 +110,7 @@ namespace MicroERP.Business.Domain.Models
         {
             return other != null &&
                 other.id == this.id &&
+                other.name == this.name &&
                 other.amount == this.amount &&
                 other.tax == this.tax &&
                 other.unitPrice == this.unitPrice;

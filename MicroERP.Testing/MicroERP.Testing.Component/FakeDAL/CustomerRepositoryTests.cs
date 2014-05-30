@@ -89,6 +89,7 @@ namespace MicroERP.Testing.Component.FakeDAL
 
             // Try to retrieve deleted customer
             this.customerRepository.Find(person.ID.Value);
+            this.customerRepository.Find(1000);
         }
     }
 }

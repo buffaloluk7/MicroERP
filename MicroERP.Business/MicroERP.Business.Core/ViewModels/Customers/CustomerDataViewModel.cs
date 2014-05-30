@@ -121,10 +121,6 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
                 this.RaisePropertyChanged(() => this.IsCreating);
             }
-            catch (CustomerAlreadyExistsException)
-            {
-                var x = this.notificationService.ShowAsync("Kunde existiert bereits.", "Fehler");
-            }
             catch (CustomerNotFoundException)
             {
                 var x = this.notificationService.ShowAsync("Der Kunde wurde in der Datenbank nicht gefunden.", "Fehler");
