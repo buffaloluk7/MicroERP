@@ -1,18 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Core.ViewModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels.Search.Customers
+namespace MicroERP.Business.Core.ViewModels.Search
 {
     public class SearchCustomersViewModel : ObservableObject
     {
         #region Fields
 
         private readonly ICustomerService customerService;
-        private IEnumerable<CustomerElementViewModel> customers;
-        private CustomerElementViewModel selectedCustomer;
+        private IEnumerable<CustomerDisplayNameViewModel> customers;
+        private CustomerDisplayNameViewModel selectedCustomer;
         private string searchQuery;
 
         #endregion
@@ -29,16 +30,16 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
             }
         }
 
-        public IEnumerable<CustomerElementViewModel> Customers
+        public IEnumerable<CustomerDisplayNameViewModel> Customers
         {
             get { return this.customers; }
-            set { base.Set<IEnumerable<CustomerElementViewModel>>(ref this.customers, value); }
+            set { base.Set<IEnumerable<CustomerDisplayNameViewModel>>(ref this.customers, value); }
         }
 
-        public CustomerElementViewModel SelectedCustomer
+        public CustomerDisplayNameViewModel SelectedCustomer
         {
             get { return this.selectedCustomer; }
-            set { base.Set<CustomerElementViewModel>(ref this.selectedCustomer, value); }
+            set { base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value); }
         }
 
         #endregion
@@ -86,7 +87,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
         private async void onSearchCustomersExecuted()
         {
             var customers = await this.customerService.Search(this.SearchQuery);
-            this.Customers = customers.Select(customer => new CustomerElementViewModel(customer));
+            this.Customers = customers.Select(customer => new CustomerDisplayNameViewModel(customer));
         }
 
         #endregion

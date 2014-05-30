@@ -2,13 +2,14 @@
 using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels.Search.Company;
+using MicroERP.Business.Core.ViewModels.Models;
+using MicroERP.Business.Core.ViewModels.Search;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
 using System;
 
-namespace MicroERP.Business.Core.ViewModels.Customers
+namespace MicroERP.Business.Core.ViewModels.Customer
 {
     public class CustomerDataViewModel : ObservableObject
     {
@@ -16,11 +17,10 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
-        private CustomerModel customer;
-        private readonly CustomerViewModel customerViewModel;
-        private readonly CompanyViewModel companyViewModel;
-        private readonly PersonViewModel personViewModel;
-
+        private readonly CustomerModel customer;
+        private readonly CustomerModelViewModel customerViewModel;
+        private readonly CompanyModelViewModel companyViewModel;
+        private readonly PersonModelViewModel personViewModel;
 
         #endregion
 
@@ -31,17 +31,17 @@ namespace MicroERP.Business.Core.ViewModels.Customers
             get { return this.customer.ID == default(int); }
         }
 
-        public CustomerViewModel Customer
+        public CustomerModelViewModel Customer
         {
             get { return this.customerViewModel; }
         }
 
-        public CompanyViewModel Company
+        public CompanyModelViewModel Company
         {
             get { return this.companyViewModel; }
         }
 
-        public PersonViewModel Person
+        public PersonModelViewModel Person
         {
             get { return this.personViewModel; }
         }
@@ -68,23 +68,28 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         public CustomerDataViewModel(IUnityContainer container, ICustomerService customerService, INotificationService notificationService, CustomerModel customer)
         {
+            if (customer == null)
+            {
+                throw new ArgumentNullException("customer");
+            }
+
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.SaveCustomerCommand = new RelayCommand(onSaveCustomerExecuted, onSaveCustomerCanExecute);
 
             this.customer = customer;
-            this.customerViewModel = new CustomerViewModel(customer);
+            this.customerViewModel = new CustomerModelViewModel(customer);
 
             var company = customer as CompanyModel;
             var person = customer as PersonModel;
 
             if (company != null)
             {
-                this.companyViewModel = new CompanyViewModel(company);
+                this.companyViewModel = new CompanyModelViewModel(company);
             }
             else if (person != null)
             {
-                this.personViewModel = new PersonViewModel(person);
+                this.personViewModel = new PersonModelViewModel(person);
                 this.SearchCompaniesViewModel = container.Resolve<SearchCompaniesViewModel>(new ParameterOverride("person", person));
             }
             else

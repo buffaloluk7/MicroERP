@@ -1,9 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
+using System;
 
-namespace MicroERP.Business.Core.ViewModels.Customers
+namespace MicroERP.Business.Core.ViewModels.Models
 {
-    public class CompanyViewModel : ObservableObject
+    public class CompanyModelViewModel : ObservableObject
     {
         #region Fields
 
@@ -29,8 +30,13 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         #region Constructors
 
-        public CompanyViewModel(CompanyModel company)
+        public CompanyModelViewModel(CompanyModel company)
         {
+            if (company == null)
+            {
+                throw new ArgumentNullException("company");
+            }
+
             this.company = company;
             this.company.PropertyChanged += company_PropertyChanged;
         }

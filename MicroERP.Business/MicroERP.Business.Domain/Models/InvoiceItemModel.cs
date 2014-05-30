@@ -51,20 +51,13 @@ namespace MicroERP.Business.Domain.Models
         }
 
         /// <summary>
-        /// For example: 12.5
+        /// For example: 0.19
         /// </summary>
         [DataMember(Name = "tax")]
         public double Tax
         {
             get { return this.tax; }
             set { base.Set<double>(ref this.tax, value); }
-        }
-
-        [IgnoreDataMember]
-        public int InvoiceID
-        {
-            get;
-            set;
         }
 
         [IgnoreDataMember]

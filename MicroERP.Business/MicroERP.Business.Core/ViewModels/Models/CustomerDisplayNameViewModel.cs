@@ -3,9 +3,9 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using System;
 
-namespace MicroERP.Business.Core.ViewModels.Search.Customers
+namespace MicroERP.Business.Core.ViewModels.Models
 {
-    public class CustomerElementViewModel : ObservableObject
+    public class CustomerDisplayNameViewModel : ObservableObject
     {
         #region Fields
 
@@ -52,26 +52,31 @@ namespace MicroERP.Business.Core.ViewModels.Search.Customers
             }
         }
 
+        internal CustomerModel Model
+        {
+            get { return customer; }
+        }
+
         #endregion
 
         #region Constructors
 
-        public CustomerElementViewModel(CustomerModel model)
+        public CustomerDisplayNameViewModel(CustomerModel customer)
         {
-            if (model == null)
+            if (customer == null)
             {
-                throw new ArgumentNullException("Model cannot be null");
+                throw new ArgumentNullException("customer");
             }
 
-            this.customer = model;
-            model.PropertyChanged += model_PropertyChanged;
+            this.customer = customer;
+            customer.PropertyChanged += customer_PropertyChanged;
         }
 
         #endregion
 
         #region Property Changed
 
-        private void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void customer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

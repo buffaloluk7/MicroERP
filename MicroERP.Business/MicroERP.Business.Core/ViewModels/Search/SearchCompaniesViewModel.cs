@@ -1,13 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels.Search.Company
+namespace MicroERP.Business.Core.ViewModels.Search
 {
     public class SearchCompaniesViewModel : ObservableObject
     {
@@ -15,8 +16,8 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
         private readonly PersonModel person;
         private readonly ICustomerService customerService;
-        private IEnumerable<CompanyElementViewModel> companies;
-        private CompanyElementViewModel selectedCompany;
+        private IEnumerable<CustomerDisplayNameViewModel> companies;
+        private CustomerDisplayNameViewModel selectedCompany;
         private string searchQuery;
 
         #endregion
@@ -34,19 +35,19 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             }
         }
 
-        public IEnumerable<CompanyElementViewModel> Companies
+        public IEnumerable<CustomerDisplayNameViewModel> Companies
         {
             get { return this.companies; }
-            set { base.Set<IEnumerable<CompanyElementViewModel>>(ref this.companies, value); }
+            set { base.Set<IEnumerable<CustomerDisplayNameViewModel>>(ref this.companies, value); }
         }
 
-        public CompanyElementViewModel SelectedCompany
+        public CustomerDisplayNameViewModel SelectedCompany
         {
             get { return this.selectedCompany; }
             set
             {
-                base.Set<CompanyElementViewModel>(ref this.selectedCompany, value);
-                this.person.Company = value != null ? value.Model : null;
+                base.Set<CustomerDisplayNameViewModel>(ref this.selectedCompany, value);
+                this.person.Company = value != null ? value.Model as CompanyModel : null;
                 this.SearchQuery = value != null ? value.DisplayName : null;
             }
         }
@@ -85,7 +86,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
 
             if (this.person.Company != null)
             {
-                this.searchQuery = new CompanyElementViewModel(this.person.Company).DisplayName;
+                this.searchQuery = new CustomerDisplayNameViewModel(this.person.Company).DisplayName;
             }
 
             #if DEBUG
@@ -119,11 +120,11 @@ namespace MicroERP.Business.Core.ViewModels.Search.Company
             if (companies.Count() == 1)
             {
                 var company = companies.First() as CompanyModel;
-                this.SelectedCompany = new CompanyElementViewModel(company);
+                this.SelectedCompany = new CustomerDisplayNameViewModel(company);
             }
             else
             {
-                this.Companies = companies.OfType<CompanyModel>().Select(c => new CompanyElementViewModel(c));
+                this.Companies = companies.OfType<CompanyModel>().Select(c => new CustomerDisplayNameViewModel(c));
             }
         }
 

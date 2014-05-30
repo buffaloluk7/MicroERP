@@ -6,10 +6,8 @@ using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels;
-using MicroERP.Business.Core.ViewModels.Customers;
-using MicroERP.Business.Core.ViewModels.Search.Company;
-using MicroERP.Business.Core.ViewModels.Search.Customers;
-using MicroERP.Business.Core.ViewModels.Search.Invoices;
+using MicroERP.Business.Core.ViewModels.Customer;
+using MicroERP.Business.Core.ViewModels.Search;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.Practices.Unity;
 
@@ -46,9 +44,9 @@ namespace MicroERP.Business.Core
             // Inject sample plattform services
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                container.RegisterType<INavigationService, SampleNavigationService>();
-                container.RegisterType<INotificationService, SampleNotificationService>();
-                container.RegisterType<IBrowsingService, SampleBrowsingService>();
+                this.container.RegisterType<INavigationService, SampleNavigationService>();
+                this.container.RegisterType<INotificationService, SampleNotificationService>();
+                this.container.RegisterType<IBrowsingService, SampleBrowsingService>();
             }
 
             // Services

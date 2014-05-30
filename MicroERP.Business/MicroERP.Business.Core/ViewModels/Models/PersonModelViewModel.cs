@@ -2,9 +2,9 @@
 using MicroERP.Business.Domain.Models;
 using System;
 
-namespace MicroERP.Business.Core.ViewModels.Customers
+namespace MicroERP.Business.Core.ViewModels.Models
 {
-    public class PersonViewModel : ObservableObject
+    public class PersonModelViewModel : ObservableObject
     {
         #region Fields
 
@@ -45,7 +45,7 @@ namespace MicroERP.Business.Core.ViewModels.Customers
         }
 
         // Currently not in use, but maybe one day. :-)
-        public CompanyViewModel Company
+        public CompanyModelViewModel Company
         {
             get;
             private set;
@@ -55,12 +55,17 @@ namespace MicroERP.Business.Core.ViewModels.Customers
 
         #region Constructors
 
-        public PersonViewModel(PersonModel person)
+        public PersonModelViewModel(PersonModel person)
         {
+            if (person == null)
+            {
+                throw new ArgumentNullException("person");
+            }
+
             this.person = person;
             this.person.PropertyChanged += person_PropertyChanged;
 
-            this.Company = new CompanyViewModel(this.person.Company ?? new CompanyModel());
+            this.Company = new CompanyModelViewModel(this.person.Company ?? new CompanyModel());
             this.RaisePropertyChanged(() => this.Company);
         }
 

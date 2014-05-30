@@ -1,18 +1,19 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Core.ViewModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels.Search.Invoices
+namespace MicroERP.Business.Core.ViewModels.Search
 {
     public class SearchInvoicesViewModel : ObservableObject
     {
         #region Fields
 
         private readonly IInvoiceService invoiceService;
-        private IEnumerable<InvoiceElementViewModel> invoices;
-        private InvoiceElementViewModel selectedInvoice;
+        private IEnumerable<InvoiceModelViewModel> invoices;
+        private InvoiceModelViewModel selectedInvoice;
         private string searchQuery;
 
         #endregion
@@ -29,16 +30,16 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
             }
         }
 
-        public IEnumerable<InvoiceElementViewModel> Invoices
+        public IEnumerable<InvoiceModelViewModel> Invoices
         {
             get { return this.invoices; }
-            set { base.Set<IEnumerable<InvoiceElementViewModel>>(ref this.invoices, value); }
+            set { base.Set<IEnumerable<InvoiceModelViewModel>>(ref this.invoices, value); }
         }
 
-        public InvoiceElementViewModel SelectedInvoice
+        public InvoiceModelViewModel SelectedInvoice
         {
             get { return this.selectedInvoice; }
-            set { base.Set<InvoiceElementViewModel>(ref this.selectedInvoice, value); }
+            set { base.Set<InvoiceModelViewModel>(ref this.selectedInvoice, value); }
         }
 
         #endregion
@@ -88,7 +89,7 @@ namespace MicroERP.Business.Core.ViewModels.Search.Invoices
             double? minPrice = double.Parse(this.searchQuery);
             var invoices = await this.invoiceService.Search(minPrice: minPrice);
 
-            this.Invoices = invoices.Select(invoice => new InvoiceElementViewModel(invoice));
+            this.Invoices = invoices.Select(invoice => new InvoiceModelViewModel(invoice));
         }
 
         #endregion
