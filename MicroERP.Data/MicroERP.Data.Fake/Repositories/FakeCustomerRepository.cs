@@ -90,7 +90,7 @@ namespace MicroERP.Data.Fake.Repositories
 
                 if (customer is CompanyModel)
                 {
-                    var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID == customerID);
+                    var employees = FakeData.Instance.Customers.OfType<PersonModel>().Where(p => p.Company != null && p.Company.ID == customerID);
                     foreach (var employee in employees)
                     {
                         employee.Company = null;

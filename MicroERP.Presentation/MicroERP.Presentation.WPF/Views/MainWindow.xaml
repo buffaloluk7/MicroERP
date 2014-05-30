@@ -4,10 +4,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
-    mc:Ignorable="d"
     x:Class="MicroERP.Presentation.Views.MainWindow"
     x:Name="Window"
     Title="MicroERP"
@@ -20,7 +17,7 @@
     FocusManager.FocusedElement="{Binding ElementName=SearchBox}"
     WindowStartupLocation="CenterScreen">
 
-    <Controls:MetroWindow.WindowCommands>
+        <Controls:MetroWindow.WindowCommands>
         <Controls:WindowCommands>
             <Button Command="{Binding RepositoryCommand}">
                 <TextBlock Foreground="White">

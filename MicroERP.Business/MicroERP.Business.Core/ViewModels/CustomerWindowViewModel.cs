@@ -114,9 +114,9 @@ namespace MicroERP.Business.Core.ViewModels
             }
 
             var person = customer as PersonModel;
-            if (person != null && person.CompanyID.HasValue && person.CompanyID.Value != 0)
+            if (person != null && person.Company != null)
             {
-                person.Company = await this.customerService.Find<CompanyModel>(person.CompanyID.Value);
+                person.Company = await this.customerService.Find<CompanyModel>(person.Company.ID);
                 customer = person;
             }
 

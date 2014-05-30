@@ -130,7 +130,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
 
         private bool onRemoveFromCompanyCanExecute()
         {
-            return this.person.CompanyID.HasValue;
+            return this.person.Company != null;
         }
 
         private void onRemoveFromCompanyExecuted()

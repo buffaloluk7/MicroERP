@@ -77,19 +77,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
-      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.3.31.2\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.4.32.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras">
-      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.3.31.2\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.4.32.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform">
-      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.3.31.2\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.4.32.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Luvi">
-      <HintPath>..\..\packages\Luvi.1.1.5241.2249\lib\portable-net45+win+WindowsPhoneApp81+wp80\Luvi.dll</HintPath>
+      <HintPath>..\..\packages\Luvi.1.1.5254.20043\lib\portable-net45+win+wp80\Luvi.dll</HintPath>
     </Reference>
     <Reference Include="Luvi.WPF">
-      <HintPath>..\..\packages\Luvi.WPF.1.1.5241.2251\lib\net45\Luvi.WPF.dll</HintPath>
+      <HintPath>..\..\packages\Luvi.WPF.1.1.5254.20045\lib\net45\Luvi.WPF.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\..\packages\MahApps.Metro.0.13.1.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -116,7 +116,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.3.31.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\Portable.MvvmLightLibs.4.4.32.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
