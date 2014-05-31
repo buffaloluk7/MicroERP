@@ -4,6 +4,8 @@ using Luvi.WPF.Service.Navigation;
 using Luvi.WPF.Service.Notification;
 using MicroERP.Business.Core;
 using MicroERP.Business.Core.ViewModels;
+using MicroERP.Business.Core.ViewModels.Customer;
+using MicroERP.Business.Core.ViewModels.Main;
 using MicroERP.Data.Api.Exceptions;
 using MicroERP.Presentation.Views;
 using System;

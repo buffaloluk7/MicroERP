@@ -1,52 +1,29 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Luvi.Service.Browsing;
+﻿using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels.Search;
+using MicroERP.Business.Core.ViewModels.Customer;
+using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels
+namespace MicroERP.Business.Core.ViewModels.Main.Commands
 {
-    public class MainWindowViewModel : ObservableObject
+    public class CustomerCommandsViewModel
     {
         #region Fields
 
         private readonly ICustomerService customerService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
-        private readonly IBrowsingService browsingService;
         private readonly SearchCustomersViewModel searchCustomersViewModel;
-        private readonly SearchInvoicesViewModel searchInvoicesViewModel;
 
         #endregion
 
         #region Properties
-
-        public SearchCustomersViewModel SearchCustomersViewModel
-        {
-            get { return this.searchCustomersViewModel; }
-        }
-
-        public SearchInvoicesViewModel SearchInvoicesViewModel
-        {
-            get { return this.searchInvoicesViewModel; }
-        }
-
-        #endregion
-
-        #region Commands
-
-        public RelayCommand RepositoryCommand
-        {
-            get;
-            private set;
-        }
 
         public RelayCommand<CustomerType> CreateCustomerCommand
         {
@@ -68,17 +45,19 @@ namespace MicroERP.Business.Core.ViewModels
 
         #endregion
 
-        #region Constructors
+        #region Constructor
 
-        public MainWindowViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel, SearchInvoicesViewModel searchInvoicesViewModel)
+        public CustomerCommandsViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, SearchCustomersViewModel searchCustomersViewModel)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
-            this.browsingService = browsingService;
-            this.searchCustomersViewModel = searchCustomersViewModel;
-            this.searchInvoicesViewModel = searchInvoicesViewModel;
 
+            this.CreateCustomerCommand = new RelayCommand<CustomerType>(onCreateCustomerExecuted);
+            this.EditCustomerCommand = new RelayCommand(onEditCustomerExecuted, onEditCustomerCanExecute);
+            this.DeleteCustomerCommand = new RelayCommand(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
+
+            this.searchCustomersViewModel = searchCustomersViewModel;
             this.searchCustomersViewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "SelectedCustomer")
@@ -87,25 +66,22 @@ namespace MicroERP.Business.Core.ViewModels
                     this.DeleteCustomerCommand.RaiseCanExecuteChanged();
                 }
             };
-
-            this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
-            this.CreateCustomerCommand = new RelayCommand<CustomerType>(onCreateCustomerExecuted);
-            this.EditCustomerCommand = new RelayCommand(onEditCustomerExecuted, onEditCustomerCanExecute);
-            this.DeleteCustomerCommand = new RelayCommand(onDeleteCustomerExecuted, onDeleteCustomerCanExecute);
         }
 
         #endregion
 
         #region Command Implementations
 
-        private async void onRepositoryExecuted()
+        private async void onCreateCustomerExecuted(CustomerType type)
         {
-            await this.browsingService.OpenLinkAsync("https://github.com/buffaloluk7/micro_erp.git");
-        }
-
-        private void onCreateCustomerExecuted(CustomerType type)
-        {
-            this.navigationService.Navigate<CustomerWindowViewModel>(type);
+            if (this.navigationService is IWindowNavigationService)
+            {
+                await (this.navigationService as IWindowNavigationService).Navigate<CustomerWindowViewModel>(type, showDialog: true);
+            }
+            else
+            {
+                await this.navigationService.Navigate<CustomerWindowViewModel>(type);
+            }
         }
 
         private async void onEditCustomerExecuted()
@@ -122,7 +98,14 @@ namespace MicroERP.Business.Core.ViewModels
                 return;
             }
 
-            await this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects});
+            if (this.navigationService is IWindowNavigationService)
+            {
+                await (this.navigationService as IWindowNavigationService).NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }, showDialog: true);
+            }
+            else
+            {
+                await this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+            }
         }
 
         private bool onEditCustomerCanExecute()

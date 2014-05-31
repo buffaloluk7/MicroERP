@@ -73,7 +73,7 @@ namespace MicroERP.Business.Core.Services
                 throw new ArgumentNullException("At least one parameter needs to be not null");
             }
 
-            return await this.Search(customerID, begin, end, minTotal, maxTotal);
+            return await this.invoiceRepository.Search(customerID, begin, end, minTotal, maxTotal);
         }
 
         #endregion

@@ -1,13 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using Luvi.Service.Browsing;
+﻿using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels;
 using MicroERP.Business.Core.ViewModels.Customer;
-using MicroERP.Business.Core.ViewModels.Search;
+using MicroERP.Business.Core.ViewModels.Main;
+using MicroERP.Business.Core.ViewModels.Main.Search;
+using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.Practices.Unity;
 
@@ -41,13 +41,13 @@ namespace MicroERP.Business.Core
         {
             this.container = new UnityContainer();
 
-            // Inject sample plattform services
-            if (ViewModelBase.IsInDesignModeStatic)
+            // Inject sample platform services
+            /*if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.container.RegisterType<INavigationService, SampleNavigationService>();
                 this.container.RegisterType<INotificationService, SampleNotificationService>();
                 this.container.RegisterType<IBrowsingService, SampleBrowsingService>();
-            }
+            }*/
 
             // Services
             this.container.RegisterInstance<IUnityContainer>(this.container, new ContainerControlledLifetimeManager());
@@ -63,9 +63,11 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<CustomerWindowViewModel>();
             this.container.RegisterType<SearchCustomersViewModel>();
-            this.container.RegisterType<SearchCompaniesViewModel>();
             this.container.RegisterType<SearchInvoicesViewModel>();
             this.container.RegisterType<CustomerDataViewModel>();
+
+            this.container.RegisterType<CompanySearchBoxViewModel>();
+            this.container.RegisterType<CustomerSearchBoxViewModel>();
         }
 
         #endregion

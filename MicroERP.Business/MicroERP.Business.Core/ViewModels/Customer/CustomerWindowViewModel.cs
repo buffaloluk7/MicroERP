@@ -5,8 +5,7 @@ using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels.Customer;
-using MicroERP.Business.Core.ViewModels.Search;
+using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -14,7 +13,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels
+namespace MicroERP.Business.Core.ViewModels.Customer
 {
     public class CustomerWindowViewModel : ObservableObject, INavigationAware
     {
@@ -29,7 +28,7 @@ namespace MicroERP.Business.Core.ViewModels
 
         #region Propterties
 
-        public CustomerDataViewModel CustomerData
+        public CustomerDataViewModel CustomerDataViewModel
         {
             get;
             private set;
@@ -67,7 +66,7 @@ namespace MicroERP.Business.Core.ViewModels
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                var customer = this.customerService.Search("lukas").ContinueWith((t) =>
+                this.customerService.Search("lukas").ContinueWith((t) =>
                 {
                     this.OnNavigatedTo(t.Result.First().ToJson(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }), NavigationType.Forward);
                 });
@@ -114,15 +113,15 @@ namespace MicroERP.Business.Core.ViewModels
             }
 
             var person = customer as PersonModel;
-            if (person != null && person.Company != null)
+            if (person != null && person.CompanyID.HasValue)
             {
-                person.Company = await this.customerService.Find<CompanyModel>(person.Company.ID);
+                person.Company = await this.customerService.Find<CompanyModel>(person.CompanyID.Value);
                 customer = person;
             }
 
-            this.CustomerData = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
+            this.CustomerDataViewModel = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
             this.SearchInvoicesViewModel = this.container.Resolve<SearchInvoicesViewModel>(new ParameterOverride("customerID", customer.ID));
-            this.RaisePropertyChanged(() => this.CustomerData);
+            this.RaisePropertyChanged(() => this.CustomerDataViewModel);
             this.RaisePropertyChanged(() => this.SearchInvoicesViewModel);
         }
 

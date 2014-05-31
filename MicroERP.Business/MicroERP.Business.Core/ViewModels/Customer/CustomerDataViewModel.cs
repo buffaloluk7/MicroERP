@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
-using MicroERP.Business.Core.ViewModels.Search;
+using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -46,7 +46,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             get { return this.personViewModel; }
         }
 
-        public SearchCompaniesViewModel SearchCompaniesViewModel
+        public CompanySearchBoxViewModel CompanySearchBoxViewModel
         {
             get;
             private set;
@@ -90,7 +90,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             else if (person != null)
             {
                 this.personViewModel = new PersonModelViewModel(person);
-                this.SearchCompaniesViewModel = container.Resolve<SearchCompaniesViewModel>(new ParameterOverride("person", person));
+                this.CompanySearchBoxViewModel = container.Resolve<CompanySearchBoxViewModel>(new ParameterOverride("person", person));
             }
             else
             {

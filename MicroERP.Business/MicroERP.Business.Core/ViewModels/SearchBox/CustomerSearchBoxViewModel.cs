@@ -5,9 +5,9 @@ using MicroERP.Business.Core.ViewModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels.Search
+namespace MicroERP.Business.Core.ViewModels.SearchBox
 {
-    public class SearchCustomersViewModel : ObservableObject
+    public class CustomerSearchBoxViewModel : ObservableObject
     {
         #region Fields
 
@@ -26,7 +26,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
             set
             {
                 base.Set<string>(ref this.searchQuery, value);
-                this.SearchCustomersCommand.RaiseCanExecuteChanged();
+                this.SearchCustomerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -39,14 +39,18 @@ namespace MicroERP.Business.Core.ViewModels.Search
         public CustomerDisplayNameViewModel SelectedCustomer
         {
             get { return this.selectedCustomer; }
-            set { base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value); }
+            set
+            {
+                base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value);
+                this.SearchQuery = value != null ? value.DisplayName : null;
+            }
         }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand SearchCustomersCommand
+        public RelayCommand SearchCustomerCommand
         {
             get;
             private set;
@@ -56,10 +60,10 @@ namespace MicroERP.Business.Core.ViewModels.Search
 
         #region Constructors
 
-        public SearchCustomersViewModel(ICustomerService customerService)
+        public CustomerSearchBoxViewModel(ICustomerService customerService)
         {
             this.customerService = customerService;
-            this.SearchCustomersCommand = new RelayCommand(this.onSearchCustomersExecuted, this.onSearchCustomersCanExecute);
+            this.SearchCustomerCommand = new RelayCommand(this.onSearchCustomersExecuted, this.onSearchCustomersCanExecute);
 
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
@@ -81,13 +85,22 @@ namespace MicroERP.Business.Core.ViewModels.Search
                 this.Customers = null;
                 return false;
             }
+
             return true;
         }
 
         private async void onSearchCustomersExecuted()
         {
-            var customers = await this.customerService.Search(this.SearchQuery);
-            this.Customers = customers.Select(customer => new CustomerDisplayNameViewModel(customer));
+            var customers = await this.customerService.Search(this.searchQuery);
+
+            if (customers.Count() == 1)
+            {
+                this.SelectedCustomer = new CustomerDisplayNameViewModel(customers.First());
+            }
+            else
+            {
+                this.Customers = customers.Select(c => new CustomerDisplayNameViewModel(c));
+            }
         }
 
         #endregion

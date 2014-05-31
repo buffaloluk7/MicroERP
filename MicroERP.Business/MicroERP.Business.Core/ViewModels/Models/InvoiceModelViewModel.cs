@@ -14,6 +14,17 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Properties
 
+        public int ID
+        {
+            get { return this.invoice.ID; }
+            set { this.invoice.ID = value; }
+        }
+
+        public string DisplayName
+        {
+            get { return new CustomerDisplayNameViewModel(this.invoice.Customer).DisplayName; }
+        }
+
         public DateTime IssueDate
         {
             get { return this.invoice.IssueDate; }

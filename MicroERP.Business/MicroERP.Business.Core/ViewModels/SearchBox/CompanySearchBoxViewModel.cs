@@ -8,9 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Business.Core.ViewModels.Search
+namespace MicroERP.Business.Core.ViewModels.SearchBox
 {
-    public class SearchCompaniesViewModel : ObservableObject
+    public class CompanySearchBoxViewModel : ObservableObject
     {
         #region Fields
 
@@ -30,7 +30,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
             set
             {
                 base.Set<string>(ref this.searchQuery, value);
-                this.SearchCompaniesCommand.RaiseCanExecuteChanged();
+                this.SearchCompanyCommand.RaiseCanExecuteChanged();
                 this.RemoveFromCompanyCommand.RaiseCanExecuteChanged();
             }
         }
@@ -56,7 +56,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
 
         #region Commands
 
-        public RelayCommand SearchCompaniesCommand
+        public RelayCommand SearchCompanyCommand
         {
             get;
             private set;
@@ -72,7 +72,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
 
         #region Constructors
 
-        public SearchCompaniesViewModel(ICustomerService customerService, PersonModel person)
+        public CompanySearchBoxViewModel(ICustomerService customerService, PersonModel person)
         {
             if (person == null)
             {
@@ -81,7 +81,7 @@ namespace MicroERP.Business.Core.ViewModels.Search
 
             this.customerService = customerService;
             this.person = person;
-            this.SearchCompaniesCommand = new RelayCommand(this.onSearchCompaniesExecuted, this.onSearchCompaniesCanExecute);
+            this.SearchCompanyCommand = new RelayCommand(this.onSearchCompaniesExecuted, this.onSearchCompaniesCanExecute);
             this.RemoveFromCompanyCommand = new RelayCommand(this.onRemoveFromCompanyExecuted, this.onRemoveFromCompanyCanExecute);
 
             if (this.person.Company != null)
