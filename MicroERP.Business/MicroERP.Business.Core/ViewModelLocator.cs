@@ -1,4 +1,5 @@
-﻿using Luvi.Service.Browsing;
+﻿using GalaSoft.MvvmLight;
+using Luvi.Service.Browsing;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
@@ -42,12 +43,12 @@ namespace MicroERP.Business.Core
             this.container = new UnityContainer();
 
             // Inject sample platform services
-            /*if (ViewModelBase.IsInDesignModeStatic)
+            if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.container.RegisterType<INavigationService, SampleNavigationService>();
                 this.container.RegisterType<INotificationService, SampleNotificationService>();
                 this.container.RegisterType<IBrowsingService, SampleBrowsingService>();
-            }*/
+            }
 
             // Services
             this.container.RegisterInstance<IUnityContainer>(this.container, new ContainerControlledLifetimeManager());

@@ -31,7 +31,7 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<int>(ref this.id, value); }
         }
 
-        [DataMember(Name = "bruttoTotal")]
+        [DataMember(Name = "grossTotal")]
         public double GrossTotal
         {
             get { return this.grossTotal; }

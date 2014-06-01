@@ -20,8 +20,8 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
 
         private DateTime? minDate;
         private DateTime? maxDate;
-        private double? minPrice;
-        private double? maxPrice;
+        private double? minTotal;
+        private double? maxTotal;
 
         #endregion
 
@@ -47,22 +47,22 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             }
         }
 
-        public double? MinPrice
+        public double? MinTotal
         {
-            get { return this.minPrice; }
+            get { return this.minTotal; }
             set
             {
-                base.Set<double?>(ref this.minPrice, value);
+                base.Set<double?>(ref this.minTotal, value);
                 this.SearchInvoicesCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public double? MaxPrice
+        public double? MaxTotal
         {
-            get { return this.maxPrice; }
+            get { return this.maxTotal; }
             set
             {
-                base.Set<double?>(ref this.maxPrice, value);
+                base.Set<double?>(ref this.maxTotal, value);
                 this.SearchInvoicesCommand.RaiseCanExecuteChanged();
             }
         }
@@ -116,7 +116,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                this.CustomerSearchBoxViewModel.SearchQuery = "lukas";
+                this.minTotal = 0.0;
                 this.onSearchInvoicesExecuted();
             }
             #endif
@@ -142,7 +142,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             var customer = this.CustomerSearchBoxViewModel.SelectedCustomer == null ? null : this.CustomerSearchBoxViewModel.SelectedCustomer.Model;
             int? customerID = customer == null ? default(int?) : customer.ID;
 
-            var invoices = await this.invoiceService.Search(customerID, this.minDate, this.maxDate, this.minPrice, this.maxPrice);
+            var invoices = await this.invoiceService.Search(customerID, this.minDate, this.maxDate, this.minTotal, this.maxTotal);
             this.Invoices = invoices.Select(invoice => new InvoiceModelViewModel(invoice));
         }
 
