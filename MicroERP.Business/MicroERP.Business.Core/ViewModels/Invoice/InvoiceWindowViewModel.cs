@@ -113,6 +113,7 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         private void onAddInvoiceItemExecuted()
         {
             this.Invoice.InvoiceItems.Add(this.newInvoiceItem);
+            this.NewInvoiceItem = new InvoiceItemModelViewModel(new InvoiceItemModel());
         }
 
         private void onCancelExecuted()

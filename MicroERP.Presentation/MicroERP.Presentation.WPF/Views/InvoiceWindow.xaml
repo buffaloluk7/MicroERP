@@ -76,9 +76,9 @@
                               ItemsSource="{Binding InvoiceItems}"
                               AutoGenerateColumns="False"
                               CanUserAddRows="True"
-                              ToolTip="GO :D"
                               CanUserDeleteRows="True"
-                              CanUserResizeRows="True">
+                              CanUserResizeRows="True"
+                              IsManipulationEnabled="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Menge" Binding="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Header="Bezeichnung" Width="*" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
