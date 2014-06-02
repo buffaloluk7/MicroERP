@@ -1,10 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -51,14 +46,9 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Constructors
 
-        public InvoiceItemModelViewModel(InvoiceItemModel invoiceItem)
+        public InvoiceItemModelViewModel(InvoiceItemModel invoiceItem = null)
         {
-            if (invoiceItem == null)
-            {
-                throw new ArgumentNullException("invoiceItem");
-            }
-
-            this.invoiceItem = invoiceItem;
+            this.invoiceItem = invoiceItem ?? new InvoiceItemModel();
             this.invoiceItem.PropertyChanged += invoiceItem_PropertyChanged;
         }
 

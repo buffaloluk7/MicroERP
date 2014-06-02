@@ -2,6 +2,7 @@
 using MicroERP.Business.Domain.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -65,24 +66,13 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Constructors
 
-        public InvoiceModelViewModel(InvoiceModel invoice)
+        public InvoiceModelViewModel(InvoiceModel invoice = null)
         {
-            if (invoice == null)
-            {
-                throw new ArgumentNullException("invoice");
-            }
-
-            this.invoice = invoice;
+            this.invoice = invoice ?? new InvoiceModel();
             this.invoice.PropertyChanged += invoice_PropertyChanged;
 
-            this.invoiceItems = new ObservableCollection<InvoiceItemModelViewModel>();
-            foreach (var invoiceItem in this.invoice.InvoiceItems)
-            {
-                this.invoiceItems.Add(new InvoiceItemModelViewModel(invoiceItem));
-            }
-
-            var ii = new InvoiceItemModel(1, "Artikelbeschreibung xyz", 10, 12.0m, 0.2);
-            this.invoiceItems.Add(new InvoiceItemModelViewModel(ii));
+            var invoiceItems = this.invoice.InvoiceItems.Select(ii => new InvoiceItemModelViewModel(ii));
+            this.invoiceItems = new ObservableCollection<InvoiceItemModelViewModel>(invoiceItems);
         }
 
         #endregion
@@ -97,6 +87,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
                 case "DueDate":
                 case "Comment":
                 case "Message":
+                case "InvoiceItems":
                     base.RaisePropertyChanged(e.PropertyName);
                     break;
             }

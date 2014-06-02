@@ -1,15 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
+using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MicroERP.Business.Core.ViewModels.Invoice
 {
@@ -19,6 +17,8 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
         private readonly IInvoiceService invoiceService;
         private readonly INavigationService navigationService;
+        private readonly INotificationService notificationService;
+
         private readonly InvoiceModelViewModel invoiceModelViewModel;
         private InvoiceItemModelViewModel newInvoiceItem;
 
@@ -65,17 +65,18 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
         #region Constructor
 
-        public InvoiceWindowViewModel(IInvoiceService invoiceService, INavigationService navigationService)
+        public InvoiceWindowViewModel(IInvoiceService invoiceService, INavigationService navigationService, INotificationService notificationService)
         {
             this.invoiceService = invoiceService;
             this.navigationService = navigationService;
+            this.notificationService = notificationService;
 
             this.CancelCommand = new RelayCommand(onCancelExecuted);
             this.SaveInvoiceCommand = new RelayCommand(onSaveInvoiceExecuted, onSaveInvoiceCanExecute);
             this.AddInvoiceItemCommand = new RelayCommand(onAddInvoiceItemExecuted, onAddInvoiceItemCanExecute);
 
-            this.invoiceModelViewModel = new InvoiceModelViewModel(new InvoiceModel());
-            this.newInvoiceItem = new InvoiceItemModelViewModel(new InvoiceItemModel());
+            this.invoiceModelViewModel = new InvoiceModelViewModel();
+            this.newInvoiceItem = new InvoiceItemModelViewModel();
             this.newInvoiceItem.PropertyChanged += ((s, e) =>
             {
                 this.AddInvoiceItemCommand.RaiseCanExecuteChanged();
@@ -85,21 +86,6 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         #endregion
 
         #region Command Implementations
-
-        private bool onSaveInvoiceCanExecute()
-        {
-            return true;
-        }
-
-        private async void onSaveInvoiceExecuted()
-        {
-            var invoice = this.Invoice.Model;
-            var invoiceItems = this.Invoice.InvoiceItems.Select(ii => ii.Model);
-
-            invoice.InvoiceItems = new ObservableCollection<InvoiceItemModel>(invoiceItems);
-
-            await this.invoiceService.Create(this.customerID, invoice);
-        }
 
         private bool onAddInvoiceItemCanExecute()
         {
@@ -113,7 +99,34 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         private void onAddInvoiceItemExecuted()
         {
             this.Invoice.InvoiceItems.Add(this.newInvoiceItem);
-            this.NewInvoiceItem = new InvoiceItemModelViewModel(new InvoiceItemModel());
+            this.NewInvoiceItem = new InvoiceItemModelViewModel();
+            this.SaveInvoiceCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool onSaveInvoiceCanExecute()
+        {
+            return this.Invoice.InvoiceItems.Count > 0;
+        }
+
+        private async void onSaveInvoiceExecuted()
+        {
+            var invoice = this.Invoice.Model;
+            var invoiceItems = this.Invoice.InvoiceItems.Select(ii => ii.Model);
+
+            invoice.InvoiceItems = new ObservableCollection<InvoiceItemModel>(invoiceItems);
+
+            try
+            {
+                await this.invoiceService.Create(this.customerID, invoice);
+                await this.notificationService.ShowAsync("Rechnung erfolgreich erstellt.", "Rechnung erstellt");
+            }
+            catch (CustomerNotFoundException)
+            {
+                var x = this.notificationService.ShowAsync("Der Kunde konnte in der Datenbank nicht gefunden werden.", "Kunde nicht gefunden");
+            }
+
+            // Close the window by using the cancel command
+            this.onCancelExecuted();
         }
 
         private void onCancelExecuted()

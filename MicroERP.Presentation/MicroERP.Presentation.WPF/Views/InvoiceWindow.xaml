@@ -32,8 +32,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Anfangs-Datum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="End-Datum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Rechnungsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Fälligkeitsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Kommentar" VerticalAlignment="Center" FontWeight="Bold" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Nachricht" VerticalAlignment="Center" FontWeight="Bold" />
 
@@ -78,7 +78,7 @@
                               CanUserAddRows="True"
                               CanUserDeleteRows="True"
                               CanUserResizeRows="True"
-                              IsManipulationEnabled="False">
+                              IsReadOnly="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Menge" Binding="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Header="Bezeichnung" Width="*" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

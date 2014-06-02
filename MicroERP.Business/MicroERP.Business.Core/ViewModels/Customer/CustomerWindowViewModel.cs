@@ -5,7 +5,6 @@ using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;

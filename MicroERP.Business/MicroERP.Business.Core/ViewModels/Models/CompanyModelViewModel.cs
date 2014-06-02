@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
-using System;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -30,14 +29,9 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Constructors
 
-        public CompanyModelViewModel(CompanyModel company)
+        public CompanyModelViewModel(CompanyModel company = null)
         {
-            if (company == null)
-            {
-                throw new ArgumentNullException("company");
-            }
-
-            this.company = company;
+            this.company = company ?? new CompanyModel();
             this.company.PropertyChanged += company_PropertyChanged;
         }
 

@@ -90,7 +90,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
             try
             {
-                customer = await this.customerService.Find(this.searchCustomersViewModel.SelectedCustomer.customer.ID);
+                customer = await this.customerService.Find(this.searchCustomersViewModel.SelectedCustomer.Model.ID);
             }
             catch (CustomerNotFoundException)
             {
@@ -119,7 +119,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
             try
             {
-                await this.customerService.Delete(customer.customer.ID);
+                await this.customerService.Delete(customer.Model.ID);
             }
             catch (CustomerNotFoundException)
             {

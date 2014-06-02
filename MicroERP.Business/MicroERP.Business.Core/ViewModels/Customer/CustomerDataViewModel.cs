@@ -81,23 +81,21 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             this.customerViewModel = new CustomerModelViewModel(customer);
 
             var company = customer as CompanyModel;
-            var person = customer as PersonModel;
-
             if (company != null)
             {
                 this.companyViewModel = new CompanyModelViewModel(company);
+                return;
             }
-            else if (person != null)
+
+            var person = customer as PersonModel;
+            if (person != null)
             {
                 this.personViewModel = new PersonModelViewModel(person);
                 this.CompanySearchBoxViewModel = container.Resolve<CompanySearchBoxViewModel>(new ParameterOverride("person", person));
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("customer");
+                return;
             }
 
-            this.RaisePropertyChanged(() => this.IsCreating);
+            throw new ArgumentOutOfRangeException("customer");
         }
 
         #endregion

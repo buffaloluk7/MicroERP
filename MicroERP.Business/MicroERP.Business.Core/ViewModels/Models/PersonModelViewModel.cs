@@ -55,18 +55,12 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Constructors
 
-        public PersonModelViewModel(PersonModel person)
+        public PersonModelViewModel(PersonModel person = null)
         {
-            if (person == null)
-            {
-                throw new ArgumentNullException("person");
-            }
-
-            this.person = person;
+            this.person = person ?? new PersonModel();
             this.person.PropertyChanged += person_PropertyChanged;
 
-            this.Company = new CompanyModelViewModel(this.person.Company ?? new CompanyModel());
-            this.RaisePropertyChanged(() => this.Company);
+            this.Company = new CompanyModelViewModel(this.person.Company);
         }
 
         #endregion

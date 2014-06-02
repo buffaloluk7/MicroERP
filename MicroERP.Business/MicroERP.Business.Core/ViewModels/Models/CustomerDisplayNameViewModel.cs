@@ -9,7 +9,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
     {
         #region Fields
 
-        internal readonly CustomerModel customer;
+        private readonly CustomerModel customer;
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         internal CustomerModel Model
         {
-            get { return customer; }
+            get { return this.customer; }
         }
 
         #endregion
