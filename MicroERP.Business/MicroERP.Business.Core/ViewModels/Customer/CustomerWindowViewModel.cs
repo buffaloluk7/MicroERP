@@ -126,7 +126,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             customer.Invoices = new ObservableCollection<InvoiceModel>(await this.invoiceService.Search(customer.ID));
 
             this.CustomerDataViewModel = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
-            this.InvoiceDataViewModel = this.container.Resolve<InvoiceDataViewModel>(new ParameterOverride("invoices", customer.Invoices));
+            this.InvoiceDataViewModel = this.container.Resolve<InvoiceDataViewModel>(new ParameterOverrides { {"invoices", customer.Invoices}, {"customerID", customer.ID} });
             this.RaisePropertyChanged(() => this.CustomerDataViewModel);
             this.RaisePropertyChanged(() => this.InvoiceDataViewModel);
         }

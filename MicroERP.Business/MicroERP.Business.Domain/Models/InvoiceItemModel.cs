@@ -12,7 +12,7 @@ namespace MicroERP.Business.Domain.Models
         private int id;
         private string name;
         private int amount;
-        private double unitPrice;
+        private decimal unitPrice;
         private double tax;
 
         #endregion
@@ -44,10 +44,10 @@ namespace MicroERP.Business.Domain.Models
         /// Net price
         /// </summary>
         [DataMember(Name = "unitPrice")]
-        public double UnitPrice
+        public decimal UnitPrice
         {
             get { return this.unitPrice; }
-            set { base.Set<double>(ref this.unitPrice, value); }
+            set { base.Set<decimal>(ref this.unitPrice, value); }
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace MicroERP.Business.Domain.Models
 
         public InvoiceItemModel() {}
 
-        public InvoiceItemModel(int id, string name, int amount, double unitPrice, double tax)
+        public InvoiceItemModel(int id, string name, int amount, decimal unitPrice, double tax)
         {
             this.id = id;
             this.name = name;

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
 using System;
+using System.Collections.ObjectModel;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -9,6 +10,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
         #region Fields
 
         private readonly InvoiceModel invoice;
+        private readonly ObservableCollection<InvoiceItemModelViewModel> invoiceItems;
 
         #endregion
 
@@ -49,6 +51,16 @@ namespace MicroERP.Business.Core.ViewModels.Models
             set { this.invoice.Message = value; }
         }
 
+        public ObservableCollection<InvoiceItemModelViewModel> InvoiceItems
+        {
+            get { return this.invoiceItems; }
+        }
+
+        internal InvoiceModel Model
+        {
+            get { return this.invoice; }
+        }
+
         #endregion
 
         #region Constructors
@@ -62,6 +74,15 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
             this.invoice = invoice;
             this.invoice.PropertyChanged += invoice_PropertyChanged;
+
+            this.invoiceItems = new ObservableCollection<InvoiceItemModelViewModel>();
+            foreach (var invoiceItem in this.invoice.InvoiceItems)
+            {
+                this.invoiceItems.Add(new InvoiceItemModelViewModel(invoiceItem));
+            }
+
+            var ii = new InvoiceItemModel(1, "Artikelbeschreibung xyz", 10, 12.0m, 0.2);
+            this.invoiceItems.Add(new InvoiceItemModelViewModel(ii));
         }
 
         #endregion

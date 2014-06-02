@@ -74,6 +74,7 @@
     <Compile Include="ViewModels\Models\CompanyModelViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerDataViewModel.cs" />
     <Compile Include="ViewModels\Models\CustomerModelViewModel.cs" />
+    <Compile Include="ViewModels\Models\InvoiceItemModelViewModel.cs" />
     <Compile Include="ViewModels\Models\PersonModelViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerWindowViewModel.cs" />
     <Compile Include="ViewModels\SearchBox\CustomerSearchBoxViewModel.cs" />

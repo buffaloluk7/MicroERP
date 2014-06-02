@@ -81,8 +81,8 @@ namespace MicroERP.Data.Mock.Repositories
 
                 if (minTotal.HasValue || maxTotal.HasValue)
                 {
-                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minTotal &&
-                                                   i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxTotal);
+                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => (double)ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minTotal &&
+                                                   i.InvoiceItems.Sum(ii => (double)ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxTotal);
                 }
 
                 return invoices;

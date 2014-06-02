@@ -18,6 +18,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         private readonly INavigationService navigationService;
         private readonly IEnumerable<InvoiceModelViewModel> invoices;
         private InvoiceModelViewModel selectedInvoice;
+        private int customerID;
 
         #endregion
 
@@ -54,10 +55,11 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
         #region Constructor
 
-        public InvoiceDataViewModel(IInvoiceService invoiceService, INavigationService navigationService, ObservableCollection<InvoiceModel> invoices)
+        public InvoiceDataViewModel(IInvoiceService invoiceService, INavigationService navigationService, ObservableCollection<InvoiceModel> invoices, int customerID)
         {
             this.invoiceService = invoiceService;
             this.invoices = invoices.Select(i => new InvoiceModelViewModel(i));
+            this.customerID = customerID;
 
             this.navigationService = navigationService;
 
@@ -73,7 +75,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         {
             if (this.navigationService is IWindowNavigationService)
             {
-                await (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(showDialog: true);
+                await (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(this.customerID, showDialog: true);
             }
             else
             {

@@ -12,7 +12,7 @@ namespace MicroERP.Business.Domain.Models
         #region Fields
 
         private int id;
-        private double grossTotal;
+        private decimal? grossTotal;
         private DateTime issueDate;
         private DateTime dueDate;
         private string comment;
@@ -32,10 +32,10 @@ namespace MicroERP.Business.Domain.Models
         }
 
         [DataMember(Name = "grossTotal")]
-        public double GrossTotal
+        public decimal? GrossTotal
         {
             get { return this.grossTotal; }
-            set { base.Set<double>(ref this.grossTotal, value); }
+            set { base.Set<decimal?>(ref this.grossTotal, value); }
         }
 
         [DataMember(Name = "issueDate")]
@@ -84,7 +84,10 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel() {}
+        public InvoiceModel()
+        {
+            this.invoiceItems = new ObservableCollection<InvoiceItemModel>();
+        }
 
         public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
         {
@@ -94,7 +97,7 @@ namespace MicroERP.Business.Domain.Models
             this.comment = comment;
             this.message = message;
             this.Customer = customer;
-            this.invoiceItems = invoiceItems != null ? new ObservableCollection<InvoiceItemModel>(invoiceItems) : null;
+            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
         }
 
         #endregion
