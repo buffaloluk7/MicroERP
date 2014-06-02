@@ -6,6 +6,7 @@ using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -76,6 +77,13 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             this.AddInvoiceItemCommand = new RelayCommand(onAddInvoiceItemExecuted, onAddInvoiceItemCanExecute);
 
             this.invoiceModelViewModel = new InvoiceModelViewModel();
+            this.invoiceModelViewModel.InvoiceItems.CollectionChanged += ((s, e) =>
+            {
+                this.SaveInvoiceCommand.RaiseCanExecuteChanged();
+            });
+            this.invoiceModelViewModel.IssueDate = DateTime.Now;
+            this.invoiceModelViewModel.DueDate = DateTime.Now.AddDays(7);
+
             this.newInvoiceItem = new InvoiceItemModelViewModel();
             this.newInvoiceItem.PropertyChanged += ((s, e) =>
             {
@@ -99,8 +107,13 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         private void onAddInvoiceItemExecuted()
         {
             this.Invoice.InvoiceItems.Add(this.newInvoiceItem);
-            this.NewInvoiceItem = new InvoiceItemModelViewModel();
             this.SaveInvoiceCommand.RaiseCanExecuteChanged();
+
+            this.NewInvoiceItem = new InvoiceItemModelViewModel();
+            this.NewInvoiceItem.PropertyChanged += ((s, e) =>
+            {
+                this.AddInvoiceItemCommand.RaiseCanExecuteChanged();
+            });
         }
 
         private bool onSaveInvoiceCanExecute()

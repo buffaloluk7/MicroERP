@@ -84,12 +84,12 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel()
+        public InvoiceModel(IEnumerable<InvoiceItemModel> invoiceItems = null)
         {
-            this.invoiceItems = new ObservableCollection<InvoiceItemModel>();
+            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
         }
 
-        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null) : this(invoiceItems)
         {
             this.id = id;
             this.issueDate = isseuDate;
@@ -97,7 +97,6 @@ namespace MicroERP.Business.Domain.Models
             this.comment = comment;
             this.message = message;
             this.Customer = customer;
-            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
         }
 
         #endregion
