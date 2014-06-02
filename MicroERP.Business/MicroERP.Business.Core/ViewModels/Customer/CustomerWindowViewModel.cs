@@ -11,6 +11,7 @@ using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Customer
@@ -21,6 +22,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
         private readonly IUnityContainer container;
         private readonly ICustomerService customerService;
+        private readonly IInvoiceService invoiceService;
         private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
 
@@ -34,7 +36,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             private set;
         }
 
-        public SearchInvoicesViewModel SearchInvoicesViewModel
+        public InvoiceDataViewModel InvoiceDataViewModel
         {
             get;
             private set;
@@ -54,10 +56,11 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
         #region Constructors
 
-        public CustomerWindowViewModel(IUnityContainer container, ICustomerService customerService, INotificationService notificationService, INavigationService navigationService)
+        public CustomerWindowViewModel(IUnityContainer container, ICustomerService customerService, IInvoiceService invoiceService, INotificationService notificationService, INavigationService navigationService)
         {
             this.container = container;
             this.customerService = customerService;
+            this.invoiceService = invoiceService;
             this.notificationService = notificationService;
             this.navigationService = navigationService;
 
@@ -119,10 +122,13 @@ namespace MicroERP.Business.Core.ViewModels.Customer
                 customer = person;
             }
 
+            // Retrieve invoices for the given customer
+            customer.Invoices = new ObservableCollection<InvoiceModel>(await this.invoiceService.Search(customer.ID));
+
             this.CustomerDataViewModel = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
-            this.SearchInvoicesViewModel = this.container.Resolve<SearchInvoicesViewModel>(new ParameterOverride("customerID", customer.ID));
+            this.InvoiceDataViewModel = this.container.Resolve<InvoiceDataViewModel>(new ParameterOverride("invoices", customer.Invoices));
             this.RaisePropertyChanged(() => this.CustomerDataViewModel);
-            this.RaisePropertyChanged(() => this.SearchInvoicesViewModel);
+            this.RaisePropertyChanged(() => this.InvoiceDataViewModel);
         }
 
         public void OnNavigatedFrom() { }

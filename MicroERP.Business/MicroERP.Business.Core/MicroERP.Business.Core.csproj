@@ -68,6 +68,7 @@
     <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\Customer\InvoiceDataViewModel.cs" />
+    <Compile Include="ViewModels\Invoice\InvoiceWindowViewModel.cs" />
     <Compile Include="ViewModels\Main\Commands\CustomerCommandsViewModel.cs" />
     <Compile Include="ViewModels\Main\Commands\InvoiceCommandsViewModel.cs" />
     <Compile Include="ViewModels\Models\CompanyModelViewModel.cs" />

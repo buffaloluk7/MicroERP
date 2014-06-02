@@ -1,7 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using System.Windows.Controls;
 
-namespace MicroERP.Presentation.Views
+namespace MicroERP.Presentation.WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {

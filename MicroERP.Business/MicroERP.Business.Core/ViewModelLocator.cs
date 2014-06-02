@@ -6,6 +6,7 @@ using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Customer;
+using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Main;
 using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Core.ViewModels.SearchBox;
@@ -34,6 +35,11 @@ namespace MicroERP.Business.Core
             get { return this.container.Resolve<CustomerWindowViewModel>(); }
         }
 
+        public InvoiceWindowViewModel InvoiceWindow
+        {
+            get { return this.container.Resolve<InvoiceWindowViewModel>(); }
+        }
+
         #endregion
 
         #region Constructors
@@ -60,13 +66,20 @@ namespace MicroERP.Business.Core
             this.container.RegisterInstance<ICustomerRepository>(repositories.Item1, new ContainerControlledLifetimeManager());
             this.container.RegisterInstance<IInvoiceRepository>(repositories.Item2, new ContainerControlledLifetimeManager());
 
-            // ViewModels
+            // Window ViewModels
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<CustomerWindowViewModel>();
+            this.container.RegisterType<InvoiceWindowViewModel>();
+
+            // Main Search ViewModels
             this.container.RegisterType<SearchCustomersViewModel>();
             this.container.RegisterType<SearchInvoicesViewModel>();
+            
+            // Customer data + invoice data ViewModels
             this.container.RegisterType<CustomerDataViewModel>();
+            this.container.RegisterType<InvoiceDataViewModel>();
 
+            // SearchBox ViewModels
             this.container.RegisterType<CompanySearchBoxViewModel>();
             this.container.RegisterType<CustomerSearchBoxViewModel>();
         }

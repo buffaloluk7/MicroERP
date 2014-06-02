@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Class="MicroERP.Presentation.Views.CustomerWindow"
+    x:Class="MicroERP.Presentation.WPF.Views.CustomerWindow"
     x:Name="Window"
     Title="MicroERP"
     Width="640"
@@ -52,22 +52,6 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
-            <VisualStateGroup x:Name="SearchInvoicesElementsGroup">
-            	<VisualState x:Name="InvoiceListBoxEmpty">
-            		<Storyboard>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="InvoicesListBox">
-            				<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-            			</ObjectAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
-            	<VisualState x:Name="InvoiceListBoxFilled">
-            		<Storyboard>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="InvoicesListBox">
-            				<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-            			</ObjectAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
-            </VisualStateGroup>
             <VisualStateGroup x:Name="SearchCompaniesElementsGroup">
             	<VisualState x:Name="CompanyComboBoxEmpty">
             		<Storyboard>
@@ -92,8 +76,6 @@
                     <ei:DataStateBehavior Binding="{Binding Company, Mode=OneWay}" Value="{x:Null}" TrueState="PersonState" FalseState="CompanyState"/>
                     <ei:DataStateBehavior Binding="{Binding Person, Mode=OneWay}" Value="{x:Null}" TrueState="CompanyState" FalseState="PersonState"/>
                 </i:Interaction.Behaviors>
-                
-
                 
                 <StackPanel>
                     <GroupBox x:Name="groupBoxCompany" Header="Firma" DataContext="{Binding Company, Mode=OneWay}">
@@ -212,21 +194,18 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem x:Name="invoiceTabItem" Header="Rechnungen">
+            <TabItem Header="Rechnungen" x:Name="invoiceTabItem">
                 <i:Interaction.Behaviors>
                     <ei:DataStateBehavior Binding="{Binding CustomerDataViewModel.IsCreating, Mode=OneWay}" Value="True" TrueState="CustomerCreatingState" FalseState="CustomerUpdatingState"/>
                 </i:Interaction.Behaviors>
-                
-                <Grid>
+
+                <Grid DataContext="{Binding InvoiceDataViewModel, Mode=OneWay}">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <GroupBox Grid.Row="0">
-                        <i:Interaction.Behaviors>
-                    	    <ei:DataStateBehavior Binding="{Binding SearchInvoicesViewModel.Invoices}" Value="{x:Null}" TrueState="InvoiceListBoxEmpty" FalseState="InvoiceListBoxFilled"/>
-                        </i:Interaction.Behaviors>
                         <GroupBox.Header>
                             <TextBlock Foreground="White">
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE14C; " />
@@ -234,14 +213,14 @@
                                 <Run Text=" RECHNUNGEN"/>
                             </TextBlock>
                         </GroupBox.Header>
-                        <ListView Height="300" x:Name="InvoicesListBox" DataContext="{Binding SearchInvoicesViewModel}" ItemsSource="{Binding Invoices}" SelectedItem="{Binding SelectedInvoice}" BorderBrush="Transparent" Margin="-5.2,0">
+                        <ListView Height="300" x:Name="InvoicesListBox" ItemsSource="{Binding Invoices}" SelectedItem="{Binding SelectedInvoice}" BorderBrush="Transparent" Margin="-5.2,0">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Nr." Width="60">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock TextDecorations="Underline" Foreground="Blue" Cursor="Hand">
-                                                    <Run Text="#" /><Run Text="{Binding Number, Mode=OneWay}" />
+                                                    <Run Text="#" /><Run Text="{Binding ID, Mode=OneWay}" />
                                                 </TextBlock>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -249,7 +228,6 @@
                                     <GridViewColumn Header="Ausstellung" DisplayMemberBinding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" Width="90" />
                                     <GridViewColumn Header="Fälligkeit" DisplayMemberBinding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" Width="70" />
                                     <GridViewColumn Header="Kommentar" DisplayMemberBinding="{Binding Comment}" Width="190" />
-                                    <GridViewColumn Header="Nachricht" DisplayMemberBinding="{Binding Message}" Width="190" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
