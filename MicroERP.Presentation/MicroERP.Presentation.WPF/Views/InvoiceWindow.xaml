@@ -17,10 +17,29 @@
     WindowStartupLocation="CenterScreen">
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SearchCustomersElementsGroup">
+                <VisualState x:Name="CustomerComboBoxEmpty">
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="CustomerComboBoxFilled">
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <StackPanel>
             <GroupBox x:Name="groupBoxInvoice" Header="Rechnungsdaten" DataContext="{Binding Invoice, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -36,49 +55,47 @@
                     <TextBlock Grid.Row="0" Grid.Column="2" Text="Fälligkeitsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Kommentar" VerticalAlignment="Center" FontWeight="Bold" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Nachricht" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
 
                     <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding IssueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="1"
+                              Grid.ColumnSpan="3"
+                              DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}"
+                              x:Name="customersComboBox"
+                              IsEditable="True"
+                              IsDropDownOpen="False"
+                              ItemsSource="{Binding Customers}"
+                              SelectedItem="{Binding SelectedCustomer}"
+                              DisplayMemberPath="DisplayName"
+                              Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Behaviors>
+                            <ei:DataStateBehavior Binding="{Binding Customers}" Value="{x:Null}" TrueState="CustomerComboBoxEmpty" FalseState="CustomerComboBoxFilled"/>
+                        </i:Interaction.Behaviors>
+                        <ComboBox.InputBindings>
+                            <KeyBinding Key="Return" Command="{Binding SearchCustomerCommand, Mode=TwoWay}" />
+                        </ComboBox.InputBindings>
+                    </ComboBox>
                 </Grid>
             </GroupBox>
 
-            <GroupBox x:Name="groupBoxInvoiceItems" Header="Rechnungszeilen">
+            <GroupBox x:Name="groupBoxInvoiceItems" Header="Rechnungszeilen" DataContext="{Binding Invoice}">
                 <StackPanel>
-                    <Grid DataContext="{Binding NewInvoiceItem}" Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Menge" FontWeight="Bold" Margin="0,5" />
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Bezeichnung" FontWeight="Bold" Margin="10,5" />
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Preis" FontWeight="Bold" Margin="10,5" />
-                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Mwst." FontWeight="Bold" Margin="10,5" />
-
-                        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Amount}" />
-                        <TextBox Grid.Row="1" Grid.Column="1" Margin="10,0,0,0" Text="{Binding Name}" />
-                        <TextBox Grid.Row="1" Grid.Column="2" Margin="10,0,0,0" Text="{Binding UnitPrice, StringFormat=C, ConverterCulture=de-DE}" />
-                        <TextBox Grid.Row="1" Grid.Column="3" Margin="10,0,0,0" Text="{Binding Tax, StringFormat=\{0:P2\}}" />
-                        <Button Grid.Row="1" Grid.Column="4" Margin="10,0,0,0" Padding="8,0" FontFamily="Segoe UI Symbol" Content="&#xE109;" Command="{Binding DataContext.AddInvoiceItemCommand, ElementName=Window}" />
-                    </Grid>
-                
-                    <DataGrid DataContext="{Binding Invoice}"
-                              ItemsSource="{Binding InvoiceItems}"
+                    <DataGrid ItemsSource="{Binding InvoiceItems}"
                               AutoGenerateColumns="False"
+                              AlternationCount="2"
+                              AlternatingRowBackground="Gray"
                               CanUserAddRows="True"
                               CanUserDeleteRows="True"
                               CanUserResizeRows="True"
-                              IsReadOnly="False">
+                              IsReadOnly="False"
+                              Height="150">
+
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Menge" Binding="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <DataGridTextColumn Header="Bezeichnung" Width="*" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

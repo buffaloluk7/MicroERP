@@ -14,6 +14,7 @@ namespace MicroERP.Business.Domain.Models
         private string address;
         private string billingAddress;
         private string shippingAddress;
+        private ObservableCollection<InvoiceModel> invoices;
 
         #endregion
 
@@ -50,17 +51,20 @@ namespace MicroERP.Business.Domain.Models
         [IgnoreDataMember]
         public ObservableCollection<InvoiceModel> Invoices
         {
-            get;
-            set;
+            get { return this.invoices; }
+            set { base.Set<ObservableCollection<InvoiceModel>>(ref this.invoices, value); }
         }
 
         #endregion
 
         #region Constructors
 
-        public CustomerModel() { }
+        public CustomerModel()
+        {
+            this.invoices = new ObservableCollection<InvoiceModel>();
+        }
 
-        public CustomerModel(int id, string address, string billingAddress, string shippingAddress)
+        public CustomerModel(int id, string address, string billingAddress, string shippingAddress) : this()
         {
             this.id = id;
             this.address = address;

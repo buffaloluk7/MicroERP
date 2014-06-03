@@ -46,7 +46,12 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Constructors
 
-        public InvoiceItemModelViewModel(InvoiceItemModel invoiceItem = null)
+        /// <summary>
+        /// Needed to allow adding new rows in datagrid
+        /// </summary>
+        public InvoiceItemModelViewModel() : this(new InvoiceItemModel()) { }
+
+        public InvoiceItemModelViewModel(InvoiceItemModel invoiceItem)
         {
             this.invoiceItem = invoiceItem ?? new InvoiceItemModel();
             this.invoiceItem.PropertyChanged += invoiceItem_PropertyChanged;

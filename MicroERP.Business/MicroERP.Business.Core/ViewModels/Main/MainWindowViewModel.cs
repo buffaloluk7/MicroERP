@@ -6,6 +6,7 @@ using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Main.Commands;
 using MicroERP.Business.Core.ViewModels.Main.Search;
+using Microsoft.Practices.Unity;
 
 namespace MicroERP.Business.Core.ViewModels.Main
 {
@@ -55,15 +56,15 @@ namespace MicroERP.Business.Core.ViewModels.Main
 
         #region Constructor
 
-        public MainWindowViewModel(ICustomerService customerService, IInvoiceService invoiceService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel, SearchInvoicesViewModel searchInvoicesViewModel)
+        public MainWindowViewModel(IUnityContainer container, ICustomerService customerService, IInvoiceService invoiceService, INotificationService notificationService, INavigationService navigationService, IBrowsingService browsingService, SearchCustomersViewModel searchCustomersViewModel, SearchInvoicesViewModel searchInvoicesViewModel)
         {
             this.browsingService = browsingService;
 
             this.searchCustomersViewModel = searchCustomersViewModel;
             this.searchInvoicesViewModel = searchInvoicesViewModel;
 
-            this.customerCommandsViewModel = new CustomerCommandsViewModel(customerService, notificationService, navigationService, searchCustomersViewModel);
-            this.invoiceCommandsViewModel = new InvoiceCommandsViewModel(invoiceService, searchInvoicesViewModel);
+            this.customerCommandsViewModel = container.Resolve<CustomerCommandsViewModel>(new ParameterOverride("searchCustomersViewModel", this.searchCustomersViewModel));
+            this.invoiceCommandsViewModel = container.Resolve<InvoiceCommandsViewModel>(new ParameterOverride("searchInvoicesViewModel", this.searchInvoicesViewModel));
 
             this.RepositoryCommand = new RelayCommand(onRepositoryExecuted);
         }

@@ -4,8 +4,10 @@ using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
+using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,13 +19,13 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         #region Fields
 
         private readonly IInvoiceService invoiceService;
+        private readonly ICustomerService customerService;
+
         private readonly INavigationService navigationService;
         private readonly INotificationService notificationService;
 
         private readonly InvoiceModelViewModel invoiceModelViewModel;
-        private InvoiceItemModelViewModel newInvoiceItem;
-
-        private int customerID;
+        private readonly CustomerSearchBoxViewModel customerSearchBoxViewModel;
 
         #endregion
 
@@ -34,10 +36,9 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             get { return this.invoiceModelViewModel; }
         }
 
-        public InvoiceItemModelViewModel NewInvoiceItem
+        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel
         {
-            get { return this.newInvoiceItem; }
-            set { base.Set<InvoiceItemModelViewModel>(ref this.newInvoiceItem, value); }
+            get { return this.customerSearchBoxViewModel; }
         }
 
         #endregion
@@ -56,25 +57,19 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             private set;
         }
 
-        public RelayCommand AddInvoiceItemCommand
-        {
-            get;
-            private set;
-        }
-
         #endregion
 
         #region Constructor
 
-        public InvoiceWindowViewModel(IInvoiceService invoiceService, INavigationService navigationService, INotificationService notificationService)
+        public InvoiceWindowViewModel(IUnityContainer container, IInvoiceService invoiceService, ICustomerService customerService, INavigationService navigationService, INotificationService notificationService)
         {
             this.invoiceService = invoiceService;
+            this.customerService = customerService;
             this.navigationService = navigationService;
             this.notificationService = notificationService;
 
             this.CancelCommand = new RelayCommand(onCancelExecuted);
             this.SaveInvoiceCommand = new RelayCommand(onSaveInvoiceExecuted, onSaveInvoiceCanExecute);
-            this.AddInvoiceItemCommand = new RelayCommand(onAddInvoiceItemExecuted, onAddInvoiceItemCanExecute);
 
             this.invoiceModelViewModel = new InvoiceModelViewModel();
             this.invoiceModelViewModel.InvoiceItems.CollectionChanged += ((s, e) =>
@@ -84,10 +79,10 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             this.invoiceModelViewModel.IssueDate = DateTime.Now;
             this.invoiceModelViewModel.DueDate = DateTime.Now.AddDays(7);
 
-            this.newInvoiceItem = new InvoiceItemModelViewModel();
-            this.newInvoiceItem.PropertyChanged += ((s, e) =>
+            this.customerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>();
+            this.customerSearchBoxViewModel.PropertyChanged += ((s, e) =>
             {
-                this.AddInvoiceItemCommand.RaiseCanExecuteChanged();
+                this.SaveInvoiceCommand.RaiseCanExecuteChanged();
             });
         }
 
@@ -95,30 +90,10 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
         #region Command Implementations
 
-        private bool onAddInvoiceItemCanExecute()
-        {
-            return this.newInvoiceItem != null &&
-                this.newInvoiceItem.Amount > 0 &&
-                this.newInvoiceItem.Tax > 0 &&
-                this.newInvoiceItem.UnitPrice > 0 &&
-                !string.IsNullOrWhiteSpace(this.newInvoiceItem.Name);
-        }
-
-        private void onAddInvoiceItemExecuted()
-        {
-            this.Invoice.InvoiceItems.Add(this.newInvoiceItem);
-            this.SaveInvoiceCommand.RaiseCanExecuteChanged();
-
-            this.NewInvoiceItem = new InvoiceItemModelViewModel();
-            this.NewInvoiceItem.PropertyChanged += ((s, e) =>
-            {
-                this.AddInvoiceItemCommand.RaiseCanExecuteChanged();
-            });
-        }
-
         private bool onSaveInvoiceCanExecute()
         {
-            return this.Invoice.InvoiceItems.Count > 0;
+            return this.Invoice.InvoiceItems.Count > 0 &&
+                this.customerSearchBoxViewModel.SelectedCustomer != null;
         }
 
         private async void onSaveInvoiceExecuted()
@@ -130,7 +105,8 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
             try
             {
-                await this.invoiceService.Create(this.customerID, invoice);
+                var customerID = this.customerSearchBoxViewModel.SelectedCustomer.Model.ID;
+                await this.invoiceService.Create(customerID, invoice);
                 await this.notificationService.ShowAsync("Rechnung erfolgreich erstellt.", "Rechnung erstellt");
             }
             catch (CustomerNotFoundException)
@@ -160,9 +136,13 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
         public void OnNavigatedFrom() { }
 
-        public void OnNavigatedTo(object argument, NavigationType navigationMode)
+        public async void OnNavigatedTo(object argument, NavigationType navigationMode)
         {
-            this.customerID = (int)argument;
+            if (argument != null)
+            {
+                var customer = await this.customerService.Find((int)argument);
+                this.customerSearchBoxViewModel.SelectedCustomer = new CustomerDisplayNameViewModel(customer);
+            }
         }
 
         #endregion

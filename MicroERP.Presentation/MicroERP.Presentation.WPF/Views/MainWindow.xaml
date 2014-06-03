@@ -8,8 +8,8 @@
     x:Class="MicroERP.Presentation.WPF.Views.MainWindow"
     x:Name="Window"
     Title="MicroERP"
-    Width="640"
-    Height="600"
+    Width="900"
+    Height="700"
     DataContext="{Binding MainWindow, Mode=OneWay, Source={StaticResource Locator}}"
     BorderThickness="2"
     BorderBrush="#FF41B1E1"
@@ -264,6 +264,12 @@
                     </GroupBox>
 
                     <StackPanel DataContext="{Binding DataContext.InvoiceCommandsViewModel, ElementName=Window}" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                        <Button Command="{Binding CreateInvoiceCommand}" Margin="0,0,6,0">
+                            <TextBlock>
+                                <Run FontFamily="Segoe UI Symbol" Text="&#xE109;" />
+                                <Run Text="ERSTELLEN" />
+                            </TextBlock>
+                        </Button>
                         <Button Command="{Binding ExportInvoiceCommand}" CommandParameter="{Binding SelectedItem, ElementName=InvoicesListBox}" Margin="0,0,4,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />

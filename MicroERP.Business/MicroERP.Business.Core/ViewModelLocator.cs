@@ -8,6 +8,7 @@ using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Customer;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Main;
+using MicroERP.Business.Core.ViewModels.Main.Commands;
 using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Repositories;
@@ -78,6 +79,10 @@ namespace MicroERP.Business.Core
             // Customer data + invoice data ViewModels
             this.container.RegisterType<CustomerDataViewModel>();
             this.container.RegisterType<InvoiceDataViewModel>();
+
+            // Command ViewModels
+            this.container.RegisterType<CustomerCommandsViewModel>();
+            this.container.RegisterType<InvoiceCommandsViewModel>();
 
             // SearchBox ViewModels
             this.container.RegisterType<CompanySearchBoxViewModel>();
