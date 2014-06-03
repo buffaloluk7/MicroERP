@@ -31,7 +31,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
             set { this.invoiceItem.UnitPrice = value; }
         }
 
-        public double Tax
+        public decimal Tax
         {
             get { return this.invoiceItem.Tax; }
             set { this.invoiceItem.Tax = value; }

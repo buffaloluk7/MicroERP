@@ -52,6 +52,11 @@ namespace MicroERP.Business.Core.ViewModels.Models
             set { this.invoice.Message = value; }
         }
 
+        public decimal Total
+        {
+            get { return this.invoice.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)); }
+        }
+
         public ObservableCollection<InvoiceItemModelViewModel> InvoiceItems
         {
             get { return this.invoiceItems; }

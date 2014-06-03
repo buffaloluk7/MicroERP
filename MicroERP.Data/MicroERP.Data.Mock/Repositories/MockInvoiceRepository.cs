@@ -59,30 +59,31 @@ namespace MicroERP.Data.Mock.Repositories
             });
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
         {
             return await Task.Run(() =>
             {
-                IEnumerable<InvoiceModel> invoices = null;
+                IEnumerable<InvoiceModel> invoices = MockData.Instance.Invoices;
 
                 if (customerID.HasValue)
                 {
-                    invoices = MockData.Instance.Invoices.Where(i => i.Customer.ID == customerID);
+                    invoices = invoices.Where(i => i.Customer.ID == customerID);
                 }
-                else
+                if (begin.HasValue)
                 {
-                    invoices = MockData.Instance.Invoices.ToList();
+                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, begin.Value.Date) >= 0);
                 }
-
-                if (begin.HasValue || end.HasValue)
+                if (end.HasValue)
                 {
-                    invoices = invoices.Where(i => i.IssueDate > begin && i.IssueDate < end);
+                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, end.Value.Date) <= 0);
                 }
-
-                if (minTotal.HasValue || maxTotal.HasValue)
+                if (minTotal.HasValue)
                 {
-                    invoices = invoices.Where(i => i.InvoiceItems.Sum(ii => (double)ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) > minTotal &&
-                                                   i.InvoiceItems.Sum(ii => (double)ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1)) < maxTotal);
+                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), minTotal.Value) >= 0);
+                }
+                if (maxTotal.HasValue)
+                {
+                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), maxTotal.Value) <= 0);
                 }
 
                 return invoices;

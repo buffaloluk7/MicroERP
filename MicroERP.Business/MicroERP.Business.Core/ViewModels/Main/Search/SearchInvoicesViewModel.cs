@@ -20,8 +20,8 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
 
         private DateTime? minDate;
         private DateTime? maxDate;
-        private double? minTotal;
-        private double? maxTotal;
+        private decimal? minTotal;
+        private decimal? maxTotal;
 
         #endregion
 
@@ -47,22 +47,22 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             }
         }
 
-        public double? MinTotal
+        public decimal? MinTotal
         {
             get { return this.minTotal; }
             set
             {
-                base.Set<double?>(ref this.minTotal, value);
+                base.Set<decimal?>(ref this.minTotal, value);
                 this.SearchInvoicesCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public double? MaxTotal
+        public decimal? MaxTotal
         {
             get { return this.maxTotal; }
             set
             {
-                base.Set<double?>(ref this.maxTotal, value);
+                base.Set<decimal?>(ref this.maxTotal, value);
                 this.SearchInvoicesCommand.RaiseCanExecuteChanged();
             }
         }
@@ -116,7 +116,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                this.minTotal = 0.0;
+                this.minTotal = 0.0m;
                 this.onSearchInvoicesExecuted();
             }
             #endif

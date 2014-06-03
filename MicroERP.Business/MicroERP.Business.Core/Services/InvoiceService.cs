@@ -62,7 +62,7 @@ namespace MicroERP.Business.Core.Services
             return await this.invoiceRepository.Find(invoiceID);
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
         {
             if (customerID  == null &&
                 begin       == null &&
