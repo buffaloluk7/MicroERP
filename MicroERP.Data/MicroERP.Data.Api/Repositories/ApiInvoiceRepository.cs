@@ -1,4 +1,5 @@
 ﻿using Luvi.Http.Extension;
+using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
@@ -113,31 +114,31 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)
         {
             var url = new StringBuilder(this.ConnectionString).Append("/invoices?");
 
-            if (customerID.HasValue)
+            if (invoiceSearchArgs.CustomerID.HasValue)
             {
-                url.AppendFormat("customerID={0}&", customerID.Value);
+                url.AppendFormat("customerID={0}&", invoiceSearchArgs.CustomerID.Value);
             }
-            if (begin.HasValue)
+            if (invoiceSearchArgs.MinDate.HasValue)
             {
-                var timestamp = (begin.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                var timestamp = (invoiceSearchArgs.MinDate.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
                 url.AppendFormat("startDate={0}&", timestamp);
             }
-            if (end.HasValue)
+            if (invoiceSearchArgs.MaxDate.HasValue)
             {
-                var timestamp = (end.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                var timestamp = (invoiceSearchArgs.MaxDate.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
                 url.AppendFormat("endDate={0}&", timestamp);
             }
-            if (minTotal.HasValue)
+            if (invoiceSearchArgs.MinTotal.HasValue)
             {
-                url.AppendFormat("minTotal={0}&", minTotal.Value);
+                url.AppendFormat("minTotal={0}&", invoiceSearchArgs.MinTotal.Value);
             }
-            if (maxTotal.HasValue)
+            if (invoiceSearchArgs.MaxTotal.HasValue)
             {
-                url.AppendFormat("maxTotal={0}", maxTotal.Value);
+                url.AppendFormat("maxTotal={0}", invoiceSearchArgs.MaxTotal.Value);
             }
 
             var response = await this.request.Get(url.ToString());

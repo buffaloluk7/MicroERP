@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
+using MicroERP.Business.Domain.DTO;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,9 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
         #region Fields
 
         private readonly IInvoiceService invoiceService;
+        private readonly InvoiceSearchArgs invoiceSearchArgs;
         private IEnumerable<InvoiceModelViewModel> invoices;
         private InvoiceModelViewModel selectedInvoice;
-
-        private DateTime? minDate;
-        private DateTime? maxDate;
-        private decimal? minTotal;
-        private decimal? maxTotal;
 
         #endregion
 
@@ -29,42 +26,26 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
 
         public DateTime? MinDate
         {
-            get { return this.minDate; }
-            set
-            {
-                base.Set<DateTime?>(ref this.minDate, value);
-                this.SearchInvoicesCommand.RaiseCanExecuteChanged();
-            }
+            get { return this.invoiceSearchArgs.MinDate; }
+            set { this.invoiceSearchArgs.MinDate = value; }
         }
 
         public DateTime? MaxDate
         {
-            get { return this.maxDate; }
-            set
-            {
-                base.Set<DateTime?>(ref this.maxDate, value);
-                this.SearchInvoicesCommand.RaiseCanExecuteChanged();
-            }
+            get { return this.invoiceSearchArgs.MaxDate; }
+            set { this.invoiceSearchArgs.MaxDate = value; }
         }
 
         public decimal? MinTotal
         {
-            get { return this.minTotal; }
-            set
-            {
-                base.Set<decimal?>(ref this.minTotal, value);
-                this.SearchInvoicesCommand.RaiseCanExecuteChanged();
-            }
+            get { return this.invoiceSearchArgs.MinTotal; }
+            set { this.invoiceSearchArgs.MinTotal = value; }
         }
 
         public decimal? MaxTotal
         {
-            get { return this.maxTotal; }
-            set
-            {
-                base.Set<decimal?>(ref this.maxTotal, value);
-                this.SearchInvoicesCommand.RaiseCanExecuteChanged();
-            }
+            get { return this.invoiceSearchArgs.MaxTotal; }
+            set { this.invoiceSearchArgs.MaxTotal = value; }
         }
 
         public CustomerSearchBoxViewModel CustomerSearchBoxViewModel
@@ -104,22 +85,38 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             this.invoiceService = invoiceService;
             this.SearchInvoicesCommand = new RelayCommand(this.onSearchInvoicesExecuted, this.onSearchInvoicesCanExecute);
 
+            this.invoiceSearchArgs = new InvoiceSearchArgs();
+            this.invoiceSearchArgs.PropertyChanged += ((s, e) => this.SearchInvoicesCommand.RaiseCanExecuteChanged());
+
             this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>();
-            this.CustomerSearchBoxViewModel.PropertyChanged += ((s, e) => 
-            {
-                if (e.PropertyName == "SelectedCustomer")
-                {
-                    this.SearchInvoicesCommand.RaiseCanExecuteChanged();
-                }
-            });
+            this.CustomerSearchBoxViewModel.PropertyChanged += CustomerSearchBoxViewModel_PropertyChanged;
 
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                this.minTotal = 0.0m;
+                this.MinTotal = 0.0m;
                 this.onSearchInvoicesExecuted();
             }
             #endif
+        }
+
+        #endregion
+
+        #region PropertyChanged
+
+        private void CustomerSearchBoxViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedCustomer")
+            {
+                if (this.CustomerSearchBoxViewModel.SelectedCustomer == null)
+                {
+                    this.invoiceSearchArgs.CustomerID = null;
+                }
+                else
+                {
+                    this.invoiceSearchArgs.CustomerID = this.CustomerSearchBoxViewModel.SelectedCustomer.Model.ID;
+                }
+            }
         }
 
         #endregion
@@ -128,21 +125,12 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
 
         private bool onSearchInvoicesCanExecute()
         {
-            if (this.CustomerSearchBoxViewModel.SelectedCustomer == null)
-            {
-                this.Invoices = null;
-                return false;
-            }
-
-            return true;
+            return !this.invoiceSearchArgs.IsEmpty();
         }
 
         private async void onSearchInvoicesExecuted()
         {
-            var customer = this.CustomerSearchBoxViewModel.SelectedCustomer == null ? null : this.CustomerSearchBoxViewModel.SelectedCustomer.Model;
-            int? customerID = customer == null ? default(int?) : customer.ID;
-
-            var invoices = await this.invoiceService.Search(customerID, this.minDate, this.maxDate, this.minTotal, this.maxTotal);
+            var invoices = await this.invoiceService.Search(this.invoiceSearchArgs);
             this.Invoices = invoices.Select(invoice => new InvoiceModelViewModel(invoice));
         }
 

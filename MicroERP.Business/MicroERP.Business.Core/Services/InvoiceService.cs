@@ -1,4 +1,5 @@
 ﻿using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using System;
@@ -72,18 +73,14 @@ namespace MicroERP.Business.Core.Services
             await this.invoiceRepository.Export(invoiceID, path);
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)
         {
-            if (customerID  == null &&
-                begin       == null &&
-                end         == null &&
-                minTotal    == null &&
-                maxTotal    == null)
+            if (invoiceSearchArgs.IsEmpty())
             {
                 throw new ArgumentNullException("At least one parameter needs to be not null");
             }
 
-            return await this.invoiceRepository.Search(customerID, begin, end, minTotal, maxTotal);
+            return await this.invoiceRepository.Search(invoiceSearchArgs);
         }
 
         #endregion

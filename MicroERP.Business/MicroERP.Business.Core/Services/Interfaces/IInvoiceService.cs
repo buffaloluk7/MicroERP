@@ -1,5 +1,5 @@
-﻿using MicroERP.Business.Domain.Models;
-using System;
+﻿using MicroERP.Business.Domain.DTO;
+using MicroERP.Business.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,6 +14,7 @@ namespace MicroERP.Business.Core.Services.Interfaces
         Task<InvoiceModel> Single(int invoiceID);
 
         Task Export(int invoiceID, string path);
-        Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null);
+
+        Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs);
     }
 }

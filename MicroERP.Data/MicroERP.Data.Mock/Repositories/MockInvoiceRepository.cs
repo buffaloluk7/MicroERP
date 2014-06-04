@@ -1,4 +1,5 @@
-﻿using MicroERP.Business.Domain.Exceptions;
+﻿using MicroERP.Business.Domain.DTO;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using System;
@@ -64,31 +65,33 @@ namespace MicroERP.Data.Mock.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)
         {
             return await Task.Run(() =>
             {
                 IEnumerable<InvoiceModel> invoices = MockData.Instance.Invoices;
 
-                if (customerID.HasValue)
+                if (invoiceSearchArgs.CustomerID.HasValue)
                 {
-                    invoices = invoices.Where(i => i.Customer.ID == customerID);
+                    invoices = invoices.Where(i => i.Customer.ID == invoiceSearchArgs.CustomerID.Value);
                 }
-                if (begin.HasValue)
+                if (invoiceSearchArgs.MinDate.HasValue)
                 {
-                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, begin.Value.Date) >= 0);
+                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, invoiceSearchArgs.MinDate.Value.Date) >= 0 ||
+                                                   DateTime.Compare(i.DueDate.Date, invoiceSearchArgs.MinDate.Value.Date) >= 0);
                 }
-                if (end.HasValue)
+                if (invoiceSearchArgs.MaxDate.HasValue)
                 {
-                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, end.Value.Date) <= 0);
+                    invoices = invoices.Where(i => DateTime.Compare(i.IssueDate.Date, invoiceSearchArgs.MaxDate.Value.Date) <= 0 ||
+                                                   DateTime.Compare(i.DueDate.Date, invoiceSearchArgs.MaxDate.Value.Date) <= 0);
                 }
-                if (minTotal.HasValue)
+                if (invoiceSearchArgs.MinTotal.HasValue)
                 {
-                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), minTotal.Value) >= 0);
+                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), invoiceSearchArgs.MinTotal.Value) >= 0);
                 }
-                if (maxTotal.HasValue)
+                if (invoiceSearchArgs.MaxTotal.HasValue)
                 {
-                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), maxTotal.Value) <= 0);
+                    invoices = invoices.Where(i => Decimal.Compare(i.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1)), invoiceSearchArgs.MaxTotal.Value) <= 0);
                 }
 
                 return invoices;

@@ -5,6 +5,7 @@ using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -124,7 +125,8 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             // Retrieve invoices for the given customer
             if (customer.ID != default(int))
             {
-                customer.Invoices = new ObservableCollection<InvoiceModel>(await this.invoiceService.Search(customer.ID));
+                var invoices = await this.invoiceService.Search(new InvoiceSearchArgs() { CustomerID = customer.ID });
+                customer.Invoices = new ObservableCollection<InvoiceModel>(invoices);
             }
 
             this.CustomerDataViewModel = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
