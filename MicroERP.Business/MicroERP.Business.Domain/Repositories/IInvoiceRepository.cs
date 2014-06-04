@@ -15,6 +15,6 @@ namespace MicroERP.Business.Domain.Repositories
 
         Task Export(int invoiceID, string path);
 
-        Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null);
+        Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null);
     }
 }

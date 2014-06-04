@@ -72,7 +72,7 @@ namespace MicroERP.Business.Core.Services
             await this.invoiceRepository.Export(invoiceID, path);
         }
 
-        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
+        public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, decimal? minTotal = null, decimal? maxTotal = null)
         {
             if (customerID  == null &&
                 begin       == null &&
