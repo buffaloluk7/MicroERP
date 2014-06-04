@@ -62,6 +62,16 @@ namespace MicroERP.Business.Core.Services
             return await this.invoiceRepository.Find(invoiceID);
         }
 
+        public async Task Export(int invoiceID, string path)
+        {
+            if (invoiceID == 0)
+            {
+                throw new ArgumentOutOfRangeException("invoiceID must not be 0");
+            }
+
+            await this.invoiceRepository.Export(invoiceID, path);
+        }
+
         public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
         {
             if (customerID  == null &&

@@ -7,7 +7,9 @@ using MicroERP.Data.Api.Exceptions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -98,6 +100,16 @@ namespace MicroERP.Data.Api.Repositories
 
                 default:
                     throw new BadResponseException(response.StatusCode);
+            }
+        }
+
+        public async Task Export(int invoiceID, string path)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                //string url = string.Format("{0}/invoices/{1}/export", this.ConnectionString, invoiceID);
+                string url = "http://lukas.cc/file.pdf";
+                Stream response = await httpClient.GetStreamAsync(url);
             }
         }
 

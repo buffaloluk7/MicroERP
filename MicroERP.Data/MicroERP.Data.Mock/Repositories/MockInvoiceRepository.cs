@@ -59,6 +59,11 @@ namespace MicroERP.Data.Mock.Repositories
             });
         }
 
+        public Task Export(int invoiceID, string path)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null)
         {
             return await Task.Run(() =>

@@ -13,6 +13,8 @@ namespace MicroERP.Business.Core.Services.Interfaces
 
         Task<InvoiceModel> Single(int invoiceID);
 
+        Task Export(int invoiceID, string path);
+
         Task<IEnumerable<InvoiceModel>> Search(int? customerID = null, DateTime? begin = null, DateTime? end = null, double? minTotal = null, double? maxTotal = null);
     }
 }
