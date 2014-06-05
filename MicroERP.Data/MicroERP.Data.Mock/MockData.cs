@@ -65,8 +65,16 @@ namespace MicroERP.Data.Mock
                     new InvoiceItemModel(3, "Artikel 3", 70, 14.2m, 0.2m),
                     new InvoiceItemModel(4, "Artikel 4", 132, 1.4m, 0.19m)
                 }),
-                new InvoiceModel(3, DateTime.Now, DateTime.Now, "Test-KomKommentarKommentarKommentarmentar", "TesKommentarKommentarKommentart-Message", this.Customers[1]),
-                new InvoiceModel(4, DateTime.Now, DateTime.Now, "Test-Kommentar", "Test-Message", this.Customers[2])
+                new InvoiceModel(3, DateTime.Now, DateTime.Now, "Test-KomKommentarKommentarKommentarmentar", "TesKommentarKommentarKommentart-Message", this.Customers[1], new InvoiceItemModel[]
+                {
+                    new InvoiceItemModel(5, "Artikel 3", 70, 14.2m, 0.2m),
+                    new InvoiceItemModel(6, "Artikel 4", 132, 1.4m, 0.19m)
+                }),
+                new InvoiceModel(4, DateTime.Now, DateTime.Now, "Test-Kommentar", "Test-Message", this.Customers[2], new InvoiceItemModel[]
+                {
+                    new InvoiceItemModel(7, "Artikel 3", 70, 14.2m, 0.2m),
+                    new InvoiceItemModel(8, "Artikel 4", 132, 1.4m, 0.19m)
+                })
             });
         }
 

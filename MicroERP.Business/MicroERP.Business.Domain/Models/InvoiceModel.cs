@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace MicroERP.Business.Domain.Models
@@ -73,7 +74,7 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set<ObservableCollection<InvoiceItemModel>>(ref this.invoiceItems, value); }
         }
 
-        [IgnoreDataMember]
+        [DataMember(Name = "customer")]
         public CustomerModel Customer
         {
             get { return this.customer; }
@@ -84,12 +85,12 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public InvoiceModel(IEnumerable<InvoiceItemModel> invoiceItems = null)
+        public InvoiceModel()
         {
-            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
+            this.invoiceItems = new ObservableCollection<InvoiceItemModel>();
         }
 
-        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems = null) : this(invoiceItems)
+        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems)
         {
             this.id = id;
             this.issueDate = isseuDate;
@@ -97,6 +98,8 @@ namespace MicroERP.Business.Domain.Models
             this.comment = comment;
             this.message = message;
             this.Customer = customer;
+            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
+            this.grossTotal = this.invoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1));
         }
 
         #endregion
@@ -118,6 +121,7 @@ namespace MicroERP.Business.Domain.Models
             return other != null &&
                 other.id == this.id &&
                 other.dueDate == this.dueDate &&
+                other.issueDate == this.issueDate &&
                 other.comment == this.comment &&
                 other.message == this.message &&
                 other.customer == this.customer &&

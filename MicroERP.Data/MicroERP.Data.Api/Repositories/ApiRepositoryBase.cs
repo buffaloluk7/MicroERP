@@ -9,7 +9,6 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Fields
 
-        private readonly IApiConfiguration configuration;
         protected readonly JsonSerializerSettings jsonSettings;
         protected readonly RESTRequest request;
 
@@ -19,10 +18,8 @@ namespace MicroERP.Data.Api.Repositories
 
         protected string ConnectionString
         {
-            get
-            {
-                return string.Format("{0}://{1}:{2}/{3}", this.configuration.Protocol, this.configuration.Host, this.configuration.Port, this.configuration.Path);
-            }
+            get;
+            private set;
         }
 
         #endregion
@@ -31,8 +28,11 @@ namespace MicroERP.Data.Api.Repositories
 
         public ApiRepositoryBase(IApiConfiguration configuration, string path = "")
         {
-            this.configuration = configuration;
-            this.configuration.Path += path;
+            this.ConnectionString = string.Format("{0}://{1}:{2}/{3}{4}", configuration.Protocol,
+                                                                          configuration.Host,
+                                                                          configuration.Port,
+                                                                          configuration.Path,
+                                                                          path);
 
             this.jsonSettings = new JsonSerializerSettings()
             {

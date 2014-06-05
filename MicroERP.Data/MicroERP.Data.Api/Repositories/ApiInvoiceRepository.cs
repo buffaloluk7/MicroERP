@@ -20,10 +20,7 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Constructors
 
-        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration)
-        {
-            this.jsonSettings.TypeNameHandling = TypeNameHandling.None;
-        }
+        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration) { }
 
         #endregion
 
@@ -116,7 +113,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)
         {
-            var url = new StringBuilder(this.ConnectionString).Append("/invoices?");
+            var url = new StringBuilder(this.ConnectionString).Append("invoices?");
 
             if (invoiceSearchArgs.CustomerID.HasValue)
             {
@@ -148,7 +145,7 @@ namespace MicroERP.Data.Api.Repositories
                 case HttpStatusCode.OK:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>();
+                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>(this.jsonSettings);
                     }
                     catch (JsonReaderException e)
                     {
