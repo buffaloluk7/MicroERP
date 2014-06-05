@@ -24,6 +24,7 @@ namespace MicroERP.Data.Mock.Repositories
                 }
 
                 invoice.ID = MockData.Instance.Invoices.Max(i => i.ID) + 1;
+                invoice.GrossTotal = invoice.InvoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1));
                 invoice.Customer = customer;
 
                 MockData.Instance.Invoices.Add(invoice);

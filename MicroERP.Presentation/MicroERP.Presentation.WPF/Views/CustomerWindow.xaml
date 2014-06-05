@@ -6,6 +6,7 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:MicroERP.Presentation.WPF.Controls"
     mc:Ignorable="d"
     x:Class="MicroERP.Presentation.WPF.Views.CustomerWindow"
     x:Name="Window"
@@ -47,22 +48,6 @@
                 <VisualState x:Name="CustomerUpdatingState">
                     <Storyboard>
                         <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="invoiceTabItem">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
-                        </BooleanAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="SearchCompaniesElementsGroup">
-            	<VisualState x:Name="CompanyComboBoxEmpty">
-            		<Storyboard>
-            			<BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="companiesComboBox">
-            				<DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
-            			</BooleanAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
-                <VisualState x:Name="CompanyComboBoxFilled">
-                    <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="companiesComboBox">
                             <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
                         </BooleanAnimationUsingKeyFrames>
                     </Storyboard>
@@ -127,37 +112,7 @@
                             <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <Grid Grid.Column="1" Grid.Row="5" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=customerTabItem}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="30" />
-                                    <ColumnDefinition Width="30" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <ComboBox x:Name="companiesComboBox"
-                                          IsEditable="True"
-                                          IsDropDownOpen="False"
-                                          ItemsSource="{Binding Customers}"
-                                          SelectedItem="{Binding SelectedCustomer}"
-                                          DisplayMemberPath="DisplayName"
-                                          Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Margin="0,0,8,0">
-                                	<i:Interaction.Behaviors>
-                                		<ei:DataStateBehavior Binding="{Binding Customers}" Value="{x:Null}" TrueState="CompanyComboBoxEmpty" FalseState="CompanyComboBoxFilled"/>
-                                	</i:Interaction.Behaviors>
-                                    <ComboBox.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SearchCustomerCommand, Mode=TwoWay}" />
-                                    </ComboBox.InputBindings>
-                                </ComboBox>
-
-                                <Button FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="1" HorizontalAlignment="Right" Margin="-4,0,4,0" Padding="7,2" Command="{Binding SearchCustomerCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
-                                <Button FontFamily="Segoe UI Symbol" Content="&#xE107;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding ResetCustomerCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
-                            </Grid>
-
+                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="5" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=customerTabItem}" />
                         </Grid>
                     </GroupBox>
 

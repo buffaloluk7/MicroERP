@@ -4,6 +4,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:controls="clr-namespace:MicroERP.Presentation.WPF.Controls"
     xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
     x:Class="MicroERP.Presentation.WPF.Views.InvoiceWindow"
     x:Name="Window"
@@ -63,24 +64,7 @@
                     <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <ComboBox Grid.Row="3"
-                              Grid.Column="1"
-                              Grid.ColumnSpan="3"
-                              DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}"
-                              x:Name="customersComboBox"
-                              IsEditable="True"
-                              IsDropDownOpen="False"
-                              ItemsSource="{Binding Customers}"
-                              SelectedItem="{Binding SelectedCustomer}"
-                              DisplayMemberPath="DisplayName"
-                              Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Behaviors>
-                            <ei:DataStateBehavior Binding="{Binding Customers}" Value="{x:Null}" TrueState="CustomerComboBoxEmpty" FalseState="CustomerComboBoxFilled"/>
-                        </i:Interaction.Behaviors>
-                        <ComboBox.InputBindings>
-                            <KeyBinding Key="Return" Command="{Binding SearchCustomerCommand, Mode=TwoWay}" />
-                        </ComboBox.InputBindings>
-                    </ComboBox>
+                    <controls:CustomerSearchBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}" />
                 </Grid>
             </GroupBox>
 

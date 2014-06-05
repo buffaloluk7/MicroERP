@@ -4,6 +4,7 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:controls="clr-namespace:MicroERP.Presentation.WPF.Controls"
     xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
     x:Class="MicroERP.Presentation.WPF.Views.MainWindow"
     x:Name="Window"
@@ -190,6 +191,7 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
                             
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Anfangs-Datum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
@@ -203,32 +205,14 @@
                             <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5" Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5" Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                            <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding CustomerSearchBoxViewModel}" Margin="0,5,0,0" />
 
-                                <ComboBox x:Name="customersComboBox"
-                                          DataContext="{Binding CustomerSearchBoxViewModel}"
-                                          IsEditable="True"
-                                          IsDropDownOpen="False"
-                                          ItemsSource="{Binding Customers}"
-                                          SelectedItem="{Binding SelectedCustomer}"
-                                          DisplayMemberPath="DisplayName"
-                                          Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Margin="0,0,8,0">
-                                    <i:Interaction.Behaviors>
-                                        <ei:DataStateBehavior Binding="{Binding Customers}" Value="{x:Null}" TrueState="CustomerComboBoxEmpty" FalseState="CustomerComboBoxFilled"/>
-                                    </i:Interaction.Behaviors>
-                                    <ComboBox.InputBindings>
-                                        <KeyBinding Key="Return" Command="{Binding SearchCustomerCommand, Mode=TwoWay}" />
-                                    </ComboBox.InputBindings>
-                                </ComboBox>
-
-                                <Button Grid.Row="0" Grid.Column="1" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
-                            </Grid>
-
+                            <Button Grid.Row="3" Grid.Column="3" FontSize="14" HorizontalAlignment="Right" Padding="7,4" Margin="0,6,0,2" Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                                <TextBlock>
+                                    <Run FontFamily="Segoe UI Symbol" Text="&#xE11A;" />
+                                    <Run Text="Suchen" FontWeight="Normal" />
+                                </TextBlock>
+                            </Button>
                         </Grid>
                     </GroupBox>
 
