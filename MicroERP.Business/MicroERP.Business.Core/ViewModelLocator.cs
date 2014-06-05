@@ -11,6 +11,8 @@ using MicroERP.Business.Core.ViewModels.Main;
 using MicroERP.Business.Core.ViewModels.Main.Commands;
 using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Core.ViewModels.SearchBox;
+using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.Practices.Unity;
 
@@ -84,9 +86,11 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<CustomerCommandsViewModel>();
             this.container.RegisterType<InvoiceCommandsViewModel>();
 
-            // SearchBox ViewModels
-            this.container.RegisterType<CompanySearchBoxViewModel>();
-            this.container.RegisterType<CustomerSearchBoxViewModel>();
+            // SearchBox ViewModel
+            //this.container.RegisterType<CustomerSearchBoxViewModel>();
+            this.container.RegisterType<CustomerSearchBoxViewModel>(new InjectionConstructor(new ResolvedParameter<ICustomerService>(),
+                                                                                             new InjectionParameter(typeof(CustomerModel), null),
+                                                                                             new InjectionParameter(typeof(CustomerType), CustomerType.None)));
         }
 
         #endregion

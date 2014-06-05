@@ -2,6 +2,8 @@
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
+using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,6 +17,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
         private IEnumerable<CustomerDisplayNameViewModel> customers;
         private CustomerDisplayNameViewModel selectedCustomer;
         private string searchQuery;
+        private CustomerType customerType;
 
         #endregion
 
@@ -27,6 +30,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             {
                 base.Set<string>(ref this.searchQuery, value);
                 this.SearchCustomerCommand.RaiseCanExecuteChanged();
+                this.ResetCustomerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -42,8 +46,13 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             set
             {
                 base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value);
-                this.SearchQuery = value != null ? value.DisplayName : null;
+                this.SearchQuery = value == null ? null : value.DisplayName;
             }
+        }
+
+        public bool IsSelected
+        {
+            get { return this.selectedCustomer != null; }
         }
 
         #endregion
@@ -56,20 +65,31 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             private set;
         }
 
+        public RelayCommand ResetCustomerCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructors
 
-        public CustomerSearchBoxViewModel(ICustomerService customerService)
+        public CustomerSearchBoxViewModel(ICustomerService customerService, CustomerModel customer = null, CustomerType customerType = CustomerType.None)
         {
             this.customerService = customerService;
-            this.SearchCustomerCommand = new RelayCommand(this.onSearchCustomersExecuted, this.onSearchCustomersCanExecute);
+            this.customerType = customerType;
+
+            this.SearchCustomerCommand = new RelayCommand(this.onSearchCustomerExecuted, this.onSearchCustomerCanExecute);
+            this.ResetCustomerCommand = new RelayCommand(this.onResetCustomerExecuted, this.onResetCustomerCanExecute);
+
+            this.SelectedCustomer = customer == null ? null : new CustomerDisplayNameViewModel(customer);
 
             #if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.searchQuery = "i";
-                this.onSearchCustomersExecuted();
+                this.onSearchCustomerExecuted();
             }
             #endif
         }
@@ -78,7 +98,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
 
         #region Command Implementations
 
-        private bool onSearchCustomersCanExecute()
+        private bool onSearchCustomerCanExecute()
         {
             if (string.IsNullOrWhiteSpace(this.searchQuery))
             {
@@ -89,10 +109,9 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             return true;
         }
 
-        private async void onSearchCustomersExecuted()
+        private async void onSearchCustomerExecuted()
         {
-            var customers = await this.customerService.Search(this.searchQuery);
-
+            var customers = await this.customerService.Search(this.searchQuery, true, this.customerType);
             if (customers.Count() == 1)
             {
                 this.SelectedCustomer = new CustomerDisplayNameViewModel(customers.First());
@@ -101,6 +120,16 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             {
                 this.Customers = customers.Select(c => new CustomerDisplayNameViewModel(c));
             }
+        }
+
+        private bool onResetCustomerCanExecute()
+        {
+            return this.IsSelected;
+        }
+
+        private void onResetCustomerExecuted()
+        {
+            this.SelectedCustomer = null;
         }
 
         #endregion

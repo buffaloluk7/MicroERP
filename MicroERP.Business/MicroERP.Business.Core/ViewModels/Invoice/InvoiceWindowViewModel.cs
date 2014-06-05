@@ -5,6 +5,7 @@ using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;

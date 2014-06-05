@@ -4,6 +4,7 @@ using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -46,7 +47,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             get { return this.personViewModel; }
         }
 
-        public CompanySearchBoxViewModel CompanySearchBoxViewModel
+        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel
         {
             get;
             private set;
@@ -91,7 +92,25 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             if (person != null)
             {
                 this.personViewModel = new PersonModelViewModel(person);
-                this.CompanySearchBoxViewModel = container.Resolve<CompanySearchBoxViewModel>(new ParameterOverride("person", person));
+
+                if (person.Company == null)
+                {
+                    this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customerType", CustomerType.Company } });
+                }
+                else
+                {
+                    this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customer", person.Company }, { "customerType", CustomerType.Company } });
+                }
+
+                this.CustomerSearchBoxViewModel.PropertyChanged += ((s, e) =>
+                {
+                    if (e.PropertyName == "selectedCustomer")
+                    {
+                        var selectedCustomer = s as CustomerDisplayNameViewModel;
+                        person.Company = selectedCustomer == null ? null : selectedCustomer.Model as CompanyModel;
+                    }
+                });
+
                 return;
             }
 

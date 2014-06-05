@@ -4,6 +4,8 @@ using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.DTO;
+using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
@@ -88,7 +90,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             this.invoiceSearchArgs = new InvoiceSearchArgs();
             this.invoiceSearchArgs.PropertyChanged += ((s, e) => this.SearchInvoicesCommand.RaiseCanExecuteChanged());
 
-            this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>();
+            this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customerType", CustomerType.None } });
             this.CustomerSearchBoxViewModel.PropertyChanged += CustomerSearchBoxViewModel_PropertyChanged;
 
             #if DEBUG
