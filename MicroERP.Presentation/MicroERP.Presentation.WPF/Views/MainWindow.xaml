@@ -179,7 +179,7 @@
                             </TextBlock>
                         </GroupBox.Header>
 
-                        <Grid Margin="10,2">
+                        <Grid Margin="10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
@@ -241,27 +241,26 @@
                             </TextBlock>
                         </GroupBox.Header>
 
-                        <ListView x:Name="InvoicesListBox" ItemsSource="{Binding Invoices}" SelectedItem="{Binding SelectedInvoice}" BorderBrush="Transparent" Margin="-5.2,0">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Nr." Width="60">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock TextDecorations="Underline" Foreground="Blue" Cursor="Hand">
-                                                    <Run Text="#" />
-                                                    <Run Text="{Binding ID, Mode=OneWay}" />
-                                                </TextBlock>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Kunde" DisplayMemberBinding="{Binding DisplayName}" Width="90" />
-                                    <GridViewColumn Header="Ausgestellt am" DisplayMemberBinding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" Width="110" />
-                                    <GridViewColumn Header="Fällig am" DisplayMemberBinding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" Width="70" />
-                                    <GridViewColumn Header="Kommentar" DisplayMemberBinding="{Binding Comment}" Width="190" />
-                                    <GridViewColumn Header="Summe" DisplayMemberBinding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <DataGrid x:Name="InvoicesListBox"
+                              VerticalAlignment="Stretch"
+                              ItemsSource="{Binding Invoices}"
+                              SelectedItem="{Binding SelectedInvoice}"
+                              AutoGenerateColumns="False"
+                              CanUserSortColumns="True"
+                              SelectionMode="Single"
+                              SelectionUnit="FullRow"
+                              CanUserResizeRows="True"
+                              IsReadOnly="True">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="#" Binding="{Binding ID}" />
+                                <DataGridTextColumn Header="Kunde" Binding="{Binding DisplayName}" />
+                                <DataGridTextColumn Header="Ausstellung" Binding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Fälligkeit" Binding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Kommentar" Binding="{Binding Comment}" Width="*" />
+                                <DataGridTextColumn Header="Betrag" Binding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </GroupBox>
 
                     <StackPanel DataContext="{Binding DataContext.InvoiceCommandsViewModel, ElementName=Window}" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
