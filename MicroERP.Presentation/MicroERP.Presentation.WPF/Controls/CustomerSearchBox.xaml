@@ -5,6 +5,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignWidth="300">
 
@@ -46,7 +47,8 @@
                       SelectedItem="{Binding SelectedCustomer}"
                       DisplayMemberPath="DisplayName"
                       Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Margin="0,0,8,0">
+                      Margin="0,0,8,0"
+                      Controls:TextboxHelper.Watermark="Suchbegriff eingeben ...">
                 <i:Interaction.Behaviors>
                     <ei:DataStateBehavior Binding="{Binding Customers}" Value="{x:Null}" TrueState="CustomerComboBoxEmpty" FalseState="CustomerComboBoxFilled" />
                 </i:Interaction.Behaviors>
@@ -56,7 +58,19 @@
             </ComboBox>
 
             <Button FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" Grid.Column="1" HorizontalAlignment="Right" Margin="-4,0,4,0" Padding="7,2" Command="{Binding SearchCustomerCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
-            <Button FontFamily="Segoe UI Symbol" Content="&#xE107;" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding ResetCustomerCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+            <Button FontFamily="Segoe UI Symbol" FontSize="14" Grid.Column="2" HorizontalAlignment="Right" Padding="7,2" Command="{Binding ResetCustomerCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Content" Value="&#xE10B;" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Content" Value="&#xE107;" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <!--&#xE107;-->
         </Grid>
     </Grid>
 </UserControl>

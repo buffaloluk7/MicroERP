@@ -78,8 +78,8 @@
                             <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold"/>
                             <TextBlock Text="UID" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Firmenname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="UID der Firma eingeben ..." />
                         </Grid>
                     </GroupBox>
 
@@ -106,11 +106,11 @@
                             <TextBlock Text="Geburtstag" Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" />
                             <TextBlock Text="Firma" Grid.Row="5" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Titel eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Vorname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Nachname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Suffix eingeben ..." />
+                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Geburtsdatum eingeben ..." />
 
                             <controls:CustomerSearchBox Grid.Column="1" Grid.Row="5" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=customerTabItem}" />
                         </Grid>
@@ -132,9 +132,9 @@
                             <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1" FontWeight="Bold" />
                             <TextBlock Text="Lieferadresse" VerticalAlignment="Center" Grid.Row="2" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding BillingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ShippingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Hauptadresse eingeben ..." />
+                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding BillingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Rechnungsadresse eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ShippingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Lieferadresse eingeben ..." />
                         </Grid>
                     </GroupBox>
 

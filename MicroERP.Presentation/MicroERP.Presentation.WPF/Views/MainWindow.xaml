@@ -74,7 +74,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold"/>
-                            <TextBox x:Name="SearchBox" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox x:Name="SearchBox" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Geben Sie Vor-/Nachname oder einen Firmennamen ein ...">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="GotFocus">
                                         <ei:CallMethodAction MethodName="SelectAll"/>
@@ -200,17 +200,17 @@
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="Max. Betrag" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding MinDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding MaxDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5" Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5" Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding MinDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Anfangs-Datum eingeben ..." />
+                            <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding MaxDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="End-Datum eingeben ..." />
+                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5" Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Mindestbetrag eingeben ..." />
+                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5" Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Maximalbetrag eingeben ..." />
 
                             <controls:CustomerSearchBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding CustomerSearchBoxViewModel}" Margin="0,5,0,0" />
 
-                            <Button Grid.Row="3" Grid.Column="3" FontSize="14" HorizontalAlignment="Right" Padding="7,4" Margin="0,6,0,2" Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                            <Button Grid.Row="3" Grid.Column="3" FontSize="14" HorizontalAlignment="Right" Padding="8,5,8,6" Margin="0,6,0,2" Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
                                 <TextBlock>
                                     <Run FontFamily="Segoe UI Symbol" Text="&#xE11A;" />
-                                    <Run Text="Suchen" FontWeight="Normal" />
+                                    <Run Text="Nach Rechnungen suchen" FontWeight="Normal" />
                                 </TextBlock>
                             </Button>
                         </Grid>

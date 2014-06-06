@@ -58,11 +58,11 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Nachricht" VerticalAlignment="Center" FontWeight="Bold" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
 
-                    <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding IssueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding IssueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Rechnungsdatum eingeben ..." />
+                    <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Fälligkeitsdatum eingeben ..." />
 
-                    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Kommentar eingeben ..." />
+                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Nachricht eingeben ..." />
 
                     <controls:CustomerSearchBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}" />
                 </Grid>
