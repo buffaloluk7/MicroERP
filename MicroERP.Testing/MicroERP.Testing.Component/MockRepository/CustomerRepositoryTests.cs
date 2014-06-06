@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MicroERP.Testing.Component.MockData
+namespace MicroERP.Testing.Component.MockRepository
 {
     [TestClass]
     public class CustomerRepositoryTests

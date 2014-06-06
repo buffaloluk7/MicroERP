@@ -74,11 +74,19 @@ namespace MicroERP.Testing.Component.MockRepository
         [TestMethod]
         public void Test_CreateInvoice()
         {
-            var invoice = new InvoiceModel(100, DateTime.Now, DateTime.Now, "Kommentar #3", "Nachricht #3", this.customer, new InvoiceItemModel[]
+            var invoice = new InvoiceModel()
             {
-                new InvoiceItemModel(5, "Artikel 5", 80, 14m, 0.1m),
-                new InvoiceItemModel(6, "Artikel 6", 12, 1.4m, 0.2m)
-            });
+                DueDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                Comment = "Kommentar #3",
+                Message = "Message #3",
+                Customer = this.customer,
+                InvoiceItems = new ObservableCollection<InvoiceItemModel>(new InvoiceItemModel[]
+                    {
+                        new InvoiceItemModel() { Name = "Artikel #5", Amount = 80, UnitPrice = 14m, Tax = 0.1m },
+                        new InvoiceItemModel() { Name = "Artikel #6", Amount = 12, UnitPrice = 1.4m, Tax = 0.2m }
+                    })
+            };
             invoice.ID = this.invoiceRepository.Create(this.customer.ID, invoice).Result;
 
             Assert.AreNotEqual(invoice.ID, default(int));

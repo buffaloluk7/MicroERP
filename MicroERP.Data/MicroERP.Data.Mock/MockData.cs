@@ -37,7 +37,16 @@ namespace MicroERP.Data.Mock
 
         public MockData()
         {
-            var viktorCompany =  new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
+            this.createMockData();
+        }
+
+        #endregion
+
+        #region CreateMockData
+
+        private void createMockData()
+        {
+            var viktorCompany = new CompanyModel(3, "Viktorweg", "Viktorweg 1", "Viktorweg 2", "Viktor AG", "98765432");
             var simonCompany = new CompanyModel(4, "Simonweg", "Simonweg 1", "Simonweg 2", "Simon GmbH", "0123456789");
             var thomasCompany = new CompanyModel(5, "Thomasweg", "Thomasweg 1", "Thomasweg 2", "Thomas GmbH", "6543217890");
 
