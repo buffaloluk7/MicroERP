@@ -98,7 +98,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AsyncAsserts.cs" />
-    <Compile Include="MockData\CustomerRepositoryTests.cs" />
+    <Compile Include="MockRepository\CustomerRepositoryTests.cs" />
+    <Compile Include="MockRepository\InvoiceRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

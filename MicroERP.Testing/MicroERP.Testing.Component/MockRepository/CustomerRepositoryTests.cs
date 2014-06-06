@@ -4,6 +4,8 @@ using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MicroERP.Testing.Component.MockData
 {
@@ -11,16 +13,37 @@ namespace MicroERP.Testing.Component.MockData
     public class CustomerRepositoryTests
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IEnumerable<CustomerModel> customers;
 
         public CustomerRepositoryTests()
         {
             this.customerRepository = RepositoryFactory.CreateRepositories().Item1;
+
+            this.customers = new CustomerModel[]
+            {
+                new CompanyModel() { Name = "Google", UID = "1234", Address = "Street 1", BillingAddress = "Street 2", ShippingAddress = "Street 3" },
+                new CompanyModel() { Name = "Apple", UID = "5678", Address = "Another Street 1", BillingAddress = "Another Street 2", ShippingAddress = "Another Street 3" },
+                new PersonModel() { FirstName = "Dummy", LastName = "Dieter" }
+            };
+
+            foreach (var customer in this.customers)
+            {
+                customer.ID = this.customerRepository.Create(customer).Result;
+            }
         }
 
         [TestMethod]
-        public void Test_CustomersSearch_CompanyType()
+        public void Test_SearchCustomers()
         {
-            var customers = this.customerRepository.Search("i", CustomerType.Company).Result;
+            var customers = this.customerRepository.Search("oogl").Result;
+
+            Assert.AreNotEqual(0, customers.Count());
+        }
+
+        [TestMethod]
+        public void Test_SearchCustomers_CompaniesOnly()
+        {
+            var customers = this.customerRepository.Search("apple", CustomerType.Company).Result;
 
             foreach (var c in customers)
             {
@@ -29,30 +52,39 @@ namespace MicroERP.Testing.Component.MockData
         }
 
         [TestMethod]
-        public void Test_CustomersSearch_PersonType()
+        public void Test_SearchCustomers_PersonsOnly()
         {
-            var customers = this.customerRepository.Search("i", CustomerType.Person).Result;
+            var customers = this.customerRepository.Search("dummy", CustomerType.Person).Result;
+            Assert.AreNotEqual(0, customers.Count());
 
             foreach (var c in customers)
             {
                 Assert.IsInstanceOfType(c, typeof(PersonModel));
             }
+
+            var dummyDieter = customers.First() as PersonModel;
+            Assert.AreEqual("Dummy", dummyDieter.FirstName);
+            Assert.AreEqual("Dieter", dummyDieter.LastName);
         }
 
         [TestMethod]
         public void Test_CreateCustomer()
         {
-            var company = new CompanyModel() { Name = "Company name", UID = "1234", Address = "Abc", BillingAddress = "Def", ShippingAddress = "Ghi" };
-            var person = new PersonModel() { FirstName = "Lukas", LastName = "Streiter" };
+            var company = new CompanyModel() { Name = "Microsoft", UID = "012345", Address = "Street 1", BillingAddress = "Street 2", ShippingAddress = "Street 3" };
 
             Assert.AreEqual(default(int), company.ID);
-            Assert.AreEqual(default(int), person.ID);
 
-            var companyID = this.customerRepository.Create(company);
-            var personID = this.customerRepository.Create(person);
+            company.ID = this.customerRepository.Create(company).Result;
 
-            Assert.AreNotEqual(default(int), companyID);
-            Assert.AreNotEqual(default(int), personID);
+            Assert.AreNotEqual(default(int), company.ID);
+        }
+
+        [TestMethod]
+        public void Test_FindCustomer()
+        {
+            var customer = this.customerRepository.Find(this.customers.First().ID).Result;
+
+            Assert.AreEqual(this.customers.First().ID, customer.ID);
         }
 
         [TestMethod]
