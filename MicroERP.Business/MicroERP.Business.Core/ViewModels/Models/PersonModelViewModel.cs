@@ -48,7 +48,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
         public CompanyModelViewModel Company
         {
             get;
-            private set;
+            set;
         }
 
         #endregion

@@ -99,12 +99,14 @@
   <ItemGroup>
     <Compile Include="AsyncAsserts.cs" />
     <Compile Include="DTO\InvoiceSearchArgsTest.cs" />
-    <Compile Include="MockRepository\CustomerRepositoryTests.cs" />
-    <Compile Include="MockRepository\InvoiceRepositoryTests.cs" />
+    <Compile Include="Mock\CustomerRepositoryTests.cs" />
+    <Compile Include="Mock\InvoiceRepositoryTests.cs" />
     <Compile Include="Models\EqualsTests.cs" />
     <Compile Include="Models\HashCodeTests.cs" />
     <Compile Include="Models\PropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CustomerDisplayNameViewModelTests.cs" />
+    <Compile Include="ViewModels\CustomerModelViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

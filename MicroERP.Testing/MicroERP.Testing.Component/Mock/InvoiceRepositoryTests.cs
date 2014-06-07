@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace MicroERP.Testing.Component.MockRepository
+namespace MicroERP.Testing.Component.Mock
 {
     [TestClass]
     public class InvoiceRepositoryTests
@@ -65,10 +65,11 @@ namespace MicroERP.Testing.Component.MockRepository
         [TestMethod]
         public void Test_GetAllInvoices()
         {
-            var invoices = this.invoiceRepository.All(this.customer.ID).Result;
-
-            Assert.AreEqual(2, invoices.Count());
-            Assert.AreEqual(this.customer.ID, invoices.First().Customer.ID);
+            this.invoiceRepository.All(this.customer.ID).ContinueWith((i) =>
+            {
+                Assert.AreEqual(2, i.Result.Count());
+                Assert.AreEqual(this.customer.ID, i.Result.First().Customer.ID);
+            });
         }
 
         [TestMethod]
@@ -95,9 +96,10 @@ namespace MicroERP.Testing.Component.MockRepository
                         new InvoiceItemModel() { Name = "Artikel #6", Amount = 12, UnitPrice = 1.4m, Tax = 0.2m }
                     })
             };
-            invoice.ID = this.invoiceRepository.Create(this.customer.ID, invoice).Result;
-
-            Assert.AreNotEqual(invoice.ID, default(int));
+            this.invoiceRepository.Create(this.customer.ID, invoice).ContinueWith((id) =>
+            {
+                Assert.AreNotEqual(id, default(int));
+            });
         }
 
         [TestMethod]
@@ -124,11 +126,14 @@ namespace MicroERP.Testing.Component.MockRepository
         [TestMethod]
         public void Test_FindInvoice()
         {
-            var invoices = this.invoiceRepository.All(this.customer.ID).Result;
-            var singleInvoice = this.invoiceRepository.Find(invoices.First().ID).Result;
-
-            Assert.AreEqual(invoices.First().ID, singleInvoice.ID);
-            Assert.AreEqual(invoices.First(), singleInvoice);
+            this.invoiceRepository.All(this.customer.ID).ContinueWith((i) =>
+            {
+                this.invoiceRepository.Find(i.Result.First().ID).ContinueWith((si) =>
+                {
+                    Assert.AreEqual(i.Result.First().ID, si.Result.ID);
+                    Assert.AreEqual(i.Result.First(), si.Result);
+                });
+            });
         }
 
         [TestMethod]
@@ -154,9 +159,11 @@ namespace MicroERP.Testing.Component.MockRepository
             {
                 CustomerID = this.customer.ID
             };
-            var invoices = this.invoiceRepository.Search(searchArguments).Result;
 
-            Assert.AreEqual(2, invoices.Count());
+            this.invoiceRepository.Search(searchArguments).ContinueWith((i) =>
+            {
+                Assert.AreEqual(2, i.Result.Count());
+            });
         }
 
         [TestMethod]
@@ -168,9 +175,11 @@ namespace MicroERP.Testing.Component.MockRepository
                 MinDate = DateTime.Now.AddDays(-1),
                 MaxDate = DateTime.Now.AddDays(10)
             };
-            var invoices = this.invoiceRepository.Search(searchArguments).Result;
-
-            Assert.AreEqual(2, invoices.Count());
+            
+            this.invoiceRepository.Search(searchArguments).ContinueWith((i) =>
+            {
+                Assert.AreEqual(2, i.Result.Count());
+            });
         }
 
         [TestMethod]
@@ -182,9 +191,10 @@ namespace MicroERP.Testing.Component.MockRepository
                 MinTotal = 100.0m,
                 MaxTotal = 1805.7m // Maximale Summe = 1899.5
             };
-            var invoices1 = this.invoiceRepository.Search(searchArguments1).Result;
-
-            Assert.AreEqual(1, invoices1.Count());
+            this.invoiceRepository.Search(searchArguments1).ContinueWith((i) =>
+            {
+                Assert.AreEqual(1, i.Result.Count());
+            });
 
             var searchArguments2 = new InvoiceSearchArgs()
             {
@@ -192,9 +202,10 @@ namespace MicroERP.Testing.Component.MockRepository
                 MinTotal = 100.0m,
                 MaxTotal = 1900.4m // Maximale Summe = 1899.5
             };
-            var invoices2 = this.invoiceRepository.Search(searchArguments2).Result;
-
-            Assert.AreEqual(2, invoices2.Count());
+            this.invoiceRepository.Search(searchArguments2).ContinueWith((i) =>
+            {
+                Assert.AreEqual(2, i.Result.Count());
+            });
 
             var searchArguments3 = new InvoiceSearchArgs()
             {
@@ -202,9 +213,10 @@ namespace MicroERP.Testing.Component.MockRepository
                 MinTotal = 1743.4m,
                 MaxTotal = 2019.3m // Maximale Summe = 1899.5
             };
-            var invoices3 = this.invoiceRepository.Search(searchArguments3).Result;
-
-            Assert.AreEqual(1, invoices3.Count());
+            this.invoiceRepository.Search(searchArguments3).ContinueWith((i) =>
+            {
+                Assert.AreEqual(1, i.Result.Count());
+            });
         }
 
         [TestMethod]
@@ -218,9 +230,11 @@ namespace MicroERP.Testing.Component.MockRepository
                 MinTotal = 100.0m,
                 MaxTotal = 1805.7m // Maximale Summe = 1899.5
             };
-            var invoices = this.invoiceRepository.Search(searchArguments).Result;
 
-            Assert.AreEqual(1, invoices.Count());
+            this.invoiceRepository.Search(searchArguments).ContinueWith((i) =>
+            {
+                Assert.AreEqual(1, i.Result.Count());
+            });
         }
     }
 }

@@ -20,7 +20,6 @@ namespace MicroERP.Business.Core.ViewModels.Models
         public int ID
         {
             get { return this.invoice.ID; }
-            set { this.invoice.ID = value; }
         }
 
         public string DisplayName
@@ -54,7 +53,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         public decimal Total
         {
-            get { return this.invoice.GrossTotal.Value; }
+            get { return this.invoice.GrossTotal.HasValue ? this.invoice.GrossTotal.Value : default(decimal); }
         }
 
         public ObservableCollection<InvoiceItemModelViewModel> InvoiceItems

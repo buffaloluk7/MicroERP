@@ -37,7 +37,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
             set { this.invoiceItem.Tax = value; }
         }
 
-        public InvoiceItemModel Model
+        internal InvoiceItemModel Model
         {
             get { return this.invoiceItem; }
         }

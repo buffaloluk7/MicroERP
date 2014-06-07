@@ -28,7 +28,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
                 var company = this.customer as CompanyModel;
                 if (company != null)
                 {
-                    return company.Name;
+                    return string.Format("{0} ({1})", company.Name, company.UID);
                 }
 
                 throw new InvalidOperationException("Invalid customer type");
