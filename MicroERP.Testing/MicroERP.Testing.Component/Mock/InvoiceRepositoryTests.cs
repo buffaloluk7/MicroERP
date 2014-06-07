@@ -15,13 +15,11 @@ namespace MicroERP.Testing.Component.Mock
     public class InvoiceRepositoryTests
     {
         private readonly CustomerModel customer;
-        private readonly ICustomerRepository customerRepository;
         private readonly IInvoiceRepository invoiceRepository;
-        private readonly IEnumerable<InvoiceModel> invoices;
 
         public InvoiceRepositoryTests()
         {
-            this.customerRepository = new MockCustomerRepository();
+            ICustomerRepository customerRepository = new MockCustomerRepository();
             this.invoiceRepository = new MockInvoiceRepository();
 
             this.customer = new CompanyModel
@@ -32,9 +30,9 @@ namespace MicroERP.Testing.Component.Mock
                 BillingAddress = "Street 2",
                 ShippingAddress = "Street 3"
             };
-            this.customer.ID = this.customerRepository.Create(this.customer).Result;
+            this.customer.ID = customerRepository.Create(this.customer).Result;
 
-            this.invoices = new[]
+            IEnumerable<InvoiceModel> invoices = new[]
             {
                 new InvoiceModel
                 {
@@ -64,7 +62,7 @@ namespace MicroERP.Testing.Component.Mock
                 }
             };
 
-            foreach (var invoice in this.invoices)
+            foreach (var invoice in invoices)
             {
                 this.invoiceRepository.Create(this.customer.ID, invoice);
             }

@@ -31,11 +31,11 @@ namespace MicroERP.Testing.Component.Models
             Assert.AreEqual("Dieter", p.LastName);
             Assert.AreEqual(0, p.Invoices.Count);
             Assert.AreEqual("A", p.Company.Address);
-            Assert.AreEqual(1, p.CompanyID.Value);
+            Assert.AreEqual(1, p.CompanyID.HasValue ? p.CompanyID.Value : 0);
             Assert.AreEqual("X", p.Address);
             Assert.AreEqual("Y", p.BillingAddress);
             Assert.AreEqual("Z", p.ShippingAddress);
-            Assert.AreEqual(1993, p.BirthDate.Value.Year);
+            Assert.AreEqual(1993, p.BirthDate.HasValue ? p.BirthDate.Value.Year : 0);
             Assert.IsTrue(string.IsNullOrEmpty(p.Suffix));
             Assert.AreEqual("Herr", p.Title);
         }
@@ -110,7 +110,6 @@ namespace MicroERP.Testing.Component.Models
             Assert.AreEqual(100, ii.Amount);
             Assert.AreEqual(12.5m, ii.UnitPrice);
             Assert.AreEqual(0.2m, ii.Tax);
-            Assert.IsNull(ii.Invoice);
         }
     }
 }

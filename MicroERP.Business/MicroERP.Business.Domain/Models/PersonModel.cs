@@ -52,11 +52,7 @@ namespace MicroERP.Business.Domain.Models
         public DateTime? BirthDate
         {
             get { return this.birthDate; }
-            set
-            {
-                base.Set(ref this.birthDate, value);
-                ;
-            }
+            set { base.Set(ref this.birthDate, value); }
         }
 
         [DataMember(Name = "companyID")]

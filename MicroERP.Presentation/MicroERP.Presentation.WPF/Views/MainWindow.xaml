@@ -233,10 +233,10 @@
                                         SelectedDate="{Binding MaxDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Controls:TextboxHelper.Watermark="End-Datum eingeben ..." />
                             <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5"
-                                                    Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                                     Controls:TextboxHelper.Watermark="Mindestbetrag eingeben ..." />
                             <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5"
-                                                    Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
                                                     Controls:TextboxHelper.Watermark="Maximalbetrag eingeben ..." />
 
                             <controls:CustomerSearchBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"

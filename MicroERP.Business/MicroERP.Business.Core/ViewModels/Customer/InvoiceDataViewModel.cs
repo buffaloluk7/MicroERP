@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
-using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Models;
@@ -14,7 +12,6 @@ namespace MicroERP.Business.Core.ViewModels.Customer
     {
         #region Fields
 
-        private readonly IInvoiceService invoiceService;
         private readonly INavigationService navigationService;
         private readonly IEnumerable<InvoiceModelViewModel> invoices;
         private InvoiceModelViewModel selectedInvoice;
@@ -47,10 +44,8 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
         #region Constructor
 
-        public InvoiceDataViewModel(IInvoiceService invoiceService, INavigationService navigationService,
-            IEnumerable<InvoiceModel> invoices, int customerID)
+        public InvoiceDataViewModel(INavigationService navigationService, IEnumerable<InvoiceModel> invoices, int customerID)
         {
-            this.invoiceService = invoiceService;
             this.invoices = invoices.Select(i => new InvoiceModelViewModel(i));
             this.customerID = customerID;
 

@@ -83,7 +83,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="UID" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="UID" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
 
                             <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4"
                                      Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -111,11 +111,11 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="Titel" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Vorname" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Nachname" Grid.Row="2" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Suffix" Grid.Row="3" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Geburtstag" Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Firma" Grid.Row="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Vorname" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Nachname" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Suffix" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Geburtstag" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Firma" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
 
                             <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4"
                                      Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -151,11 +151,12 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="Adresse" VerticalAlignment="Center" FontWeight="Bold" />
-                            <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1"
+                            <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"
                                        FontWeight="Bold" />
-                            <TextBlock Text="Lieferadresse" VerticalAlignment="Center" Grid.Row="2" FontWeight="Bold" />
+                            <TextBlock Text="Lieferadresse" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"
+                                       FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Margin="0,0,0,4"
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,0,0,4"
                                      Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Controls:TextboxHelper.Watermark="Hauptadresse eingeben ..." />
                             <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1"

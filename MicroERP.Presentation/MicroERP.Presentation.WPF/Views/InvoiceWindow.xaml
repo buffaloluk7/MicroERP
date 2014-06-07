@@ -2,10 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:controls="clr-namespace:MicroERP.Presentation.WPF.Controls"
-    xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
     xmlns:commands="http://www.galasoft.ch/mvvmlight"
     x:Class="MicroERP.Presentation.WPF.Views.InvoiceWindow"
     x:Name="Window"
@@ -40,7 +38,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <StackPanel>
-            <GroupBox x:Name="groupBoxInvoice" Header="Rechnungsdaten" DataContext="{Binding Invoice, Mode=OneWay}">
+            <GroupBox Header="Rechnungsdaten" DataContext="{Binding Invoice, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -84,7 +82,7 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox x:Name="groupBoxInvoiceItems" Header="Rechnungszeilen" DataContext="{Binding Invoice}">
+            <GroupBox Header="Rechnungszeilen" DataContext="{Binding Invoice}">
                 <StackPanel>
                     <DataGrid ItemsSource="{Binding InvoiceItems}"
                               AutoGenerateColumns="False"

@@ -55,7 +55,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<IEnumerable<InvoiceModel>> All(int customerID)
         {
-            string url = string.Format("{0}/invoices?customerID=", this.ConnectionString, customerID);
+            string url = string.Format("{0}/invoices?customerID={1}", this.ConnectionString, customerID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)

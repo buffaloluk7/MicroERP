@@ -59,12 +59,13 @@ namespace MicroERP.Business.Domain.Models
 
         #region Constructors
 
-        public CustomerModel()
+        protected CustomerModel()
         {
             this.invoices = new ObservableCollection<InvoiceModel>();
         }
 
-        public CustomerModel(int id, string address, string billingAddress, string shippingAddress) : this()
+        protected CustomerModel(int id, string address, string billingAddress, string shippingAddress)
+            : this()
         {
             this.id = id;
             this.address = address;

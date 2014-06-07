@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
-using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Main.Search;
 
@@ -10,7 +9,6 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
     {
         #region Fields
 
-        private readonly IInvoiceService invoiceService;
         private readonly INavigationService navigationService;
         private readonly SearchInvoicesViewModel searchInvoicesViewModel;
 
@@ -26,10 +24,8 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
         #region Constructor
 
-        public InvoiceCommandsViewModel(IInvoiceService invoiceService, INavigationService navigationService,
-            SearchInvoicesViewModel searchInvoicesViewModel)
+        public InvoiceCommandsViewModel(INavigationService navigationService, SearchInvoicesViewModel searchInvoicesViewModel)
         {
-            this.invoiceService = invoiceService;
             this.navigationService = navigationService;
 
             this.CreateInvoiceCommand = new RelayCommand(onCreateInvoiceExecuted);

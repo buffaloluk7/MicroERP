@@ -12,7 +12,7 @@ namespace MicroERP.Data.Api.Configuration
 
         public int Port { get; private set; }
 
-        public string Path { get; set; }
+        public string Path { get; private set; }
 
         #endregion
 

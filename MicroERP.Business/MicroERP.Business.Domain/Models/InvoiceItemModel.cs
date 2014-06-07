@@ -60,9 +60,6 @@ namespace MicroERP.Business.Domain.Models
             set { base.Set(ref this.tax, value); }
         }
 
-        [IgnoreDataMember]
-        public InvoiceModel Invoice { get; set; }
-
         #endregion
 
         #region Constructors

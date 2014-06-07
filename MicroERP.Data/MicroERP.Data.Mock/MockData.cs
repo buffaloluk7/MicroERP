@@ -27,7 +27,7 @@ namespace MicroERP.Data.Mock
 
         #region Constructors
 
-        public MockData()
+        private MockData()
         {
             this.createMockData();
         }

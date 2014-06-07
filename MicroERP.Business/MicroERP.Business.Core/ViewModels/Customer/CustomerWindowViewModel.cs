@@ -7,7 +7,6 @@ using Luvi.Json.Extension;
 using Luvi.Service.Navigation;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -88,7 +87,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         public async void OnNavigatedTo(object argument, NavigationType navigationMode)
         {
             var customerRaw = argument as string;
-            CustomerModel customer = null;
+            CustomerModel customer;
 
             if (argument is CustomerType)
             {
@@ -118,7 +117,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             // Retrieve invoices for the given customer
             if (customer.ID != default(int))
             {
-                var invoices = await this.invoiceService.Search(new InvoiceSearchArgs {CustomerID = customer.ID});
+                var invoices = await this.invoiceService.All(customer.ID);
                 customer.Invoices = new ObservableCollection<InvoiceModel>(invoices);
             }
 

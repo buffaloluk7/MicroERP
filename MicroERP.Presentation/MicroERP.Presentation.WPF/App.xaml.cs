@@ -42,8 +42,12 @@ namespace MicroERP.Presentation.WPF
                 },
                 {
                     typeof (BadResponseException),
-                    ex => "Server response sent unexpected HttpStatusCode:\n" +
-                          (ex as BadResponseException).StatusCode
+                    ex =>
+                    {
+                        var badResponseException = ex as BadResponseException;
+                        return badResponseException != null ? "Server response sent unexpected HttpStatusCode:\n" +
+                                                                    badResponseException.StatusCode : null;
+                    }
                 }
             };
 
@@ -77,15 +81,17 @@ namespace MicroERP.Presentation.WPF
 
         private void App_Navigating(object sender, NavigatingCancelEventArgs e)
         {
-            var viewViewModelMapper = new Dictionary<Type, Type>();
-            viewViewModelMapper.Add(typeof (MainWindowViewModel), typeof (MainWindow));
-            viewViewModelMapper.Add(typeof (CustomerWindowViewModel), typeof (CustomerWindow));
-            viewViewModelMapper.Add(typeof (InvoiceWindowViewModel), typeof (InvoiceWindow));
+            var viewViewModelMapper = new Dictionary<Type, Type>
+            {
+                {typeof (MainWindowViewModel), typeof (MainWindow)},
+                {typeof (CustomerWindowViewModel), typeof (CustomerWindow)},
+                {typeof (InvoiceWindowViewModel), typeof (InvoiceWindow)}
+            };
 
             var locator = Current.Resources["Locator"] as ViewModelLocator;
             var navigationService = new NavigationService(viewViewModelMapper);
 
-            locator.Register(navigationService, new NotificationService(), new BrowsingService());
+            if (locator != null) locator.Register(navigationService, new NotificationService(), new BrowsingService());
 
             this.Navigating -= App_Navigating;
         }
