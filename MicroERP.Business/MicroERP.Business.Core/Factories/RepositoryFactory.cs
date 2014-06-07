@@ -1,9 +1,9 @@
-﻿using MicroERP.Business.Domain.Repositories;
+﻿using System;
+using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Repositories;
 using MicroERP.Data.Mock.Repositories;
-using System;
 
 namespace MicroERP.Business.Core.Factories
 {
@@ -11,7 +11,7 @@ namespace MicroERP.Business.Core.Factories
     {
         public static Tuple<ICustomerRepository, IInvoiceRepository> CreateRepositories()
         {
-            #if (API || !DEBUG)
+#if (API || !DEBUG)
 
             IApiConfiguration local = new ApiConfiguration("127.0.0.1", 8000, "http", "microerp/");
             IApiConfiguration remote = new ApiConfiguration("10.201.94.236", 8000, "http", "microerp/");
@@ -26,13 +26,12 @@ namespace MicroERP.Business.Core.Factories
             #else
 
             return new Tuple<ICustomerRepository, IInvoiceRepository>
-            (
+                (
                 new MockCustomerRepository(),
                 new MockInvoiceRepository()
-            );
+                );
 
-            #endif
-
+#endif
         }
     }
 }

@@ -34,15 +34,17 @@
             <VisualStateGroup x:Name="SearchCustomersElementsGroup">
                 <VisualState x:Name="CustomerComboBoxEmpty">
                     <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)"
+                                                        Storyboard.TargetName="customersComboBox">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False" />
                         </BooleanAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="CustomerComboBoxFilled">
                     <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)"
+                                                        Storyboard.TargetName="customersComboBox">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True" />
                         </BooleanAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
@@ -62,29 +64,35 @@
                         <GroupBox.Header>
                             <TextBlock Foreground="White">
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE16E;" />
-                                <Run Text=" FILTER"/>
+                                <Run Text=" FILTER" />
                             </TextBlock>
                         </GroupBox.Header>
 
                         <Grid Margin="10,2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="75" />
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="44"/>
+                                <ColumnDefinition Width="44" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold"/>
-                            <TextBox x:Name="SearchBox" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Geben Sie Vor-/Nachname oder einen Firmennamen ein ...">
+                            <TextBlock Text="Suchbegriff" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBox x:Name="SearchBox" Grid.Column="1" VerticalAlignment="Top"
+                                     HorizontalAlignment="Stretch"
+                                     Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Geben Sie Vor-/Nachname oder einen Firmennamen ein ...">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="GotFocus">
-                                        <ei:CallMethodAction MethodName="SelectAll"/>
+                                        <ei:CallMethodAction MethodName="SelectAll" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Return" Command="{Binding SearchCustomersCommand, Mode=TwoWay}" />
                                 </TextBox.InputBindings>
                             </TextBox>
-                            <Button Grid.Column="2" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14" HorizontalAlignment="Right" Padding="7,2" Command="{Binding SearchCustomersCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" FontFamily="Segoe UI Symbol" Content="&#xE11A;" FontSize="14"
+                                    HorizontalAlignment="Right" Padding="7,2"
+                                    Command="{Binding SearchCustomersCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    VerticalAlignment="Center" />
                         </Grid>
                     </GroupBox>
 
@@ -93,13 +101,16 @@
                             <TextBlock Foreground="White">
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE125; " />
                                 <Run Text="{Binding Items.Count, ElementName=CustomersListBox, Mode=OneWay}" />
-                                <Run Text=" TREFFER"/>
+                                <Run Text=" TREFFER" />
                             </TextBlock>
                         </GroupBox.Header>
 
-                        <ListBox x:Name="CustomersListBox" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
+                        <ListBox x:Name="CustomersListBox" ItemsSource="{Binding Customers}"
+                                 SelectedItem="{Binding SelectedCustomer}" BorderBrush="Transparent" Margin="-5.2,0">
                             <ListBox.InputBindings>
-                                <KeyBinding Key="Return" Command="{Binding DataContext.CustomerCommandsViewModel.EditCustomerCommand, ElementName=Window}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" />
+                                <KeyBinding Key="Return"
+                                            Command="{Binding DataContext.CustomerCommandsViewModel.EditCustomerCommand, ElementName=Window}"
+                                            CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" />
                             </ListBox.InputBindings>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -108,10 +119,12 @@
                                             <TextBlock.Style>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Type}" Value="{x:Static enums:CustomerType.Company}">
+                                                        <DataTrigger Binding="{Binding Type}"
+                                                                     Value="{x:Static enums:CustomerType.Company}">
                                                             <Setter Property="Text" Value="&#xE12B;" />
                                                         </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Type}" Value="{x:Static enums:CustomerType.Person}">
+                                                        <DataTrigger Binding="{Binding Type}"
+                                                                     Value="{x:Static enums:CustomerType.Person}">
                                                             <Setter Property="Text" Value="&#xE13D;" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -125,22 +138,26 @@
                         </ListBox>
                     </GroupBox>
 
-                    <StackPanel DataContext="{Binding DataContext.CustomerCommandsViewModel, ElementName=Window}" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                    <StackPanel DataContext="{Binding DataContext.CustomerCommandsViewModel, ElementName=Window}"
+                                Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom" Margin="0,4,0,6">
                         <Button ContextMenuService.IsEnabled="False" Margin="0,0,6,0" Click="OpenContextMenu">
                             <Button.Content>
                                 <TextBlock>
                                     <Run FontFamily="Segoe UI Symbol" Text="&#xE109;" />
-                                    <Run Text="ERSTELLEN"/>
+                                    <Run Text="ERSTELLEN" />
                                 </TextBlock>
                             </Button.Content>
                             <Button.ContextMenu>
-                                <ContextMenu >
-                                    <MenuItem Header="Firma hinzufügen" Command="{Binding CreateCustomerCommand}" CommandParameter="{x:Static enums:CustomerType.Company}">
+                                <ContextMenu>
+                                    <MenuItem Header="Firma hinzufügen" Command="{Binding CreateCustomerCommand}"
+                                              CommandParameter="{x:Static enums:CustomerType.Company}">
                                         <MenuItem.Icon>
                                             <TextBlock FontFamily="Segoe UI Symbol" Text=" &#xE12B;" />
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Header="Person hinzufügen" Command="{Binding CreateCustomerCommand}" CommandParameter="{x:Static enums:CustomerType.Person}">
+                                    <MenuItem Header="Person hinzufügen" Command="{Binding CreateCustomerCommand}"
+                                              CommandParameter="{x:Static enums:CustomerType.Person}">
                                         <MenuItem.Icon>
                                             <TextBlock FontFamily="Segoe UI Symbol" Text=" &#xE13D;" />
                                         </MenuItem.Icon>
@@ -148,13 +165,17 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
-                        <Button Command="{Binding EditCustomerCommand}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" Margin="0,0,6,0">
+                        <Button Command="{Binding EditCustomerCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}"
+                                Margin="0,0,6,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE104;" />
                                 <Run Text="BEARBEITEN" />
                             </TextBlock>
                         </Button>
-                        <Button Command="{Binding DeleteCustomerCommand}" CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}" Margin="0,0,4,0">
+                        <Button Command="{Binding DeleteCustomerCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=CustomersListBox}"
+                                Margin="0,0,4,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE106;" />
                                 <Run Text="LÖSCHEN" />
@@ -182,32 +203,50 @@
 
                         <Grid Margin="10,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
                             </Grid.RowDefinitions>
-                            
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Anfangs-Datum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="End-Datum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Min. Betrag" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
-                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Max. Betrag" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding MinDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Anfangs-Datum eingeben ..." />
-                            <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding MaxDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="End-Datum eingeben ..." />
-                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5" Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Mindestbetrag eingeben ..." />
-                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5" Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Maximalbetrag eingeben ..." />
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Anfangs-Datum" VerticalAlignment="Center"
+                                       FontWeight="Bold" Margin="0,0,10,0" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="End-Datum" VerticalAlignment="Center"
+                                       FontWeight="Bold" Margin="10,0" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Min. Betrag" VerticalAlignment="Center"
+                                       FontWeight="Bold" Margin="0,0,10,0" />
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Max. Betrag" VerticalAlignment="Center"
+                                       FontWeight="Bold" Margin="10,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Kunde" VerticalAlignment="Center"
+                                       FontWeight="Bold" />
 
-                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding CustomerSearchBoxViewModel}" Margin="0,5,0,0" />
+                            <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5"
+                                        SelectedDate="{Binding MinDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Controls:TextboxHelper.Watermark="Anfangs-Datum eingeben ..." />
+                            <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5"
+                                        SelectedDate="{Binding MaxDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Controls:TextboxHelper.Watermark="End-Datum eingeben ..." />
+                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5"
+                                                    Value="{Binding MinTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Controls:TextboxHelper.Watermark="Mindestbetrag eingeben ..." />
+                            <Controls:NumericUpDown Grid.Row="1" Grid.Column="3" Margin="0,5"
+                                                    Value="{Binding MaxTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    Controls:TextboxHelper.Watermark="Maximalbetrag eingeben ..." />
 
-                            <Button Grid.Row="3" Grid.Column="3" FontSize="14" HorizontalAlignment="Right" Padding="8,5,8,6" Margin="0,6,0,2" Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
+                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3"
+                                                        DataContext="{Binding CustomerSearchBoxViewModel}"
+                                                        Margin="0,5,0,0" />
+
+                            <Button Grid.Row="3" Grid.Column="3" FontSize="14" HorizontalAlignment="Right"
+                                    Padding="8,5,8,6" Margin="0,6,0,2"
+                                    Command="{Binding SearchInvoicesCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    VerticalAlignment="Center">
                                 <TextBlock>
                                     <Run FontFamily="Segoe UI Symbol" Text="&#xE11A;" />
                                     <Run Text="Nach Rechnungen suchen" FontWeight="Normal" />
@@ -226,35 +265,41 @@
                         </GroupBox.Header>
 
                         <DataGrid x:Name="InvoicesListBox"
-                              VerticalAlignment="Stretch"
-                              ItemsSource="{Binding Invoices}"
-                              SelectedItem="{Binding SelectedInvoice}"
-                              AutoGenerateColumns="False"
-                              CanUserSortColumns="True"
-                              SelectionMode="Single"
-                              SelectionUnit="FullRow"
-                              CanUserResizeRows="True"
-                              IsReadOnly="True">
+                                  VerticalAlignment="Stretch"
+                                  ItemsSource="{Binding Invoices}"
+                                  SelectedItem="{Binding SelectedInvoice}"
+                                  AutoGenerateColumns="False"
+                                  CanUserSortColumns="True"
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  CanUserResizeRows="True"
+                                  IsReadOnly="True">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="#" Binding="{Binding ID}" />
                                 <DataGridTextColumn Header="Kunde" Binding="{Binding DisplayName}" />
-                                <DataGridTextColumn Header="Ausstellung" Binding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" />
-                                <DataGridTextColumn Header="Fälligkeit" Binding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Ausstellung"
+                                                    Binding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Fälligkeit"
+                                                    Binding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" />
                                 <DataGridTextColumn Header="Kommentar" Binding="{Binding Comment}" Width="*" />
-                                <DataGridTextColumn Header="Betrag" Binding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
+                                <DataGridTextColumn Header="Betrag"
+                                                    Binding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
 
-                    <StackPanel DataContext="{Binding DataContext.InvoiceCommandsViewModel, ElementName=Window}" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                    <StackPanel DataContext="{Binding DataContext.InvoiceCommandsViewModel, ElementName=Window}"
+                                Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom" Margin="0,4,0,6">
                         <Button Command="{Binding CreateInvoiceCommand}" Margin="0,0,6,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE109;" />
                                 <Run Text="ERSTELLEN" />
                             </TextBlock>
                         </Button>
-                        <Button Command="{Binding ExportInvoiceCommand}" CommandParameter="{Binding SelectedItem, ElementName=InvoicesListBox}" Margin="0,0,4,0">
+                        <Button Command="{Binding ExportInvoiceCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=InvoicesListBox}" Margin="0,0,4,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
                                 <Run Text="EXPORTIEREN" />

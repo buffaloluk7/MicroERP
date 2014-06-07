@@ -1,6 +1,6 @@
-﻿using MicroERP.Business.Domain.Enums;
+﻿using System;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
-using System;
 
 namespace MicroERP.Business.Core.Factories
 {

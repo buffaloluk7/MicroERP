@@ -1,12 +1,12 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Models;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Customer
 {
@@ -18,7 +18,7 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         private readonly INavigationService navigationService;
         private readonly IEnumerable<InvoiceModelViewModel> invoices;
         private InvoiceModelViewModel selectedInvoice;
-        private int customerID;
+        private readonly int customerID;
 
         #endregion
 
@@ -39,23 +39,16 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             }
         }
 
-        public RelayCommand CreateInvoiceCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand CreateInvoiceCommand { get; private set; }
 
-        public RelayCommand ExportInvoiceCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand ExportInvoiceCommand { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public InvoiceDataViewModel(IInvoiceService invoiceService, INavigationService navigationService, ObservableCollection<InvoiceModel> invoices, int customerID)
+        public InvoiceDataViewModel(IInvoiceService invoiceService, INavigationService navigationService,
+            IEnumerable<InvoiceModel> invoices, int customerID)
         {
             this.invoiceService = invoiceService;
             this.invoices = invoices.Select(i => new InvoiceModelViewModel(i));
@@ -75,7 +68,9 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         {
             if (this.navigationService is IWindowNavigationService)
             {
-                await (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(this.customerID, showDialog: true);
+                await
+                    (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(
+                        this.customerID, showDialog: true);
             }
             else
             {

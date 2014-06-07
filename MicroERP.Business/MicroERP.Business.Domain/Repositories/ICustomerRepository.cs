@@ -1,7 +1,7 @@
-﻿using MicroERP.Business.Domain.Enums;
-using MicroERP.Business.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
 
 namespace MicroERP.Business.Domain.Repositories
 {

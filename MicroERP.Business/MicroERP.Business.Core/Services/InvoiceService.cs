@@ -1,10 +1,10 @@
-﻿using MicroERP.Business.Core.Services.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MicroERP.Business.Core.Services
 {

@@ -1,11 +1,11 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.SearchBox
 {
@@ -17,7 +17,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
         private IEnumerable<CustomerDisplayNameViewModel> customers;
         private CustomerDisplayNameViewModel selectedCustomer;
         private string searchQuery;
-        private CustomerType customerType;
+        private readonly CustomerType customerType;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             get { return this.searchQuery; }
             set
             {
-                base.Set<string>(ref this.searchQuery, value);
+                base.Set(ref this.searchQuery, value);
                 this.SearchCustomerCommand.RaiseCanExecuteChanged();
                 this.ResetCustomerCommand.RaiseCanExecuteChanged();
             }
@@ -37,7 +37,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
         public IEnumerable<CustomerDisplayNameViewModel> Customers
         {
             get { return this.customers; }
-            set { base.Set<IEnumerable<CustomerDisplayNameViewModel>>(ref this.customers, value); }
+            set { base.Set(ref this.customers, value); }
         }
 
         public CustomerDisplayNameViewModel SelectedCustomer
@@ -45,7 +45,7 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
             get { return this.selectedCustomer; }
             set
             {
-                base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value);
+                base.Set(ref this.selectedCustomer, value);
                 this.SearchQuery = value == null ? null : value.DisplayName;
             }
         }
@@ -59,23 +59,16 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
 
         #region Commands
 
-        public RelayCommand SearchCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand SearchCustomerCommand { get; private set; }
 
-        public RelayCommand ResetCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand ResetCustomerCommand { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public CustomerSearchBoxViewModel(ICustomerService customerService, CustomerModel customer = null, CustomerType customerType = CustomerType.None)
+        public CustomerSearchBoxViewModel(ICustomerService customerService, CustomerModel customer = null,
+            CustomerType customerType = CustomerType.None)
         {
             this.customerService = customerService;
             this.customerType = customerType;
@@ -85,13 +78,13 @@ namespace MicroERP.Business.Core.ViewModels.SearchBox
 
             this.SelectedCustomer = customer == null ? null : new CustomerDisplayNameViewModel(customer);
 
-            #if DEBUG
+#if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.searchQuery = "i";
                 this.onSearchCustomerExecuted();
             }
-            #endif
+#endif
         }
 
         #endregion

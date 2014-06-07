@@ -1,8 +1,10 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Luvi.Json.Extension;
 using Luvi.Service.Navigation;
-using Luvi.Service.Notification;
 using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.DTO;
@@ -10,9 +12,6 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Customer
 {
@@ -23,58 +22,47 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         private readonly IUnityContainer container;
         private readonly ICustomerService customerService;
         private readonly IInvoiceService invoiceService;
-        private readonly INotificationService notificationService;
         private readonly INavigationService navigationService;
 
         #endregion
 
         #region Propterties
 
-        public CustomerDataViewModel CustomerDataViewModel
-        {
-            get;
-            private set;
-        }
+        public CustomerDataViewModel CustomerDataViewModel { get; private set; }
 
-        public InvoiceDataViewModel InvoiceDataViewModel
-        {
-            get;
-            private set;
-        }
+        public InvoiceDataViewModel InvoiceDataViewModel { get; private set; }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand CancelCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand CancelCommand { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public CustomerWindowViewModel(IUnityContainer container, ICustomerService customerService, IInvoiceService invoiceService, INotificationService notificationService, INavigationService navigationService)
+        public CustomerWindowViewModel(IUnityContainer container, ICustomerService customerService,
+            IInvoiceService invoiceService, INavigationService navigationService)
         {
             this.container = container;
             this.customerService = customerService;
             this.invoiceService = invoiceService;
-            this.notificationService = notificationService;
             this.navigationService = navigationService;
 
             this.CancelCommand = new RelayCommand(onCancelExecuted);
 
-            #if DEBUG
+#if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
-                this.customerService.Search("lukas").ContinueWith((t) =>
-                {
-                    this.OnNavigatedTo(t.Result.First().ToJson(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }), NavigationType.Forward);
-                });
+                this.customerService.Search("lukas")
+                    .ContinueWith(
+                        t => this.OnNavigatedTo(
+                            t.Result.First()
+                                .ToJson(new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Objects}),
+                            NavigationType.Forward));
             }
-            #endif
+#endif
         }
 
         #endregion
@@ -104,11 +92,16 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
             if (argument is CustomerType)
             {
-                customer = CustomerModelFactory.FromType((CustomerType)argument);
+                customer = CustomerModelFactory.FromType((CustomerType) argument);
             }
             else if (customerRaw != null)
             {
-                customer = await customerRaw.FromJsonAsync<CustomerModel>(new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+                customer =
+                    await
+                        customerRaw.FromJsonAsync<CustomerModel>(new JsonSerializerSettings
+                        {
+                            TypeNameHandling = TypeNameHandling.Objects
+                        });
             }
             else
             {
@@ -125,17 +118,25 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             // Retrieve invoices for the given customer
             if (customer.ID != default(int))
             {
-                var invoices = await this.invoiceService.Search(new InvoiceSearchArgs() { CustomerID = customer.ID });
+                var invoices = await this.invoiceService.Search(new InvoiceSearchArgs {CustomerID = customer.ID});
                 customer.Invoices = new ObservableCollection<InvoiceModel>(invoices);
             }
 
-            this.CustomerDataViewModel = this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
-            this.InvoiceDataViewModel = this.container.Resolve<InvoiceDataViewModel>(new ParameterOverrides { {"invoices", customer.Invoices}, {"customerID", customer.ID} });
+            this.CustomerDataViewModel =
+                this.container.Resolve<CustomerDataViewModel>(new ParameterOverride("customer", customer));
+            this.InvoiceDataViewModel =
+                this.container.Resolve<InvoiceDataViewModel>(new ParameterOverrides
+                {
+                    {"invoices", customer.Invoices},
+                    {"customerID", customer.ID}
+                });
             this.RaisePropertyChanged(() => this.CustomerDataViewModel);
             this.RaisePropertyChanged(() => this.InvoiceDataViewModel);
         }
 
-        public void OnNavigatedFrom() { }
+        public void OnNavigatedFrom()
+        {
+        }
 
         #endregion
     }

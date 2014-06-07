@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.ComponentModel;
+using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
 
 namespace MicroERP.Business.Core.ViewModels.Models
@@ -33,8 +34,8 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         public decimal Tax
         {
-            get { return this.invoiceItem.Tax * 100; }
-            set { this.invoiceItem.Tax = value / 100; }
+            get { return this.invoiceItem.Tax*100; }
+            set { this.invoiceItem.Tax = value/100; }
         }
 
         internal InvoiceItemModel Model
@@ -47,9 +48,11 @@ namespace MicroERP.Business.Core.ViewModels.Models
         #region Constructors
 
         /// <summary>
-        /// Needed to allow adding new rows in datagrid
+        ///     Needed to allow adding new rows in datagrid
         /// </summary>
-        public InvoiceItemModelViewModel() : this(new InvoiceItemModel()) { }
+        public InvoiceItemModelViewModel() : this(new InvoiceItemModel())
+        {
+        }
 
         public InvoiceItemModelViewModel(InvoiceItemModel invoiceItem)
         {
@@ -64,16 +67,16 @@ namespace MicroERP.Business.Core.ViewModels.Models
         public bool IsValid()
         {
             return this.Amount > 0
-                && this.UnitPrice > 0
-                && this.Tax > 0
-                && !string.IsNullOrWhiteSpace(this.Name);
+                   && this.UnitPrice > 0
+                   && this.Tax > 0
+                   && !string.IsNullOrWhiteSpace(this.Name);
         }
 
         #endregion
 
         #region PropertyChanged
 
-        private void invoiceItem_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void invoiceItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

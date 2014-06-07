@@ -1,15 +1,15 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Enums;
-using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Main.Search
 {
@@ -50,33 +50,25 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             set { this.invoiceSearchArgs.MaxTotal = value; }
         }
 
-        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel
-        {
-            get;
-            private set;
-        }
+        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel { get; private set; }
 
         public IEnumerable<InvoiceModelViewModel> Invoices
         {
             get { return this.invoices; }
-            set { base.Set<IEnumerable<InvoiceModelViewModel>>(ref this.invoices, value); }
+            set { base.Set(ref this.invoices, value); }
         }
 
         public InvoiceModelViewModel SelectedInvoice
         {
             get { return this.selectedInvoice; }
-            set { base.Set<InvoiceModelViewModel>(ref this.selectedInvoice, value); }
+            set { base.Set(ref this.selectedInvoice, value); }
         }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand SearchInvoicesCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand SearchInvoicesCommand { get; private set; }
 
         #endregion
 
@@ -90,23 +82,27 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             this.invoiceSearchArgs = new InvoiceSearchArgs();
             this.invoiceSearchArgs.PropertyChanged += ((s, e) => this.SearchInvoicesCommand.RaiseCanExecuteChanged());
 
-            this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customerType", CustomerType.None } });
+            this.CustomerSearchBoxViewModel =
+                container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
+                {
+                    {"customerType", CustomerType.None}
+                });
             this.CustomerSearchBoxViewModel.PropertyChanged += CustomerSearchBoxViewModel_PropertyChanged;
 
-            #if DEBUG
+#if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.MinTotal = 0.0m;
                 this.onSearchInvoicesExecuted();
             }
-            #endif
+#endif
         }
 
         #endregion
 
         #region PropertyChanged
 
-        private void CustomerSearchBoxViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void CustomerSearchBoxViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedCustomer")
             {

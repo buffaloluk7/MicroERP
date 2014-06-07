@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using System.Linq;
+using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
@@ -8,7 +9,6 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Main.Commands
 {
@@ -25,29 +25,18 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
         #region Properties
 
-        public RelayCommand<CustomerType> CreateCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand<CustomerType> CreateCustomerCommand { get; private set; }
 
-        public RelayCommand EditCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand EditCustomerCommand { get; private set; }
 
-        public RelayCommand DeleteCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand DeleteCustomerCommand { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public CustomerCommandsViewModel(ICustomerService customerService, INotificationService notificationService, INavigationService navigationService, SearchCustomersViewModel searchCustomersViewModel)
+        public CustomerCommandsViewModel(ICustomerService customerService, INotificationService notificationService,
+            INavigationService navigationService, SearchCustomersViewModel searchCustomersViewModel)
         {
             this.customerService = customerService;
             this.notificationService = notificationService;
@@ -76,7 +65,9 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
         {
             if (this.navigationService is IWindowNavigationService)
             {
-                await (this.navigationService as IWindowNavigationService).Navigate<CustomerWindowViewModel>(type, showDialog: true);
+                await
+                    (this.navigationService as IWindowNavigationService).Navigate<CustomerWindowViewModel>(type,
+                        showDialog: true);
             }
             else
             {
@@ -100,11 +91,16 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
             if (this.navigationService is IWindowNavigationService)
             {
-                await (this.navigationService as IWindowNavigationService).NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }, showDialog: true);
+                await
+                    (this.navigationService as IWindowNavigationService).NavigateAndSerialize<CustomerWindowViewModel>(
+                        customer, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Objects},
+                        showDialog: true);
             }
             else
             {
-                await this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+                await
+                    this.navigationService.NavigateAndSerialize<CustomerWindowViewModel>(customer,
+                        new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Objects});
             }
         }
 

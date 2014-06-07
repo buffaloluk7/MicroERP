@@ -1,7 +1,7 @@
-﻿using MicroERP.Business.Domain.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using MicroERP.Business.Domain.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroERP.Testing.Component.Models
 {
@@ -21,7 +21,7 @@ namespace MicroERP.Testing.Component.Models
                 Address = "X",
                 BillingAddress = "Y",
                 ShippingAddress = "Z",
-                BirthDate = new DateTime(1993,6,1),
+                BirthDate = new DateTime(1993, 6, 1),
                 Suffix = "",
                 Title = "Herr"
             };
@@ -53,7 +53,7 @@ namespace MicroERP.Testing.Component.Models
                 ShippingAddress = "Address #3",
                 Invoices = new ObservableCollection<InvoiceModel>
                 {
-                    new InvoiceModel { ID = 1 }
+                    new InvoiceModel {ID = 1}
                 }
             };
 
@@ -76,12 +76,12 @@ namespace MicroERP.Testing.Component.Models
                 "Comment",
                 null,
                 new CompanyModel(1, "A", "B", "C", "Firma X", "1234"),
-                new ObservableCollection<InvoiceItemModel>()
+                new ObservableCollection<InvoiceItemModel>
                 {
                     new InvoiceItemModel(1, "Artikel 1", 10, 10.0m, 0.2m),
                     new InvoiceItemModel(2, "Artikel 2", 1, 2.0m, 0.1m)
                 }
-            );
+                );
 
             Assert.AreEqual(17, i.ID);
             Assert.AreEqual(10, i.IssueDate.Month);

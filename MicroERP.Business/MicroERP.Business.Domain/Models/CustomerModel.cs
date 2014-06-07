@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
+using GalaSoft.MvvmLight;
 
 namespace MicroERP.Business.Domain.Models
 {
@@ -24,35 +24,35 @@ namespace MicroERP.Business.Domain.Models
         public int ID
         {
             get { return this.id; }
-            set { base.Set<int>(ref this.id, value); }
+            set { base.Set(ref this.id, value); }
         }
 
         [DataMember(Name = "address")]
         public string Address
         {
             get { return this.address; }
-            set { base.Set<string>(ref this.address, value); }
+            set { base.Set(ref this.address, value); }
         }
 
         [DataMember(Name = "billingAddress")]
         public string BillingAddress
         {
             get { return this.billingAddress; }
-            set { base.Set<string>(ref this.billingAddress, value); }
+            set { base.Set(ref this.billingAddress, value); }
         }
 
         [DataMember(Name = "shippingAddress")]
         public string ShippingAddress
         {
             get { return this.shippingAddress; }
-            set { base.Set<string>(ref this.shippingAddress, value); }
+            set { base.Set(ref this.shippingAddress, value); }
         }
 
         [IgnoreDataMember]
         public ObservableCollection<InvoiceModel> Invoices
         {
             get { return this.invoices; }
-            set { base.Set<ObservableCollection<InvoiceModel>>(ref this.invoices, value); }
+            set { base.Set(ref this.invoices, value); }
         }
 
         #endregion
@@ -89,9 +89,9 @@ namespace MicroERP.Business.Domain.Models
         public virtual bool Equals(CustomerModel other)
         {
             return other.id == this.id
-                && other.address == this.address
-                && other.billingAddress == this.billingAddress
-                && other.shippingAddress == this.shippingAddress;
+                   && other.address == this.address
+                   && other.billingAddress == this.billingAddress
+                   && other.shippingAddress == this.shippingAddress;
         }
 
         #endregion

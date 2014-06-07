@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
@@ -8,7 +9,6 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
-using System;
 
 namespace MicroERP.Business.Core.ViewModels.Customer
 {
@@ -47,27 +47,20 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             get { return this.personViewModel; }
         }
 
-        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel
-        {
-            get;
-            private set;
-        }
+        public CustomerSearchBoxViewModel CustomerSearchBoxViewModel { get; private set; }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand SaveCustomerCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand SaveCustomerCommand { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public CustomerDataViewModel(IUnityContainer container, ICustomerService customerService, INotificationService notificationService, CustomerModel customer)
+        public CustomerDataViewModel(IUnityContainer container, ICustomerService customerService,
+            INotificationService notificationService, CustomerModel customer)
         {
             if (customer == null)
             {
@@ -95,11 +88,20 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
                 if (person.Company == null)
                 {
-                    this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customerType", CustomerType.Company } });
+                    this.CustomerSearchBoxViewModel =
+                        container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
+                        {
+                            {"customerType", CustomerType.Company}
+                        });
                 }
                 else
                 {
-                    this.CustomerSearchBoxViewModel = container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides { { "customer", person.Company }, { "customerType", CustomerType.Company } });
+                    this.CustomerSearchBoxViewModel =
+                        container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
+                        {
+                            {"customer", person.Company},
+                            {"customerType", CustomerType.Company}
+                        });
                 }
 
                 this.CustomerSearchBoxViewModel.PropertyChanged += ((s, e) =>
@@ -138,7 +140,10 @@ namespace MicroERP.Business.Core.ViewModels.Customer
                 else
                 {
                     await this.customerService.Create(this.customer);
-                    await this.notificationService.ShowAsync("Kunde erfolgreich erstellt. Sie können nun Rechnungen für diesen Kunden ausstellen.", "Kunde erstellt");
+                    await
+                        this.notificationService.ShowAsync(
+                            "Kunde erfolgreich erstellt. Sie können nun Rechnungen für diesen Kunden ausstellen.",
+                            "Kunde erstellt");
                 }
 
                 this.RaisePropertyChanged(() => this.IsCreating);

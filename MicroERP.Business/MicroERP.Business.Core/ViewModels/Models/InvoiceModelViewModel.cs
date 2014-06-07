@@ -1,8 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using MicroERP.Business.Domain.Models;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using GalaSoft.MvvmLight;
+using MicroERP.Business.Domain.Models;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -83,7 +84,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region PropertyChanged
 
-        private void invoice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void invoice_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

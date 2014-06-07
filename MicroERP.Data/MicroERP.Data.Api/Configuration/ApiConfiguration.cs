@@ -6,29 +6,13 @@ namespace MicroERP.Data.Api.Configuration
     {
         #region Properties
 
-        public string Protocol
-        {
-            get;
-            private set;
-        }
+        public string Protocol { get; private set; }
 
-        public string Host
-        {
-            get;
-            private set;
-        }
+        public string Host { get; private set; }
 
-        public int Port
-        {
-            get;
-            private set;
-        }
+        public int Port { get; private set; }
 
-        public string Path
-        {
-            get;
-            set;
-        }
+        public string Path { get; set; }
 
         #endregion
 

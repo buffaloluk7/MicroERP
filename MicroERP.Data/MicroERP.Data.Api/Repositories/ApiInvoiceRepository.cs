@@ -1,4 +1,11 @@
-﻿using Luvi.Http.Extension;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Luvi.Http.Extension;
 using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -6,13 +13,6 @@ using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -20,7 +20,9 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Constructors
 
-        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration) { }
+        public ApiInvoiceRepository(IApiConfiguration configuration) : base(configuration)
+        {
+        }
 
         #endregion
 
@@ -37,7 +39,7 @@ namespace MicroERP.Data.Api.Repositories
                     try
                     {
                         var jsonObject = await response.Content.ReadAsStringAsync();
-                        var anonObject = new { id = default(int) };
+                        var anonObject = new {id = default(int)};
 
                         return JsonConvert.DeserializeAnonymousType(jsonObject, anonObject).id;
                     }
@@ -121,12 +123,16 @@ namespace MicroERP.Data.Api.Repositories
             }
             if (invoiceSearchArgs.MinDate.HasValue)
             {
-                var timestamp = (invoiceSearchArgs.MinDate.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                var timestamp =
+                    (invoiceSearchArgs.MinDate.Value -
+                     new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
                 url.AppendFormat("startDate={0}&", timestamp);
             }
             if (invoiceSearchArgs.MaxDate.HasValue)
             {
-                var timestamp = (invoiceSearchArgs.MaxDate.Value - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
+                var timestamp =
+                    (invoiceSearchArgs.MaxDate.Value -
+                     new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()).TotalSeconds;
                 url.AppendFormat("endDate={0}&", timestamp);
             }
             if (invoiceSearchArgs.MinTotal.HasValue)

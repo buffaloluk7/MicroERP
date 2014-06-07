@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroERP.Testing.Component.ViewModels
 {
@@ -39,7 +39,7 @@ namespace MicroERP.Testing.Component.ViewModels
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof (ArgumentNullException))]
         public void Test_NullAsArgument()
         {
             new CustomerDisplayNameViewModel(null);
@@ -80,11 +80,11 @@ namespace MicroERP.Testing.Component.ViewModels
         [TestMethod]
         public void Test_PropertyChanged()
         {
-            var person = new PersonModel { FirstName = "Dummy", LastName = "Dieter" };
+            var person = new PersonModel {FirstName = "Dummy", LastName = "Dieter"};
             var vm = new CustomerDisplayNameViewModel(person);
-            vm.PropertyChanged += ((s, e) => 
+            vm.PropertyChanged += ((s, e) =>
             {
-                var displayName = (s as CustomerDisplayNameViewModel).DisplayName;
+                string displayName = (s as CustomerDisplayNameViewModel).DisplayName;
 
                 Assert.AreEqual("Hugo Dieter", displayName);
             });

@@ -1,8 +1,8 @@
-﻿using MicroERP.Business.Core.Factories;
+﻿using System;
+using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace MicroERP.Testing.Component.Factories
 {
@@ -14,7 +14,7 @@ namespace MicroERP.Testing.Component.Factories
         {
             var model = CustomerModelFactory.FromType(CustomerType.Company);
 
-            Assert.IsInstanceOfType(model, typeof(CompanyModel));
+            Assert.IsInstanceOfType(model, typeof (CompanyModel));
         }
 
         [TestMethod]
@@ -22,11 +22,11 @@ namespace MicroERP.Testing.Component.Factories
         {
             var model = CustomerModelFactory.FromType(CustomerType.Person);
 
-            Assert.IsInstanceOfType(model, typeof(PersonModel));
+            Assert.IsInstanceOfType(model, typeof (PersonModel));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [ExpectedException(typeof (ArgumentOutOfRangeException))]
         public void Test_InvalidType()
         {
             CustomerModelFactory.FromType(CustomerType.None);

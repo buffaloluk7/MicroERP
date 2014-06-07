@@ -1,7 +1,7 @@
-﻿using Luvi.Http;
+﻿using System;
+using Luvi.Http;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using Newtonsoft.Json;
-using System;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -16,32 +16,28 @@ namespace MicroERP.Data.Api.Repositories
 
         #region Properties
 
-        protected string ConnectionString
-        {
-            get;
-            private set;
-        }
+        protected string ConnectionString { get; private set; }
 
         #endregion
 
         #region Constructors
 
-        public ApiRepositoryBase(IApiConfiguration configuration, string path = "")
+        protected ApiRepositoryBase(IApiConfiguration configuration, string path = "")
         {
             this.ConnectionString = string.Format("{0}://{1}:{2}/{3}{4}", configuration.Protocol,
-                                                                          configuration.Host,
-                                                                          configuration.Port,
-                                                                          configuration.Path,
-                                                                          path);
+                configuration.Host,
+                configuration.Port,
+                configuration.Path,
+                path);
 
-            this.jsonSettings = new JsonSerializerSettings()
+            this.jsonSettings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat
             };
 
-            this.request = new RESTRequest()
+            this.request = new RESTRequest
             {
                 Timeout = new TimeSpan(0, 0, 15),
                 UseTransferEncodingChunked = false,

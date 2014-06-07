@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MicroERP.Business.Domain.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroERP.Testing.Component.Models
 {
@@ -41,7 +41,7 @@ namespace MicroERP.Testing.Component.Models
                 ID = 47,
                 Message = "Message",
                 IssueDate = new DateTime(2014, 1, 1),
-                DueDate = new DateTime(2014,1,10)
+                DueDate = new DateTime(2014, 1, 10)
             };
 
             Assert.AreEqual(47, invoice.GetHashCode());

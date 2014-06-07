@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using GalaSoft.MvvmLight;
 
 namespace MicroERP.Business.Domain.Models
 {
@@ -29,56 +29,56 @@ namespace MicroERP.Business.Domain.Models
         public int ID
         {
             get { return this.id; }
-            set { base.Set<int>(ref this.id, value); }
+            set { base.Set(ref this.id, value); }
         }
 
         [DataMember(Name = "grossTotal")]
         public decimal? GrossTotal
         {
             get { return this.grossTotal; }
-            set { base.Set<decimal?>(ref this.grossTotal, value); }
+            set { base.Set(ref this.grossTotal, value); }
         }
 
         [DataMember(Name = "issueDate")]
         public DateTime IssueDate
         {
             get { return this.issueDate; }
-            set { base.Set<DateTime>(ref this.issueDate, value); }
+            set { base.Set(ref this.issueDate, value); }
         }
 
         [DataMember(Name = "dueDate")]
         public DateTime DueDate
         {
             get { return this.dueDate; }
-            set { base.Set<DateTime>(ref this.dueDate, value); }
+            set { base.Set(ref this.dueDate, value); }
         }
 
         [DataMember(Name = "comment")]
         public string Comment
         {
             get { return this.comment; }
-            set { base.Set<string>(ref this.comment, value); }
+            set { base.Set(ref this.comment, value); }
         }
 
         [DataMember(Name = "message")]
         public string Message
         {
             get { return this.message; }
-            set { base.Set<string>(ref this.message, value); }
+            set { base.Set(ref this.message, value); }
         }
 
         [DataMember(Name = "invoiceItems")]
         public ObservableCollection<InvoiceItemModel> InvoiceItems
         {
             get { return this.invoiceItems; }
-            set { base.Set<ObservableCollection<InvoiceItemModel>>(ref this.invoiceItems, value); }
+            set { base.Set(ref this.invoiceItems, value); }
         }
 
         [DataMember(Name = "customer")]
         public CustomerModel Customer
         {
             get { return this.customer; }
-            set { base.Set<CustomerModel>(ref this.customer, value); }
+            set { base.Set(ref this.customer, value); }
         }
 
         #endregion
@@ -90,7 +90,8 @@ namespace MicroERP.Business.Domain.Models
             this.invoiceItems = new ObservableCollection<InvoiceItemModel>();
         }
 
-        public InvoiceModel(int id, DateTime issueDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems)
+        public InvoiceModel(int id, DateTime issueDate, DateTime dueDate, string comment, string message,
+            CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems)
         {
             this.id = id;
             this.issueDate = issueDate;
@@ -98,8 +99,10 @@ namespace MicroERP.Business.Domain.Models
             this.comment = comment;
             this.message = message;
             this.Customer = customer;
-            this.invoiceItems = invoiceItems == null ? new ObservableCollection<InvoiceItemModel>() : new ObservableCollection<InvoiceItemModel>(invoiceItems);
-            this.grossTotal = this.invoiceItems.Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax + 1));
+            this.invoiceItems = invoiceItems == null
+                ? new ObservableCollection<InvoiceItemModel>()
+                : new ObservableCollection<InvoiceItemModel>(invoiceItems);
+            this.grossTotal = this.invoiceItems.Sum(ii => ii.UnitPrice*ii.Amount*(ii.Tax + 1));
         }
 
         #endregion
@@ -119,12 +122,12 @@ namespace MicroERP.Business.Domain.Models
         public bool Equals(InvoiceModel other)
         {
             return other != null
-                && other.id == this.id
-                && other.dueDate == this.dueDate
-                && other.issueDate == this.issueDate
-                && other.comment == this.comment
-                && other.message == this.message
-                && object.Equals(other.customer, this.customer);
+                   && other.id == this.id
+                   && other.dueDate == this.dueDate
+                   && other.issueDate == this.issueDate
+                   && other.comment == this.comment
+                   && other.message == this.message
+                   && Equals(other.customer, this.customer);
         }
 
         #endregion

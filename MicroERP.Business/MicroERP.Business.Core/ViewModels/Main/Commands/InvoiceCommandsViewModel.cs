@@ -18,30 +18,23 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
 
         #region Properties
 
-        public RelayCommand CreateInvoiceCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand CreateInvoiceCommand { get; private set; }
 
-        public RelayCommand ExportInvoiceCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand ExportInvoiceCommand { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public InvoiceCommandsViewModel(IInvoiceService invoiceService, INavigationService navigationService, SearchInvoicesViewModel searchInvoicesViewModel)
+        public InvoiceCommandsViewModel(IInvoiceService invoiceService, INavigationService navigationService,
+            SearchInvoicesViewModel searchInvoicesViewModel)
         {
             this.invoiceService = invoiceService;
             this.navigationService = navigationService;
 
             this.CreateInvoiceCommand = new RelayCommand(onCreateInvoiceExecuted);
             this.ExportInvoiceCommand = new RelayCommand(onExportInvoiceExecuted, onExportInvoiceCanExecute);
-            
+
             this.searchInvoicesViewModel = searchInvoicesViewModel;
             this.searchInvoicesViewModel.PropertyChanged += (s, e) =>
             {
@@ -60,7 +53,9 @@ namespace MicroERP.Business.Core.ViewModels.Main.Commands
         {
             if (this.navigationService is IWindowNavigationService)
             {
-                await (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(showDialog: true);
+                await
+                    (this.navigationService as IWindowNavigationService).Navigate<InvoiceWindowViewModel>(
+                        showDialog: true);
             }
             else
             {

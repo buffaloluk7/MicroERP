@@ -1,7 +1,8 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.ComponentModel;
+using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
-using System;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -43,7 +44,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
                 {
                     return CustomerType.Person;
                 }
-                else if (this.customer is CompanyModel)
+                if (this.customer is CompanyModel)
                 {
                     return CustomerType.Company;
                 }
@@ -76,7 +77,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region Property Changed
 
-        private void customer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void customer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

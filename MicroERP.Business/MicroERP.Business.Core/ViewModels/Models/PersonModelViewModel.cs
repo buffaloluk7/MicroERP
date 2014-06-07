@@ -1,6 +1,7 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.ComponentModel;
+using GalaSoft.MvvmLight;
 using MicroERP.Business.Domain.Models;
-using System;
 
 namespace MicroERP.Business.Core.ViewModels.Models
 {
@@ -45,11 +46,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
         }
 
         // Currently not in use, but maybe one day. :-)
-        public CompanyModelViewModel Company
-        {
-            get;
-            set;
-        }
+        public CompanyModelViewModel Company { get; set; }
 
         #endregion
 
@@ -67,7 +64,7 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         #region PropertyChanged
 
-        private void person_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void person_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

@@ -24,15 +24,17 @@
             <VisualStateGroup x:Name="CustomerStateGroup">
                 <VisualState x:Name="CompanyState">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="groupBoxPerson">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="groupBoxPerson">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="PersonState">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="groupBoxCompany">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="groupBoxCompany">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}" />
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
@@ -40,15 +42,17 @@
             <VisualStateGroup x:Name="InvoiceTabStateGroup">
                 <VisualState x:Name="CustomerCreatingState">
                     <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="invoiceTabItem">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)"
+                                                        Storyboard.TargetName="invoiceTabItem">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False" />
                         </BooleanAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="CustomerUpdatingState">
                     <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="invoiceTabItem">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)"
+                                                        Storyboard.TargetName="invoiceTabItem">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True" />
                         </BooleanAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
@@ -56,12 +60,15 @@
         </VisualStateManager.VisualStateGroups>
 
         <TabControl>
-            <TabItem Header="Stammdaten" DataContext="{Binding CustomerDataViewModel, Mode=OneWay}" x:Name="customerTabItem">
+            <TabItem Header="Stammdaten" DataContext="{Binding CustomerDataViewModel, Mode=OneWay}"
+                     x:Name="customerTabItem">
                 <i:Interaction.Behaviors>
-                    <ei:DataStateBehavior Binding="{Binding Company, Mode=OneWay}" Value="{x:Null}" TrueState="PersonState" FalseState="CompanyState"/>
-                    <ei:DataStateBehavior Binding="{Binding Person, Mode=OneWay}" Value="{x:Null}" TrueState="CompanyState" FalseState="PersonState"/>
+                    <ei:DataStateBehavior Binding="{Binding Company, Mode=OneWay}" Value="{x:Null}"
+                                          TrueState="PersonState" FalseState="CompanyState" />
+                    <ei:DataStateBehavior Binding="{Binding Person, Mode=OneWay}" Value="{x:Null}"
+                                          TrueState="CompanyState" FalseState="PersonState" />
                 </i:Interaction.Behaviors>
-                
+
                 <StackPanel>
                     <GroupBox x:Name="groupBoxCompany" Header="Firma" DataContext="{Binding Company, Mode=OneWay}">
                         <Grid>
@@ -75,11 +82,15 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold"/>
+                            <TextBlock Text="Name" VerticalAlignment="Center" FontWeight="Bold" />
                             <TextBlock Text="UID" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Firmenname eingeben ..." />
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding UID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="UID der Firma eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4"
+                                     Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Firmenname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="1"
+                                     Text="{Binding UID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="UID der Firma eingeben ..." />
                         </Grid>
                     </GroupBox>
 
@@ -106,13 +117,24 @@
                             <TextBlock Text="Geburtstag" Grid.Row="4" VerticalAlignment="Center" FontWeight="Bold" />
                             <TextBlock Text="Firma" Grid.Row="5" VerticalAlignment="Center" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Titel eingeben ..." />
-                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Vorname eingeben ..." />
-                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Nachname eingeben ..." />
-                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4" Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Suffix eingeben ..." />
-                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4" SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Geburtsdatum eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="0,0,0,4"
+                                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Optional: Titel eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="1" Margin="0,0,0,4"
+                                     Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Vorname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="0,0,0,4"
+                                     Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Nachname eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="3" Margin="0,0,0,4"
+                                     Text="{Binding Suffix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Optional: Suffix eingeben ..." />
+                            <DatePicker Grid.Column="1" Grid.Row="4" Margin="0,0,0,4"
+                                        SelectedDate="{Binding BirthDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Controls:TextboxHelper.Watermark="Optional: Geburtsdatum eingeben ..." />
 
-                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="5" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=customerTabItem}" />
+                            <controls:CustomerSearchBox Grid.Column="1" Grid.Row="5"
+                                                        DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=customerTabItem}" />
                         </Grid>
                     </GroupBox>
 
@@ -128,22 +150,36 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Adresse" VerticalAlignment="Center" FontWeight="Bold"/>
-                            <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1" FontWeight="Bold" />
+                            <TextBlock Text="Adresse" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Rechnungsadresse" VerticalAlignment="Center" Grid.Row="1"
+                                       FontWeight="Bold" />
                             <TextBlock Text="Lieferadresse" VerticalAlignment="Center" Grid.Row="2" FontWeight="Bold" />
 
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Hauptadresse eingeben ..." />
-                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1" Text="{Binding BillingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Rechnungsadresse eingeben ..." />
-                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding ShippingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Lieferadresse eingeben ..." />
+                            <TextBox Grid.Column="1" Margin="0,0,0,4"
+                                     Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Hauptadresse eingeben ..." />
+                            <TextBox Grid.Column="1" Margin="0,0,0,4" Grid.Row="1"
+                                     Text="{Binding BillingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Rechnungsadresse eingeben ..." />
+                            <TextBox Grid.Column="1" Grid.Row="2"
+                                     Text="{Binding ShippingAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Controls:TextboxHelper.Watermark="Lieferadresse eingeben ..." />
                         </Grid>
                     </GroupBox>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                Margin="0,4,0,6">
                         <Button Command="{Binding DataContext.CancelCommand, ElementName=Window}" Margin="0,0,6,0">
-                            <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" /><Run Text=" "/><Run Text="ABBRECHEN"/></TextBlock>
+                            <TextBlock>
+                                <Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" /><Run Text=" " />
+                                <Run Text="ABBRECHEN" />
+                            </TextBlock>
                         </Button>
                         <Button Command="{Binding SaveCustomerCommand}" Margin="0,0,6,0">
-                            <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE105;" /><Run Text=" "/><Run Text="SPEICHERN"/></TextBlock>
+                            <TextBlock>
+                                <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" /><Run Text=" " />
+                                <Run Text="SPEICHERN" />
+                            </TextBlock>
                         </Button>
                     </StackPanel>
                 </StackPanel>
@@ -151,7 +187,9 @@
 
             <TabItem Header="Rechnungen" x:Name="invoiceTabItem">
                 <i:Interaction.Behaviors>
-                    <ei:DataStateBehavior Binding="{Binding CustomerDataViewModel.IsCreating, Mode=OneWay}" Value="True" TrueState="CustomerCreatingState" FalseState="CustomerUpdatingState"/>
+                    <ei:DataStateBehavior Binding="{Binding CustomerDataViewModel.IsCreating, Mode=OneWay}"
+                                          Value="True" TrueState="CustomerCreatingState"
+                                          FalseState="CustomerUpdatingState" />
                 </i:Interaction.Behaviors>
 
                 <Grid DataContext="{Binding InvoiceDataViewModel, Mode=OneWay}">
@@ -165,40 +203,45 @@
                             <TextBlock Foreground="White">
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE14C; " />
                                 <Run Text="{Binding Items.Count, ElementName=InvoicesListBox, Mode=OneWay}" />
-                                <Run Text=" RECHNUNGEN"/>
+                                <Run Text=" RECHNUNGEN" />
                             </TextBlock>
                         </GroupBox.Header>
 
                         <DataGrid x:Name="InvoicesListBox"
-                              VerticalAlignment="Stretch"
-                              ItemsSource="{Binding Invoices}"
-                              SelectedItem="{Binding SelectedInvoice}"
-                              AutoGenerateColumns="False"
-                              CanUserSortColumns="True"
-                              SelectionMode="Single"
-                              SelectionUnit="FullRow"
-                              CanUserResizeRows="True"
-                              IsReadOnly="True"
-                              Height="300">
+                                  VerticalAlignment="Stretch"
+                                  ItemsSource="{Binding Invoices}"
+                                  SelectedItem="{Binding SelectedInvoice}"
+                                  AutoGenerateColumns="False"
+                                  CanUserSortColumns="True"
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  CanUserResizeRows="True"
+                                  IsReadOnly="True"
+                                  Height="300">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="#" Binding="{Binding ID}" />
-                                <DataGridTextColumn Header="Ausstellung" Binding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" />
-                                <DataGridTextColumn Header="Fälligkeit" Binding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Ausstellung"
+                                                    Binding="{Binding IssueDate, StringFormat=\{0:dd.MM.yy\}}" />
+                                <DataGridTextColumn Header="Fälligkeit"
+                                                    Binding="{Binding DueDate, StringFormat=\{0:dd.MM.yy\}}" />
                                 <DataGridTextColumn Header="Kommentar" Binding="{Binding Comment}" Width="*" />
-                                <DataGridTextColumn Header="Betrag" Binding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
+                                <DataGridTextColumn Header="Betrag"
+                                                    Binding="{Binding Total, StringFormat=C, ConverterCulture=de-DE}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom" Margin="0,4,0,6">
                         <Button Command="{Binding CreateInvoiceCommand}" Margin="0,0,6,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE109;" />
                                 <Run Text="ERSTELLEN" />
                             </TextBlock>
                         </Button>
-                        <Button Command="{Binding ExportInvoiceCommand}" CommandParameter="{Binding SelectedItem, ElementName=InvoicesListBox}" Margin="0,0,4,0">
+                        <Button Command="{Binding ExportInvoiceCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=InvoicesListBox}" Margin="0,0,4,0">
                             <TextBlock>
                                 <Run FontFamily="Segoe UI Symbol" Text="&#xE105;" />
                                 <Run Text="EXPORTIEREN" />

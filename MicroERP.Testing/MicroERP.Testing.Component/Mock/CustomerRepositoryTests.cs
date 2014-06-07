@@ -1,12 +1,11 @@
-﻿using MicroERP.Business.Core.Factories;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Mock.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MicroERP.Testing.Component.Mock
 {
@@ -22,9 +21,23 @@ namespace MicroERP.Testing.Component.Mock
 
             this.customers = new CustomerModel[]
             {
-                new CompanyModel() { Name = "Google", UID = "1234", Address = "Street 1", BillingAddress = "Street 2", ShippingAddress = "Street 3" },
-                new CompanyModel() { Name = "Apple", UID = "5678", Address = "Another Street 1", BillingAddress = "Another Street 2", ShippingAddress = "Another Street 3" },
-                new PersonModel() { FirstName = "Dummy", LastName = "Dieter" }
+                new CompanyModel
+                {
+                    Name = "Google",
+                    UID = "1234",
+                    Address = "Street 1",
+                    BillingAddress = "Street 2",
+                    ShippingAddress = "Street 3"
+                },
+                new CompanyModel
+                {
+                    Name = "Apple",
+                    UID = "5678",
+                    Address = "Another Street 1",
+                    BillingAddress = "Another Street 2",
+                    ShippingAddress = "Another Street 3"
+                },
+                new PersonModel {FirstName = "Dummy", LastName = "Dieter"}
             };
 
             foreach (var customer in this.customers)
@@ -48,7 +61,7 @@ namespace MicroERP.Testing.Component.Mock
 
             foreach (var c in customers)
             {
-                Assert.IsInstanceOfType(c, typeof(CompanyModel));
+                Assert.IsInstanceOfType(c, typeof (CompanyModel));
             }
         }
 
@@ -60,7 +73,7 @@ namespace MicroERP.Testing.Component.Mock
 
             foreach (var c in customers)
             {
-                Assert.IsInstanceOfType(c, typeof(PersonModel));
+                Assert.IsInstanceOfType(c, typeof (PersonModel));
             }
 
             var dummyDieter = customers.First() as PersonModel;
@@ -71,7 +84,14 @@ namespace MicroERP.Testing.Component.Mock
         [TestMethod]
         public void Test_CreateCustomer()
         {
-            var company = new CompanyModel() { Name = "Microsoft", UID = "012345", Address = "Street 1", BillingAddress = "Street 2", ShippingAddress = "Street 3" };
+            var company = new CompanyModel
+            {
+                Name = "Microsoft",
+                UID = "012345",
+                Address = "Street 1",
+                BillingAddress = "Street 2",
+                ShippingAddress = "Street 3"
+            };
 
             Assert.AreEqual(default(int), company.ID);
 
@@ -93,14 +113,14 @@ namespace MicroERP.Testing.Component.Mock
         {
             AsyncAsserts.Throws<CustomerNotFoundException>(
                 () => this.customerRepository.Find(-55)
-            );
+                );
         }
 
         [TestMethod]
         public void Test_UpdateCustomer()
         {
             // Create new customer
-            var person = new PersonModel() { FirstName = "Lukas", LastName = "Streiter" };
+            var person = new PersonModel {FirstName = "Lukas", LastName = "Streiter"};
             person.ID = this.customerRepository.Create(person).Result;
 
             // Retrieve newly created customer
@@ -121,10 +141,10 @@ namespace MicroERP.Testing.Component.Mock
         public void Test_UpateCustomer_NotFound()
         {
             var invalidCompany = new CompanyModel(-99, "", "", "", "Firma", "0123");
-            
+
             AsyncAsserts.Throws<CustomerNotFoundException>(
                 () => this.customerRepository.Update(invalidCompany)
-            );
+                );
         }
 
         [TestMethod]
@@ -132,17 +152,17 @@ namespace MicroERP.Testing.Component.Mock
         {
             AsyncAsserts.Throws<CustomerNotFoundException>(
                 () => this.customerRepository.Delete(-99)
-            );
+                );
         }
 
         [TestMethod]
         public void Test_DeleteCustomer_CascadeCompany()
         {
             // Create new customer
-            var company = new CompanyModel() { Name = "Firmenname", UID = "1234" };
+            var company = new CompanyModel {Name = "Firmenname", UID = "1234"};
             var companyID = this.customerRepository.Create(company).Result;
 
-            var person = new PersonModel() { FirstName = "Eif", LastName = "rig", CompanyID = companyID };
+            var person = new PersonModel {FirstName = "Eif", LastName = "rig", CompanyID = companyID};
             var personID = this.customerRepository.Create(person).Result;
 
             // Delete newly created company

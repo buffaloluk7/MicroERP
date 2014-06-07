@@ -1,4 +1,7 @@
-﻿using Luvi.Http.Extension;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using Luvi.Http.Extension;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -6,9 +9,6 @@ using MicroERP.Business.Domain.Repositories;
 using MicroERP.Data.Api.Configuration.Interfaces;
 using MicroERP.Data.Api.Exceptions;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace MicroERP.Data.Api.Repositories
 {
@@ -16,7 +16,9 @@ namespace MicroERP.Data.Api.Repositories
     {
         #region Constructors
 
-        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration, "customers") { }
+        public ApiCustomerRepository(IApiConfiguration configuration) : base(configuration, "customers")
+        {
+        }
 
         #endregion
 
@@ -32,7 +34,7 @@ namespace MicroERP.Data.Api.Repositories
                     try
                     {
                         var jsonObject = await response.Content.ReadAsStringAsync();
-                        var anonObject = new { id = default(int) };
+                        var anonObject = new {id = default(int)};
 
                         return JsonConvert.DeserializeAnonymousType(jsonObject, anonObject).id;
                     }
@@ -46,7 +48,8 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery,
+            CustomerType customerType = CustomerType.None)
         {
             if (customerType == CustomerType.Company)
             {
@@ -104,7 +107,7 @@ namespace MicroERP.Data.Api.Repositories
 
                 default:
                     throw new BadResponseException(response.StatusCode);
-            }            
+            }
         }
 
         public async Task Delete(int customerID)

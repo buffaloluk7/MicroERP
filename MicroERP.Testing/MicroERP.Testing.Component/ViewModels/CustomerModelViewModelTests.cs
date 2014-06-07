@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.ObjectModel;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Domain.Models;
-using System.Collections.ObjectModel;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroERP.Testing.Component.ViewModels
 {
@@ -12,13 +12,13 @@ namespace MicroERP.Testing.Component.ViewModels
         [TestMethod]
         public void Test_CustomerModelProperties()
         {
-            var customer = new PersonModel { FirstName = "Dummy", LastName = "Dieter" };
+            var customer = new PersonModel {FirstName = "Dummy", LastName = "Dieter"};
             var vm = new CustomerModelViewModel(customer);
             vm.PropertyChanged += ((s, e) =>
             {
                 if (e.PropertyName == "ShippingAddress")
                 {
-                    var shippingAddress = (s as CustomerModelViewModel).ShippingAddress;
+                    string shippingAddress = (s as CustomerModelViewModel).ShippingAddress;
                     Assert.AreEqual("Z", shippingAddress);
                 }
             });
@@ -43,7 +43,7 @@ namespace MicroERP.Testing.Component.ViewModels
             {
                 if (e.PropertyName == "Name")
                 {
-                    var name = (s as CompanyModelViewModel).Name;
+                    string name = (s as CompanyModelViewModel).Name;
                     Assert.AreEqual("Firma X", name);
                 }
             });
@@ -63,7 +63,7 @@ namespace MicroERP.Testing.Component.ViewModels
             {
                 if (e.PropertyName == "FirstName")
                 {
-                    var firstName = (s as PersonModelViewModel).FirstName;
+                    string firstName = (s as PersonModelViewModel).FirstName;
                     Assert.AreEqual("Hugo", firstName);
                 }
             });
@@ -86,19 +86,21 @@ namespace MicroERP.Testing.Component.ViewModels
         [TestMethod]
         public void Test_InvoiceModelProperties()
         {
-            var invoice = new InvoiceModel(1, DateTime.Now, DateTime.Now, null, null, new PersonModel { FirstName = "Dummy", LastName = "Dieter" }, new ObservableCollection<InvoiceItemModel>(new InvoiceItemModel[]
+            var invoice = new InvoiceModel(1, DateTime.Now, DateTime.Now, null, null,
+                new PersonModel {FirstName = "Dummy", LastName = "Dieter"},
+                new ObservableCollection<InvoiceItemModel>(new[]
                 {
                     new InvoiceItemModel(1, "Artikel #1", 10, 10.0m, 0.2m),
                     new InvoiceItemModel(2, "Artikel #2", 8, 5.0m, 0.1m)
                 })
-            );
+                );
 
             var vm = new InvoiceModelViewModel(invoice);
             vm.PropertyChanged += ((s, e) =>
             {
                 if (e.PropertyName == "Message")
                 {
-                    var message = (s as InvoiceModelViewModel).Message;
+                    string message = (s as InvoiceModelViewModel).Message;
                     Assert.AreEqual("Test message", message);
                 }
             });
@@ -126,7 +128,7 @@ namespace MicroERP.Testing.Component.ViewModels
             {
                 if (e.PropertyName == "Name")
                 {
-                    var name = (s as InvoiceItemModelViewModel).Name;
+                    string name = (s as InvoiceItemModelViewModel).Name;
                     Assert.AreEqual("Artikel #2", name);
                 }
             });

@@ -1,11 +1,11 @@
-﻿using MicroERP.Business.Core.Services.Interfaces;
-using MicroERP.Business.Domain.Enums;
-using MicroERP.Business.Domain.Models;
-using MicroERP.Business.Domain.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MicroERP.Business.Core.Services.Interfaces;
+using MicroERP.Business.Domain.Enums;
+using MicroERP.Business.Domain.Models;
+using MicroERP.Business.Domain.Repositories;
 
 namespace MicroERP.Business.Core.Services
 {
@@ -40,7 +40,8 @@ namespace MicroERP.Business.Core.Services
             return customer;
         }
 
-        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, bool ordered = true,
+            CustomerType customerType = CustomerType.None)
         {
             if (searchQuery == null)
             {

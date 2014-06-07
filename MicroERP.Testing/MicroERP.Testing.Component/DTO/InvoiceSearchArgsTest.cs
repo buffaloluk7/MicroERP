@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MicroERP.Business.Domain.DTO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroERP.Testing.Component.DTO
 {
@@ -17,7 +17,7 @@ namespace MicroERP.Testing.Component.DTO
 
         public void Test_IsNotEmpty()
         {
-            var args = new InvoiceSearchArgs()
+            var args = new InvoiceSearchArgs
             {
                 CustomerID = 1,
                 MinDate = DateTime.Now,

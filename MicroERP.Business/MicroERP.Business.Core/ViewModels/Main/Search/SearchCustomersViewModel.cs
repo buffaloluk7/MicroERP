@@ -1,9 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Main.Search
 {
@@ -25,7 +25,7 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
             get { return this.searchQuery; }
             set
             {
-                base.Set<string>(ref this.searchQuery, value);
+                base.Set(ref this.searchQuery, value);
                 this.SearchCustomersCommand.RaiseCanExecuteChanged();
             }
         }
@@ -33,24 +33,20 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
         public IEnumerable<CustomerDisplayNameViewModel> Customers
         {
             get { return this.customers; }
-            set { base.Set<IEnumerable<CustomerDisplayNameViewModel>>(ref this.customers, value); }
+            set { base.Set(ref this.customers, value); }
         }
 
         public CustomerDisplayNameViewModel SelectedCustomer
         {
             get { return this.selectedCustomer; }
-            set { base.Set<CustomerDisplayNameViewModel>(ref this.selectedCustomer, value); }
+            set { base.Set(ref this.selectedCustomer, value); }
         }
 
         #endregion
 
         #region Commands
 
-        public RelayCommand SearchCustomersCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand SearchCustomersCommand { get; private set; }
 
         #endregion
 
@@ -59,15 +55,16 @@ namespace MicroERP.Business.Core.ViewModels.Main.Search
         public SearchCustomersViewModel(ICustomerService customerService)
         {
             this.customerService = customerService;
-            this.SearchCustomersCommand = new RelayCommand(this.onSearchCustomersExecuted, this.onSearchCustomersCanExecute);
+            this.SearchCustomersCommand = new RelayCommand(this.onSearchCustomersExecuted,
+                this.onSearchCustomersCanExecute);
 
-            #if DEBUG
+#if DEBUG
             if (ViewModelBase.IsInDesignModeStatic)
             {
                 this.searchQuery = "i";
                 this.onSearchCustomersExecuted();
             }
-            #endif
+#endif
         }
 
         #endregion

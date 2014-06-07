@@ -1,6 +1,5 @@
-﻿using System;
+﻿using MicroERP.Business.Core.Factories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MicroERP.Business.Core.Factories;
 
 namespace MicroERP.Testing.Component.Factories
 {

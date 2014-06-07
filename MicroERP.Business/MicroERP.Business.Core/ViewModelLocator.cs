@@ -13,7 +13,6 @@ using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
-using MicroERP.Business.Domain.Repositories;
 using Microsoft.Practices.Unity;
 
 namespace MicroERP.Business.Core
@@ -66,8 +65,8 @@ namespace MicroERP.Business.Core
 
             // Repositories
             var repositories = RepositoryFactory.CreateRepositories();
-            this.container.RegisterInstance<ICustomerRepository>(repositories.Item1, new ContainerControlledLifetimeManager());
-            this.container.RegisterInstance<IInvoiceRepository>(repositories.Item2, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(repositories.Item1, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(repositories.Item2, new ContainerControlledLifetimeManager());
 
             // Window ViewModels
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
@@ -77,7 +76,7 @@ namespace MicroERP.Business.Core
             // Main Search ViewModels
             this.container.RegisterType<SearchCustomersViewModel>();
             this.container.RegisterType<SearchInvoicesViewModel>();
-            
+
             // Customer data + invoice data ViewModels
             this.container.RegisterType<CustomerDataViewModel>();
             this.container.RegisterType<InvoiceDataViewModel>();
@@ -88,21 +87,23 @@ namespace MicroERP.Business.Core
 
             // SearchBox ViewModel
             //this.container.RegisterType<CustomerSearchBoxViewModel>();
-            this.container.RegisterType<CustomerSearchBoxViewModel>(new InjectionConstructor(new ResolvedParameter<ICustomerService>(),
-                                                                                             new InjectionParameter(typeof(CustomerModel), null),
-                                                                                             new InjectionParameter(typeof(CustomerType), CustomerType.None)));
+            this.container.RegisterType<CustomerSearchBoxViewModel>(
+                new InjectionConstructor(new ResolvedParameter<ICustomerService>(),
+                    new InjectionParameter(typeof (CustomerModel), null),
+                    new InjectionParameter(typeof (CustomerType), CustomerType.None)));
         }
 
         #endregion
 
         #region Register
 
-        public void Register(INavigationService navigationService, INotificationService notificationService, IBrowsingService browsingService)
+        public void Register(INavigationService navigationService, INotificationService notificationService,
+            IBrowsingService browsingService)
         {
             // Luvi services
-            this.container.RegisterInstance<INavigationService>(navigationService, new ContainerControlledLifetimeManager());
-            this.container.RegisterInstance<INotificationService>(notificationService, new ContainerControlledLifetimeManager());
-            this.container.RegisterInstance<IBrowsingService>(browsingService, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(navigationService, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(notificationService, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(browsingService, new ContainerControlledLifetimeManager());
         }
 
         #endregion

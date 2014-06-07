@@ -1,10 +1,10 @@
-﻿using MicroERP.Business.Domain.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MicroERP.Data.Mock.Repositories
 {
@@ -19,11 +19,11 @@ namespace MicroERP.Data.Mock.Repositories
                 // Create a new object to avoid references on the stored object
                 var person = customer as PersonModel;
                 var company = customer as CompanyModel;
-                CustomerModel newCustomer = null;
+                CustomerModel newCustomer;
 
-                if (person is PersonModel)
+                if (person != null)
                 {
-                    newCustomer = new PersonModel()
+                    newCustomer = new PersonModel
                     {
                         Title = person.Title,
                         FirstName = person.FirstName,
@@ -38,7 +38,7 @@ namespace MicroERP.Data.Mock.Repositories
                 }
                 else
                 {
-                    newCustomer = new CompanyModel()
+                    newCustomer = new CompanyModel
                     {
                         Name = company.Name,
                         UID = company.UID,
@@ -55,7 +55,8 @@ namespace MicroERP.Data.Mock.Repositories
             });
         }
 
-        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery, CustomerType customerType = CustomerType.None)
+        public async Task<IEnumerable<CustomerModel>> Search(string searchQuery,
+            CustomerType customerType = CustomerType.None)
         {
             return await Task.Run(() =>
             {
@@ -64,14 +65,28 @@ namespace MicroERP.Data.Mock.Repositories
                 switch (customerType)
                 {
                     case CustomerType.Company:
-                        return MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
+                        return
+                            MockData.Instance.Customers.OfType<CompanyModel>()
+                                .Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
 
                     case CustomerType.Person:
-                        return MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        return
+                            MockData.Instance.Customers.OfType<PersonModel>()
+                                .Where(
+                                    p =>
+                                        p.FirstName.ToLower().Contains(searchQuery) ||
+                                        p.LastName.ToLower().Contains(searchQuery));
 
                     default:
-                        var persons = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                        var companies = MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
+                        var persons =
+                            MockData.Instance.Customers.OfType<PersonModel>()
+                                .Where(
+                                    p =>
+                                        p.FirstName.ToLower().Contains(searchQuery) ||
+                                        p.LastName.ToLower().Contains(searchQuery));
+                        var companies =
+                            MockData.Instance.Customers.OfType<CompanyModel>()
+                                .Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
 
                         return persons.Concat<CustomerModel>(companies);
                 }
@@ -118,7 +133,9 @@ namespace MicroERP.Data.Mock.Repositories
 
                 if (customer is CompanyModel)
                 {
-                    var employees = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID.HasValue && p.CompanyID.Value == customerID);
+                    var employees =
+                        MockData.Instance.Customers.OfType<PersonModel>()
+                            .Where(p => p.CompanyID.HasValue && p.CompanyID.Value == customerID);
                     foreach (var employee in employees)
                     {
                         employee.Company = null;
