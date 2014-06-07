@@ -104,9 +104,9 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
                 this.CustomerSearchBoxViewModel.PropertyChanged += ((s, e) =>
                 {
-                    if (e.PropertyName == "selectedCustomer")
+                    if (e.PropertyName == "SelectedCustomer")
                     {
-                        var selectedCustomer = s as CustomerDisplayNameViewModel;
+                        var selectedCustomer = (s as CustomerSearchBoxViewModel).SelectedCustomer;
                         person.Company = selectedCustomer == null ? null : selectedCustomer.Model as CompanyModel;
                     }
                 });
