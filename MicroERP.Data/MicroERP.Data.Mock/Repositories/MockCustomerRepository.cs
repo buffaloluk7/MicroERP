@@ -17,10 +17,42 @@ namespace MicroERP.Data.Mock.Repositories
         {
             return await Task.Run(() =>
             {
-                customer.ID = MockData.Instance.Customers.Max(i => i.ID) + 1;
-                MockData.Instance.Customers.Add(customer);
+                // Create a new object to avoid references on the stored object
+                var person = customer as PersonModel;
+                var company = customer as CompanyModel;
+                CustomerModel newCustomer = null;
 
-                return customer.ID;
+                if (person is PersonModel)
+                {
+                    newCustomer = new PersonModel()
+                    {
+                        Title = person.Title,
+                        FirstName = person.FirstName,
+                        LastName = person.LastName,
+                        Address = person.Address,
+                        BillingAddress = person.BillingAddress,
+                        ShippingAddress = person.ShippingAddress,
+                        Suffix = person.Suffix,
+                        CompanyID = person.CompanyID,
+                        BirthDate = person.BirthDate
+                    };
+                }
+                else
+                {
+                    newCustomer = new CompanyModel()
+                    {
+                        Name = company.Name,
+                        UID = company.UID,
+                        Address = company.Address,
+                        BillingAddress = company.BillingAddress,
+                        ShippingAddress = company.ShippingAddress
+                    };
+                }
+
+                newCustomer.ID = MockData.Instance.Customers.Max(i => i.ID) + 1;
+                MockData.Instance.Customers.Add(newCustomer);
+
+                return newCustomer.ID;
             });
         }
 
@@ -32,20 +64,17 @@ namespace MicroERP.Data.Mock.Repositories
 
                 switch (customerType)
                 {
-                    case CustomerType.None:
-                        var persons = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
-                        var companies = MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
-
-                        return persons.Concat<CustomerModel>(companies);
-
                     case CustomerType.Company:
-                        return MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c != null && c.Name.ToLower().Contains(searchQuery));
+                        return MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
 
                     case CustomerType.Person:
                         return MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
 
                     default:
-                        throw new ArgumentOutOfRangeException("customerType", "Unsupported filter");
+                        var persons = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.FirstName.ToLower().Contains(searchQuery) || p.LastName.ToLower().Contains(searchQuery));
+                        var companies = MockData.Instance.Customers.OfType<CompanyModel>().Where(c => c.Name != null && c.Name.ToLower().Contains(searchQuery));
+
+                        return persons.Concat<CustomerModel>(companies);
                 }
             });
         }
@@ -90,7 +119,7 @@ namespace MicroERP.Data.Mock.Repositories
 
                 if (customer is CompanyModel)
                 {
-                    var employees = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.Company != null && p.Company.ID == customerID);
+                    var employees = MockData.Instance.Customers.OfType<PersonModel>().Where(p => p.CompanyID.HasValue && p.CompanyID.Value == customerID);
                     foreach (var employee in employees)
                     {
                         employee.Company = null;

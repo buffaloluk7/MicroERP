@@ -3,6 +3,7 @@ using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
+using MicroERP.Data.Mock.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace MicroERP.Testing.Component.MockRepository
 
         public CustomerRepositoryTests()
         {
-            this.customerRepository = RepositoryFactory.CreateRepositories().Item1;
+            this.customerRepository = new MockCustomerRepository();
 
             this.customers = new CustomerModel[]
             {
@@ -88,6 +89,14 @@ namespace MicroERP.Testing.Component.MockRepository
         }
 
         [TestMethod]
+        public void Test_FindCustomer_NotFound()
+        {
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.customerRepository.Find(-55)
+            );
+        }
+
+        [TestMethod]
         public void Test_UpdateCustomer()
         {
             // Create new customer
@@ -109,19 +118,40 @@ namespace MicroERP.Testing.Component.MockRepository
         }
 
         [TestMethod]
-        public void Test_DeleteCustomer()
+        public void Test_UpateCustomer_NotFound()
+        {
+            var invalidCompany = new CompanyModel(-99, "", "", "", "Firma", "0123");
+            
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.customerRepository.Update(invalidCompany)
+            );
+        }
+
+        [TestMethod]
+        public void Test_DeleteCustomer_NotFound()
+        {
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.customerRepository.Delete(-99)
+            );
+        }
+
+        [TestMethod]
+        public void Test_DeleteCustomer_CascadeCompany()
         {
             // Create new customer
-            var person = new PersonModel() { FirstName = "Lukas", LastName = "Streiter" };
-            person.ID = this.customerRepository.Create(person).Result;
+            var company = new CompanyModel() { Name = "Firmenname", UID = "1234" };
+            var companyID = this.customerRepository.Create(company).Result;
 
-            // Delete newly created customer
-            this.customerRepository.Delete(person.ID);
+            var person = new PersonModel() { FirstName = "Eif", LastName = "rig", CompanyID = companyID };
+            var personID = this.customerRepository.Create(person).Result;
 
-            // Try to retrieve deleted customer
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.customerRepository.Find(person.ID)
-            );
+            // Delete newly created company
+            this.customerRepository.Delete(companyID).Wait();
+
+            // Retrieve person and check company for null
+            var personWithoutCompany = this.customerRepository.Find(personID).Result as PersonModel;
+
+            Assert.IsNull(personWithoutCompany.CompanyID);
         }
     }
 }

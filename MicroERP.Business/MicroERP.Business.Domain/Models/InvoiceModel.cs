@@ -90,10 +90,10 @@ namespace MicroERP.Business.Domain.Models
             this.invoiceItems = new ObservableCollection<InvoiceItemModel>();
         }
 
-        public InvoiceModel(int id, DateTime isseuDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems)
+        public InvoiceModel(int id, DateTime issueDate, DateTime dueDate, string comment, string message, CustomerModel customer, IEnumerable<InvoiceItemModel> invoiceItems)
         {
             this.id = id;
-            this.issueDate = isseuDate;
+            this.issueDate = issueDate;
             this.dueDate = dueDate;
             this.comment = comment;
             this.message = message;
@@ -118,14 +118,13 @@ namespace MicroERP.Business.Domain.Models
 
         public bool Equals(InvoiceModel other)
         {
-            return other != null &&
-                other.id == this.id &&
-                other.dueDate == this.dueDate &&
-                other.issueDate == this.issueDate &&
-                other.comment == this.comment &&
-                other.message == this.message &&
-                other.customer == this.customer &&
-                object.Equals(this.invoiceItems, other.invoiceItems);
+            return other != null
+                && other.id == this.id
+                && other.dueDate == this.dueDate
+                && other.issueDate == this.issueDate
+                && other.comment == this.comment
+                && other.message == this.message
+                && object.Equals(other.customer, this.customer);
         }
 
         #endregion

@@ -91,8 +91,7 @@ namespace MicroERP.Business.Domain.Models
             return other.id == this.id
                 && other.address == this.address
                 && other.billingAddress == this.billingAddress
-                && other.shippingAddress == this.shippingAddress
-                && other.Invoices == this.Invoices;
+                && other.shippingAddress == this.shippingAddress;
         }
 
         #endregion

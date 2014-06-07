@@ -98,8 +98,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AsyncAsserts.cs" />
+    <Compile Include="DTO\InvoiceSearchArgsTest.cs" />
     <Compile Include="MockRepository\CustomerRepositoryTests.cs" />
     <Compile Include="MockRepository\InvoiceRepositoryTests.cs" />
+    <Compile Include="Models\EqualsTests.cs" />
+    <Compile Include="Models\HashCodeTests.cs" />
+    <Compile Include="Models\PropertyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

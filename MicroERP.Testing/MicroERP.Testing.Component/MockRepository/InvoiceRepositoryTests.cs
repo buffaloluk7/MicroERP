@@ -1,7 +1,9 @@
 ﻿using MicroERP.Business.Core.Factories;
 using MicroERP.Business.Domain.DTO;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using MicroERP.Business.Domain.Repositories;
+using MicroERP.Data.Mock.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -20,10 +22,8 @@ namespace MicroERP.Testing.Component.MockRepository
 
         public InvoiceRepositoryTests()
         {
-            var repositories = RepositoryFactory.CreateRepositories();
-
-            this.customerRepository = repositories.Item1;
-            this.invoiceRepository = repositories.Item2;
+            this.customerRepository = new MockCustomerRepository();
+            this.invoiceRepository = new MockInvoiceRepository();
 
             this.customer = new CompanyModel() { Name = "Google", UID = "123456789", Address = "Street 1", BillingAddress = "Street 2", ShippingAddress = "Street 3" };
             this.customer.ID = this.customerRepository.Create(this.customer).Result;
@@ -72,6 +72,14 @@ namespace MicroERP.Testing.Component.MockRepository
         }
 
         [TestMethod]
+        public void Test_GetAllInvoices_CustomerNotFound()
+        {
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.invoiceRepository.All(-10)
+            );
+        }
+
+        [TestMethod]
         public void Test_CreateInvoice()
         {
             var invoice = new InvoiceModel()
@@ -93,6 +101,27 @@ namespace MicroERP.Testing.Component.MockRepository
         }
 
         [TestMethod]
+        public void Test_CreateInvoice_CustomerNotFound()
+        {
+            var invoice = new InvoiceModel()
+            {
+                DueDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                Comment = "Kommentar #3",
+                Message = "Message #3",
+                InvoiceItems = new ObservableCollection<InvoiceItemModel>(new InvoiceItemModel[]
+                {
+                    new InvoiceItemModel() { Name = "Artikel #5", Amount = 80, UnitPrice = 14m, Tax = 0.1m },
+                    new InvoiceItemModel() { Name = "Artikel #6", Amount = 12, UnitPrice = 1.4m, Tax = 0.2m }
+                })
+            };
+
+            AsyncAsserts.Throws<CustomerNotFoundException>(
+                () => this.invoiceRepository.Create(-23, invoice)
+            );
+        }
+
+        [TestMethod]
         public void Test_FindInvoice()
         {
             var invoices = this.invoiceRepository.All(this.customer.ID).Result;
@@ -100,6 +129,22 @@ namespace MicroERP.Testing.Component.MockRepository
 
             Assert.AreEqual(invoices.First().ID, singleInvoice.ID);
             Assert.AreEqual(invoices.First(), singleInvoice);
+        }
+
+        [TestMethod]
+        public void Test_FindInvoice_NotFound()
+        {
+            AsyncAsserts.Throws<InvoiceNotFoundException>(
+                () => this.invoiceRepository.Find(-12)
+            );
+        }
+
+        [TestMethod]
+        public void Test_ExportInvoice_NotImplemented()
+        {
+            AsyncAsserts.Throws<NotImplementedException>(
+                () => this.invoiceRepository.Export(100, "")
+            );
         }
 
         [TestMethod]
@@ -145,7 +190,7 @@ namespace MicroERP.Testing.Component.MockRepository
             {
                 CustomerID = this.customer.ID,
                 MinTotal = 100.0m,
-                MaxTotal = 1899.6m // Maximale Summe = 1899.5
+                MaxTotal = 1900.4m // Maximale Summe = 1899.5
             };
             var invoices2 = this.invoiceRepository.Search(searchArguments2).Result;
 
