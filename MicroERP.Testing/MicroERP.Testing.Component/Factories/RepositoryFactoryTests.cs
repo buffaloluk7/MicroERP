@@ -9,7 +9,7 @@ namespace MicroERP.Testing.Component.Factories
         [TestMethod]
         public void Test_CreateRepositories()
         {
-            var repository = RepositoryFactory.CreateRepositories();
+            var repository = RepositoryFactory.CreateRepositories(null);
 
             Assert.IsNotNull(repository.Item1);
             Assert.IsNotNull(repository.Item2);

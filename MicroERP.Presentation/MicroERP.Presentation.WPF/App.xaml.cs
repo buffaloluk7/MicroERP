@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Windows.Navigation;
-using System.Windows.Threading;
-using Luvi.Http.Exception;
+﻿using Luvi.Http.Exception;
 using Luvi.WPF.Service.Browsing;
 using Luvi.WPF.Service.Notification;
 using MicroERP.Business.Core;
 using MicroERP.Business.Core.ViewModels.Customer;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Main;
+using MicroERP.Data.Api.Configuration;
 using MicroERP.Data.Api.Exceptions;
+using MicroERP.Presentation.WPF.Properties;
 using MicroERP.Presentation.WPF.Views;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows;
+using System.Windows.Navigation;
+using System.Windows.Threading;
 using NavigationService = Luvi.WPF.Service.Navigation.NavigationService;
 
 namespace MicroERP.Presentation.WPF
@@ -89,10 +91,15 @@ namespace MicroERP.Presentation.WPF
             };
 
             var locator = Current.Resources["Locator"] as ViewModelLocator;
-            var navigationService = new NavigationService(viewViewModelMapper);
+            if (locator == null)
+            {
+                throw new InvalidCastException("locator");
+            }
 
-            if (locator != null) locator.Register(navigationService, new NotificationService(), new BrowsingService());
+            var api = new Uri(Settings.Default.API);
+            var apiConifguration = new ApiConfiguration(api.Host, api.Port, api.Scheme, api.PathAndQuery);
 
+            locator.Register(new NavigationService(viewViewModelMapper), new NotificationService(), new BrowsingService(), apiConifguration);
             this.Navigating -= App_Navigating;
         }
 

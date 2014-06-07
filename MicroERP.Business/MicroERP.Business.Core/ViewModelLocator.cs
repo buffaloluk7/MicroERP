@@ -13,6 +13,7 @@ using MicroERP.Business.Core.ViewModels.Main.Search;
 using MicroERP.Business.Core.ViewModels.SearchBox;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Models;
+using MicroERP.Data.Api.Configuration.Interfaces;
 using Microsoft.Practices.Unity;
 
 namespace MicroERP.Business.Core
@@ -63,11 +64,6 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<ICustomerService, CustomerService>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<IInvoiceService, InvoiceService>(new ContainerControlledLifetimeManager());
 
-            // Repositories
-            var repositories = RepositoryFactory.CreateRepositories();
-            this.container.RegisterInstance(repositories.Item1, new ContainerControlledLifetimeManager());
-            this.container.RegisterInstance(repositories.Item2, new ContainerControlledLifetimeManager());
-
             // Window ViewModels
             this.container.RegisterType<MainWindowViewModel>(new ContainerControlledLifetimeManager());
             this.container.RegisterType<CustomerWindowViewModel>();
@@ -98,12 +94,17 @@ namespace MicroERP.Business.Core
         #region Register
 
         public void Register(INavigationService navigationService, INotificationService notificationService,
-            IBrowsingService browsingService)
+            IBrowsingService browsingService, IApiConfiguration apiConfiguration)
         {
             // Luvi services
             this.container.RegisterInstance(navigationService, new ContainerControlledLifetimeManager());
             this.container.RegisterInstance(notificationService, new ContainerControlledLifetimeManager());
             this.container.RegisterInstance(browsingService, new ContainerControlledLifetimeManager());
+
+            // Repositories
+            var repositories = RepositoryFactory.CreateRepositories(apiConfiguration);
+            this.container.RegisterInstance(repositories.Item1, new ContainerControlledLifetimeManager());
+            this.container.RegisterInstance(repositories.Item2, new ContainerControlledLifetimeManager());
         }
 
         #endregion

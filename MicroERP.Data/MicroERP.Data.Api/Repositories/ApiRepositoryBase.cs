@@ -24,7 +24,8 @@ namespace MicroERP.Data.Api.Repositories
 
         protected ApiRepositoryBase(IApiConfiguration configuration, string path = "")
         {
-            this.ConnectionString = string.Format("{0}://{1}:{2}/{3}{4}", configuration.Protocol,
+            this.ConnectionString = string.Format("{0}://{1}:{2}{3}{4}",
+                configuration.Protocol,
                 configuration.Host,
                 configuration.Port,
                 configuration.Path,
