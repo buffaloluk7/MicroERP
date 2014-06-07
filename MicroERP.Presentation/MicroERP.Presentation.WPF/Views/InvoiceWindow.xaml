@@ -6,6 +6,7 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:controls="clr-namespace:MicroERP.Presentation.WPF.Controls"
     xmlns:enums="clr-namespace:MicroERP.Business.Domain.Enums;assembly=MicroERP.Business.Domain"
+    xmlns:commands="http://www.galasoft.ch/mvvmlight"
     x:Class="MicroERP.Presentation.WPF.Views.InvoiceWindow"
     x:Name="Window"
     Title="MicroERP"
@@ -17,87 +18,145 @@
     WindowTransitionsEnabled="False"
     WindowStartupLocation="CenterScreen">
 
-    <Grid>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="SearchCustomersElementsGroup">
-                <VisualState x:Name="CustomerComboBoxEmpty">
-                    <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
-                        </BooleanAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-                <VisualState x:Name="CustomerComboBoxFilled">
-                    <Storyboard>
-                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
-                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
-                        </BooleanAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <StackPanel>
-            <GroupBox x:Name="groupBoxInvoice" Header="Rechnungsdaten" DataContext="{Binding Invoice, Mode=OneWay}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+	<Grid>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="SearchCustomersElementsGroup">
+				<VisualState x:Name="CustomerComboBoxEmpty">
+					<Storyboard>
+						<BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
+							<DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
+						</BooleanAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="CustomerComboBoxFilled">
+					<Storyboard>
+						<BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(ComboBox.IsDropDownOpen)" Storyboard.TargetName="customersComboBox">
+							<DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+						</BooleanAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+		<StackPanel>
+			<GroupBox x:Name="groupBoxInvoice" Header="Rechnungsdaten" DataContext="{Binding Invoice, Mode=OneWay}">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Rechnungsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Fälligkeitsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Kommentar" VerticalAlignment="Center" FontWeight="Bold" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Nachricht" VerticalAlignment="Center" FontWeight="Bold" />
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
+					<TextBlock Grid.Row="0" Grid.Column="0" Text="Rechnungsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" />
+					<TextBlock Grid.Row="0" Grid.Column="2" Text="Fälligkeitsdatum" VerticalAlignment="Center" FontWeight="Bold" Margin="10,0" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Text="Kommentar" VerticalAlignment="Center" FontWeight="Bold" />
+					<TextBlock Grid.Row="2" Grid.Column="0" Text="Nachricht" VerticalAlignment="Center" FontWeight="Bold" />
+					<TextBlock Grid.Row="3" Grid.Column="0" Text="Kunde" VerticalAlignment="Center" FontWeight="Bold" />
 
-                    <DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding IssueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Rechnungsdatum eingeben ..." />
-                    <DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Fälligkeitsdatum eingeben ..." />
+					<DatePicker Grid.Row="0" Grid.Column="1" Margin="0,5" SelectedDate="{Binding IssueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Rechnungsdatum eingeben ..." />
+					<DatePicker Grid.Row="0" Grid.Column="3" Margin="0,5" SelectedDate="{Binding DueDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Fälligkeitsdatum eingeben ..." />
 
-                    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Kommentar eingeben ..." />
-                    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Nachricht eingeben ..." />
+					<TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Kommentar eingeben ..." />
+					<TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,0,0,4" Text="{Binding Message, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Controls:TextboxHelper.Watermark="Optional: Nachricht eingeben ..." />
 
-                    <controls:CustomerSearchBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}" />
-                </Grid>
-            </GroupBox>
+					<controls:CustomerSearchBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding DataContext.CustomerSearchBoxViewModel, ElementName=Window}" />
+				</Grid>
+			</GroupBox>
 
-            <GroupBox x:Name="groupBoxInvoiceItems" Header="Rechnungszeilen" DataContext="{Binding Invoice}">
-                <StackPanel>
+			<GroupBox x:Name="groupBoxInvoiceItems" Header="Rechnungszeilen" DataContext="{Binding Invoice}">
+				<StackPanel>
                     <DataGrid ItemsSource="{Binding InvoiceItems}"
-                              AutoGenerateColumns="False"
-                              AlternationCount="2"
-                              AlternatingRowBackground="Gray"
-                              CanUserAddRows="True"
-                              CanUserDeleteRows="True"
-                              CanUserResizeRows="True"
-                              IsReadOnly="False"
-                              Height="150">
+						AutoGenerateColumns="False"
+                        CanUserAddRows="True"
+						CanUserDeleteRows="True"
+						CanUserResizeRows="True"
+						IsReadOnly="False"
+						Height="150"
+                        GridLinesVisibility="Horizontal"
+                        RowHeight="30">
+                        
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="CellEditEnding">
+                                <commands:EventToCommand Command="{Binding DataContext.InvoiceItemEditedCommand, ElementName=Window}" PassEventArgsToCommand="False" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Menge" Binding="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTextColumn Header="Bezeichnung" Width="*" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DataGridTextColumn Header="Preis" Binding="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=C, ConverterCulture=de-DE}" />
-                            <DataGridTextColumn Header="Mwst." Binding="{Binding Tax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P2\}}" />
+                            <DataGridTemplateColumn Header="Menge" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="10,0,0,0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Controls:NumericUpDown Value="{Binding Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn Header="Bezeichnung" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Padding="10,0,0,0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn Header="Preis" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=C, ConverterCulture=de-DE}" Padding="10,0,0,0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Controls:NumericUpDown Value="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn Header="Mwst." Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Tax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00} %}" Padding="10,0,0,0" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <Controls:NumericUpDown Value="{Binding Tax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </GroupBox>
+					</DataGrid>
+				</StackPanel>
+			</GroupBox>
+
+            <TextBlock FontSize="22" FontWeight="Normal" Margin="10, 6">
+                <Run Text="Zwischensumme: " />
+                <Run Text="{Binding SubTotal, Mode=OneWay, StringFormat=C, ConverterCulture=de-DE}" />
+            </TextBlock>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,4,0,6">
-                <Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
-                    <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" /><Run Text=" "/><Run Text="ABBRECHEN"/></TextBlock>
-                </Button>
-                <Button Command="{Binding SaveInvoiceCommand}" Margin="0,0,6,0">
-                    <TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE105;" /><Run Text=" "/><Run Text="SPEICHERN"/></TextBlock>
-                </Button>
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+				<Button Command="{Binding CancelCommand}" Margin="0,0,6,0">
+					<TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE10A;" /><Run Text=" "/><Run Text="ABBRECHEN"/></TextBlock>
+				</Button>
+				<Button Command="{Binding SaveInvoiceCommand}" Margin="0,0,6,0">
+					<TextBlock><Run FontFamily="Segoe UI Symbol" Text="&#xE105;" /><Run Text=" "/><Run Text="SPEICHERN"/></TextBlock>
+				</Button>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </Controls:MetroWindow>

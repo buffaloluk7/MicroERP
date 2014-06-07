@@ -33,8 +33,8 @@ namespace MicroERP.Business.Core.ViewModels.Models
 
         public decimal Tax
         {
-            get { return this.invoiceItem.Tax; }
-            set { this.invoiceItem.Tax = value; }
+            get { return this.invoiceItem.Tax * 100; }
+            set { this.invoiceItem.Tax = value / 100; }
         }
 
         internal InvoiceItemModel Model
@@ -55,6 +55,18 @@ namespace MicroERP.Business.Core.ViewModels.Models
         {
             this.invoiceItem = invoiceItem ?? new InvoiceItemModel();
             this.invoiceItem.PropertyChanged += invoiceItem_PropertyChanged;
+        }
+
+        #endregion
+
+        #region IsValid
+
+        public bool IsValid()
+        {
+            return this.Amount > 0
+                && this.UnitPrice > 0
+                && this.Tax > 0
+                && !string.IsNullOrWhiteSpace(this.Name);
         }
 
         #endregion

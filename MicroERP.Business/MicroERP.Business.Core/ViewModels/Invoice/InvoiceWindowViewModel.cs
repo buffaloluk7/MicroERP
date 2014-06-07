@@ -5,7 +5,6 @@ using Luvi.Service.Notification;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Models;
 using MicroERP.Business.Core.ViewModels.SearchBox;
-using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
@@ -42,6 +41,12 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             get { return this.customerSearchBoxViewModel; }
         }
 
+        public decimal SubTotal
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Commands
@@ -53,6 +58,12 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
         }
 
         public RelayCommand SaveInvoiceCommand
+        {
+            get;
+            private set;
+        }
+
+        public RelayCommand InvoiceItemEditedCommand
         {
             get;
             private set;
@@ -71,12 +82,18 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
             this.CancelCommand = new RelayCommand(onCancelExecuted);
             this.SaveInvoiceCommand = new RelayCommand(onSaveInvoiceExecuted, onSaveInvoiceCanExecute);
+            this.InvoiceItemEditedCommand = new RelayCommand(onInvoiceItemEditedExecuted);
 
             this.invoiceModelViewModel = new InvoiceModelViewModel();
+            this.invoiceModelViewModel.PropertyChanged += ((s, e) =>
+            {
+                this.SaveInvoiceCommand.RaiseCanExecuteChanged();
+            });
             this.invoiceModelViewModel.InvoiceItems.CollectionChanged += ((s, e) =>
             {
                 this.SaveInvoiceCommand.RaiseCanExecuteChanged();
             });
+
             this.invoiceModelViewModel.IssueDate = DateTime.Now;
             this.invoiceModelViewModel.DueDate = DateTime.Now.AddDays(7);
 
@@ -93,14 +110,19 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
 
         private bool onSaveInvoiceCanExecute()
         {
-            return this.Invoice.InvoiceItems.Count > 0 &&
-                this.customerSearchBoxViewModel.SelectedCustomer != null;
+            this.SubTotal = this.Invoice.InvoiceItems.Where(ii => ii.IsValid()).Sum(ii => ii.UnitPrice * ii.Amount * (ii.Tax / 100 + 1));
+            this.RaisePropertyChanged("SubTotal");
+
+            return this.Invoice.InvoiceItems.Count(ii => ii.IsValid()) > 0
+                && this.Invoice.IssueDate >= DateTime.Now.AddDays(-1)
+                && this.Invoice.DueDate >= this.Invoice.IssueDate
+                && this.customerSearchBoxViewModel.SelectedCustomer != null;
         }
 
         private async void onSaveInvoiceExecuted()
         {
             var invoice = this.Invoice.Model;
-            var invoiceItems = this.Invoice.InvoiceItems.Select(ii => ii.Model);
+            var invoiceItems = this.Invoice.InvoiceItems.Where(ii => ii.IsValid()).Select(ii => ii.Model);
 
             invoice.InvoiceItems = new ObservableCollection<InvoiceItemModel>(invoiceItems);
 
@@ -129,6 +151,11 @@ namespace MicroERP.Business.Core.ViewModels.Invoice
             {
                 (navigationService as IWindowNavigationService).Close(this);
             }
+        }
+
+        private void onInvoiceItemEditedExecuted()
+        {
+            this.SaveInvoiceCommand.RaiseCanExecuteChanged();
         }
 
         #endregion
