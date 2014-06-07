@@ -99,6 +99,8 @@
   <ItemGroup>
     <Compile Include="AsyncAsserts.cs" />
     <Compile Include="DTO\InvoiceSearchArgsTest.cs" />
+    <Compile Include="Factories\CustomerModelFactoryTests.cs" />
+    <Compile Include="Factories\RepositoryFactoryTests.cs" />
     <Compile Include="Mock\CustomerRepositoryTests.cs" />
     <Compile Include="Mock\InvoiceRepositoryTests.cs" />
     <Compile Include="Models\EqualsTests.cs" />
