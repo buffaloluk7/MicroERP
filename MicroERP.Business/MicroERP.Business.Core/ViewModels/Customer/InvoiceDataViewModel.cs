@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using Luvi.Service.Navigation;
+using Luvi.Service.Notification;
+using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Core.ViewModels.Invoice;
 using MicroERP.Business.Core.ViewModels.Models;
+using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MicroERP.Business.Core.ViewModels.Customer
 {
@@ -13,6 +16,9 @@ namespace MicroERP.Business.Core.ViewModels.Customer
         #region Fields
 
         private readonly INavigationService navigationService;
+        private readonly INotificationService notificationService;
+        private readonly IInvoiceService invoiceService;
+
         private readonly IEnumerable<InvoiceModelViewModel> invoices;
         private InvoiceModelViewModel selectedInvoice;
         private readonly int customerID;
@@ -44,12 +50,14 @@ namespace MicroERP.Business.Core.ViewModels.Customer
 
         #region Constructor
 
-        public InvoiceDataViewModel(INavigationService navigationService, IEnumerable<InvoiceModel> invoices, int customerID)
+        public InvoiceDataViewModel(INavigationService navigationService, INotificationService notificationService, IInvoiceService invoiceService, IEnumerable<InvoiceModel> invoices, int customerID)
         {
             this.invoices = invoices.Select(i => new InvoiceModelViewModel(i));
             this.customerID = customerID;
 
             this.navigationService = navigationService;
+            this.notificationService = notificationService;
+            this.invoiceService = invoiceService;
 
             this.CreateInvoiceCommand = new RelayCommand(onCreateInvoiceExecuted);
             this.ExportInvoiceCommand = new RelayCommand(onExportInvoiceExecuted, onExportInvoiceCanExecute);
@@ -78,9 +86,16 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             return this.SelectedInvoice != null;
         }
 
-        private void onExportInvoiceExecuted()
+        private async void onExportInvoiceExecuted()
         {
-            // download pdf using invoiceservice
+            try
+            {
+                await this.invoiceService.Export(this.SelectedInvoice.ID);
+            }
+            catch (InvoiceNotFoundException)
+            {
+                var x = this.notificationService.ShowAsync("Rechnung wurde nicht gefunden", "Rechnungen nicht gefunden");
+            }
         }
 
         #endregion

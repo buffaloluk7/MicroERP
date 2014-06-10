@@ -152,7 +152,7 @@ namespace MicroERP.Testing.Component.Mock
         public void Test_ExportInvoice_NotImplemented()
         {
             AsyncAsserts.Throws<NotImplementedException>(
-                () => this.invoiceRepository.Export(100, "")
+                () => this.invoiceRepository.Export(100)
                 );
         }
 

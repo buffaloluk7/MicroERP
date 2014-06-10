@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Luvi.Service.Browsing;
 using MicroERP.Business.Core.Services.Interfaces;
 using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Models;
@@ -13,14 +14,16 @@ namespace MicroERP.Business.Core.Services
         #region Fields
 
         private readonly IInvoiceRepository invoiceRepository;
+        private readonly IBrowsingService browsingService;
 
         #endregion
 
         #region Constructors
 
-        public InvoiceService(IInvoiceRepository invoiceRepository)
+        public InvoiceService(IInvoiceRepository invoiceRepository, IBrowsingService browsingService)
         {
             this.invoiceRepository = invoiceRepository;
+            this.browsingService = browsingService;
         }
 
         #endregion
@@ -63,14 +66,16 @@ namespace MicroERP.Business.Core.Services
             return await this.invoiceRepository.Find(invoiceID);
         }
 
-        public async Task Export(int invoiceID, string path)
+        public async Task Export(int invoiceID)
         {
             if (invoiceID == 0)
             {
                 throw new ArgumentOutOfRangeException("invoiceID must not be 0");
             }
 
-            await this.invoiceRepository.Export(invoiceID, path);
+            string downloadLink = await this.invoiceRepository.Export(invoiceID);
+
+            await this.browsingService.OpenLinkAsync(downloadLink);
         }
 
         public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)

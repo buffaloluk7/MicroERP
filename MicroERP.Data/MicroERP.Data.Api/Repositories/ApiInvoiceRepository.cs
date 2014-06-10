@@ -103,13 +103,28 @@ namespace MicroERP.Data.Api.Repositories
             }
         }
 
-        public async Task Export(int invoiceID, string path)
+        public async Task<string> Export(int invoiceID)
         {
-            using (var httpClient = new HttpClient())
+            string url = string.Format("{0}/invoices/{1}/export", this.ConnectionString, invoiceID);
+            var response = await this.request.Get(url);
+
+            switch (response.StatusCode)
             {
-                //string url = string.Format("{0}/invoices/{1}/export", this.ConnectionString, invoiceID);
-                string url = "http://lukas.cc/file.pdf";
-                Stream response = await httpClient.GetStreamAsync(url);
+                case HttpStatusCode.OK:
+                    try
+                    {
+                        return await response.Content.ReadAsStringAsync();
+                    }
+                    catch (JsonReaderException e)
+                    {
+                        throw new FaultyMessageException(inner: e);
+                    }
+
+                case HttpStatusCode.NotFound:
+                    throw new InvoiceNotFoundException();
+
+                default:
+                    throw new BadResponseException(response.StatusCode);
             }
         }
 

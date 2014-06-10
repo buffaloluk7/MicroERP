@@ -61,9 +61,9 @@ namespace MicroERP.Data.Mock.Repositories
             });
         }
 
-        public Task Export(int invoiceID, string path)
+        public async Task<string> Export(int invoiceID)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => "http://science.energy.gov/~/media/bes/pdf/reports/files/PDF_File_Guidelines.pdf");
         }
 
         public async Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs)

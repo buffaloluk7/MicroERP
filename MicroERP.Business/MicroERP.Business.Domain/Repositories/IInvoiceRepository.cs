@@ -13,7 +13,7 @@ namespace MicroERP.Business.Domain.Repositories
 
         Task<InvoiceModel> Find(int invoiceID);
 
-        Task Export(int invoiceID, string path);
+        Task<string> Export(int invoiceID);
 
         Task<IEnumerable<InvoiceModel>> Search(InvoiceSearchArgs invoiceSearchArgs);
     }
