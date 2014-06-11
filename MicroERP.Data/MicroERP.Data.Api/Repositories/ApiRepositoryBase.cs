@@ -40,7 +40,7 @@ namespace MicroERP.Data.Api.Repositories
 
             this.request = new RESTRequest
             {
-                Timeout = new TimeSpan(0, 0, 15),
+                Timeout = new TimeSpan(0, 0, 150),
                 UseTransferEncodingChunked = false,
                 SerializationSettings = this.jsonSettings,
                 UseJsonSerialization = true,

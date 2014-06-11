@@ -30,7 +30,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<int> Create(int customerID, InvoiceModel invoice)
         {
-            string url = string.Format("{0}/customers/{1}/invoices", this.ConnectionString, customerID);
+            string url = string.Format("{0}customers/{1}/invoices", this.ConnectionString, customerID);
             var response = await this.request.Post(url, invoice);
 
             switch (response.StatusCode)
@@ -55,7 +55,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<IEnumerable<InvoiceModel>> All(int customerID)
         {
-            string url = string.Format("{0}/invoices?customerID={1}", this.ConnectionString, customerID);
+            string url = string.Format("{0}invoices?customerID={1}", this.ConnectionString, customerID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)
@@ -63,7 +63,7 @@ namespace MicroERP.Data.Api.Repositories
                 case HttpStatusCode.OK:
                     try
                     {
-                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>();
+                        return await response.Content.ReadAsObjectAsync<IEnumerable<InvoiceModel>>(this.jsonSettings);
                     }
                     catch (JsonReaderException e)
                     {
@@ -80,7 +80,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<InvoiceModel> Find(int invoiceID)
         {
-            string url = string.Format("{0}/invoices/{1}", this.ConnectionString, invoiceID);
+            string url = string.Format("{0}invoices/{1}", this.ConnectionString, invoiceID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)
@@ -105,7 +105,7 @@ namespace MicroERP.Data.Api.Repositories
 
         public async Task<string> Export(int invoiceID)
         {
-            string url = string.Format("{0}/invoices/{1}/export", this.ConnectionString, invoiceID);
+            string url = string.Format("{0}invoices/{1}/report", this.ConnectionString, invoiceID);
             var response = await this.request.Get(url);
 
             switch (response.StatusCode)
@@ -113,7 +113,10 @@ namespace MicroERP.Data.Api.Repositories
                 case HttpStatusCode.OK:
                     try
                     {
-                        return await response.Content.ReadAsStringAsync();
+                        var jsonObject = await response.Content.ReadAsStringAsync();
+                        var anonObject = new { link = string.Empty };
+
+                        return JsonConvert.DeserializeAnonymousType(jsonObject, anonObject).link;
                     }
                     catch (JsonReaderException e)
                     {
