@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using MicroERP.Business.Domain.DTO;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -69,25 +70,23 @@ namespace MicroERP.Testing.Component.Mock
         }
 
         [TestMethod]
-        public void Test_GetAllInvoices()
+        public async Task Test_GetAllInvoices()
         {
-            this.invoiceRepository.All(this.customer.ID).ContinueWith(i =>
-            {
-                Assert.AreEqual(2, i.Result.Count());
-                Assert.AreEqual(this.customer.ID, i.Result.First().Customer.ID);
-            });
+            var invoiceModels = await this.invoiceRepository.All(this.customer.ID);
+
+            Assert.AreEqual(2, invoiceModels.Count());
+            Assert.AreEqual(this.customer.ID, invoiceModels.First().Customer.ID);
         }
 
         [TestMethod]
-        public void Test_GetAllInvoices_CustomerNotFound()
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public async Task Test_GetAllInvoices_CustomerNotFound()
         {
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.invoiceRepository.All(-10)
-                );
+            await this.invoiceRepository.All(-10);
         }
 
         [TestMethod]
-        public void Test_CreateInvoice()
+        public async Task Test_CreateInvoice()
         {
             var invoice = new InvoiceModel
             {
@@ -102,12 +101,15 @@ namespace MicroERP.Testing.Component.Mock
                     new InvoiceItemModel {Name = "Artikel #6", Amount = 12, UnitPrice = 1.4m, Tax = 0.2m}
                 })
             };
-            this.invoiceRepository.Create(this.customer.ID, invoice)
-                .ContinueWith(id => Assert.AreNotEqual(id, default(int)));
+            
+            var id = await this.invoiceRepository.Create(this.customer.ID, invoice);
+
+            Assert.AreNotEqual(id, default(int));
         }
 
         [TestMethod]
-        public void Test_CreateInvoice_CustomerNotFound()
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public async Task Test_CreateInvoice_CustomerNotFound()
         {
             var invoice = new InvoiceModel
             {
@@ -122,53 +124,48 @@ namespace MicroERP.Testing.Component.Mock
                 })
             };
 
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.invoiceRepository.Create(-23, invoice)
-                );
+            await this.invoiceRepository.Create(-23, invoice);
         }
 
         [TestMethod]
-        public void Test_FindInvoice()
+        public async Task Test_FindInvoice()
         {
-            this.invoiceRepository.All(this.customer.ID).ContinueWith(i =>
-            {
-                this.invoiceRepository.Find(i.Result.First().ID).ContinueWith(si =>
-                {
-                    Assert.AreEqual(i.Result.First().ID, si.Result.ID);
-                    Assert.AreEqual(i.Result.First(), si.Result);
-                });
-            });
+            var invoiceModels = await this.invoiceRepository.All(this.customer.ID);
+            var invoiceModel = await this.invoiceRepository.Find(invoiceModels.First().ID);
+
+            Assert.AreEqual(invoiceModels.First().ID, invoiceModel.ID);
+            Assert.AreEqual(invoiceModels.First(), invoiceModel);
         }
 
         [TestMethod]
-        public void Test_FindInvoice_NotFound()
+        [ExpectedException(typeof(InvoiceNotFoundException))]
+        public async Task Test_FindInvoice_NotFound()
         {
-            AsyncAsserts.Throws<InvoiceNotFoundException>(
-                () => this.invoiceRepository.Find(-12)
-                );
+            await this.invoiceRepository.Find(-12);
         }
 
         [TestMethod]
-        public void Test_ExportInvoice_NotImplemented()
+        public async Task Test_ExportInvoice_NotImplemented()
         {
-            AsyncAsserts.Throws<NotImplementedException>(
-                () => this.invoiceRepository.Export(100)
-                );
+            var url = await this.invoiceRepository.Export(1);
+
+            Assert.AreEqual("http://science.energy.gov/~/media/bes/pdf/reports/files/PDF_File_Guidelines.pdf", url);
         }
 
         [TestMethod]
-        public void Test_SearchInvoices_CustomerOnly()
+        public async Task Test_SearchInvoices_CustomerOnly()
         {
             var searchArguments = new InvoiceSearchArgs
             {
                 CustomerID = this.customer.ID
             };
-
-            this.invoiceRepository.Search(searchArguments).ContinueWith(i => Assert.AreEqual(2, i.Result.Count()));
+            var invoiceModels = await this.invoiceRepository.Search(searchArguments);
+            
+            Assert.AreEqual(2, invoiceModels.Count());
         }
 
         [TestMethod]
-        public void Test_SearchInvoices_CustomerAndDateOnly()
+        public async Task Test_SearchInvoices_CustomerAndDateOnly()
         {
             var searchArguments = new InvoiceSearchArgs
             {
@@ -177,11 +174,13 @@ namespace MicroERP.Testing.Component.Mock
                 MaxDate = DateTime.Now.AddDays(10)
             };
 
-            this.invoiceRepository.Search(searchArguments).ContinueWith(i => Assert.AreEqual(2, i.Result.Count()));
+            var invoiceModels = await this.invoiceRepository.Search(searchArguments);
+            
+            Assert.AreEqual(2, invoiceModels.Count());
         }
 
         [TestMethod]
-        public void Test_SearchInvoices_CustomerAndPriceOnly()
+        public async Task Test_SearchInvoices_CustomerAndPriceOnly()
         {
             var searchArguments1 = new InvoiceSearchArgs
             {
@@ -189,7 +188,9 @@ namespace MicroERP.Testing.Component.Mock
                 MinTotal = 100.0m,
                 MaxTotal = 1805.7m // Maximale Summe = 1899.5
             };
-            this.invoiceRepository.Search(searchArguments1).ContinueWith(i => Assert.AreEqual(1, i.Result.Count()));
+            var invoiceModels1 = await this.invoiceRepository.Search(searchArguments1);
+            
+            Assert.AreEqual(1, invoiceModels1.Count());
 
             var searchArguments2 = new InvoiceSearchArgs
             {
@@ -197,7 +198,9 @@ namespace MicroERP.Testing.Component.Mock
                 MinTotal = 100.0m,
                 MaxTotal = 1900.4m // Maximale Summe = 1899.5
             };
-            this.invoiceRepository.Search(searchArguments2).ContinueWith(i => Assert.AreEqual(2, i.Result.Count()));
+            var invoiceModels2 = await this.invoiceRepository.Search(searchArguments2);
+
+            Assert.AreEqual(2, invoiceModels2.Count());
 
             var searchArguments3 = new InvoiceSearchArgs
             {
@@ -205,11 +208,13 @@ namespace MicroERP.Testing.Component.Mock
                 MinTotal = 1743.4m,
                 MaxTotal = 2019.3m // Maximale Summe = 1899.5
             };
-            this.invoiceRepository.Search(searchArguments3).ContinueWith(i => Assert.AreEqual(1, i.Result.Count()));
+            var invoiceModels3 = await this.invoiceRepository.Search(searchArguments3);
+            
+            Assert.AreEqual(1, invoiceModels3.Count());
         }
 
         [TestMethod]
-        public void Test_SearchInvoices_AllArguments()
+        public async Task Test_SearchInvoices_AllArguments()
         {
             var searchArguments = new InvoiceSearchArgs
             {
@@ -220,7 +225,9 @@ namespace MicroERP.Testing.Component.Mock
                 MaxTotal = 1805.7m // Maximale Summe = 1899.5
             };
 
-            this.invoiceRepository.Search(searchArguments).ContinueWith(i => Assert.AreEqual(1, i.Result.Count()));
+            var invoiceModels = await this.invoiceRepository.Search(searchArguments);
+            
+            Assert.AreEqual(1, invoiceModels.Count());
         }
     }
 }

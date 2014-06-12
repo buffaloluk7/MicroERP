@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using MicroERP.Business.Domain.Enums;
 using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
@@ -47,17 +48,17 @@ namespace MicroERP.Testing.Component.Mock
         }
 
         [TestMethod]
-        public void Test_SearchCustomers()
+        public async Task Test_SearchCustomers()
         {
-            var customers = this.customerRepository.Search("oogl").Result;
+            var customers = await this.customerRepository.Search("oogl");
 
             Assert.AreNotEqual(0, customers.Count());
         }
 
         [TestMethod]
-        public void Test_SearchCustomers_CompaniesOnly()
+        public async Task Test_SearchCustomers_CompaniesOnly()
         {
-            var customers = this.customerRepository.Search("apple", CustomerType.Company).Result;
+            var customers = await this.customerRepository.Search("apple", CustomerType.Company);
 
             foreach (var c in customers)
             {
@@ -66,9 +67,9 @@ namespace MicroERP.Testing.Component.Mock
         }
 
         [TestMethod]
-        public void Test_SearchCustomers_PersonsOnly()
+        public async Task Test_SearchCustomers_PersonsOnly()
         {
-            var customers = this.customerRepository.Search("dummy", CustomerType.Person).Result;
+            var customers = await this.customerRepository.Search("dummy", CustomerType.Person);
             Assert.AreNotEqual(0, customers.Count());
 
             foreach (var c in customers)
@@ -82,7 +83,7 @@ namespace MicroERP.Testing.Component.Mock
         }
 
         [TestMethod]
-        public void Test_CreateCustomer()
+        public async Task Test_CreateCustomer()
         {
             var company = new CompanyModel
             {
@@ -95,42 +96,41 @@ namespace MicroERP.Testing.Component.Mock
 
             Assert.AreEqual(default(int), company.ID);
 
-            company.ID = this.customerRepository.Create(company).Result;
+            company.ID = await this.customerRepository.Create(company);
 
             Assert.AreNotEqual(default(int), company.ID);
         }
 
         [TestMethod]
-        public void Test_FindCustomer()
+        public async Task Test_FindCustomer()
         {
-            var customer = this.customerRepository.Find(this.customers.First().ID).Result;
+            var customer = await this.customerRepository.Find(this.customers.First().ID);
 
             Assert.AreEqual(this.customers.First().ID, customer.ID);
         }
 
         [TestMethod]
-        public void Test_FindCustomer_NotFound()
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public async Task Test_FindCustomer_NotFound()
         {
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.customerRepository.Find(-55)
-                );
+            await this.customerRepository.Find(-55);
         }
 
         [TestMethod]
-        public void Test_UpdateCustomer()
+        public async Task Test_UpdateCustomer()
         {
             // Create new customer
             var person = new PersonModel {FirstName = "Lukas", LastName = "Streiter"};
-            person.ID = this.customerRepository.Create(person).Result;
+            person.ID = await this.customerRepository.Create(person);
 
             // Retrieve newly created customer
-            var customer = this.customerRepository.Find(person.ID).Result as PersonModel;
+            var customer = await this.customerRepository.Find(person.ID) as PersonModel;
             Assert.AreEqual(person.FirstName, customer.FirstName);
 
             // Update customer
             customer.FirstName = "Thomas";
             customer.LastName = "Eizinger";
-            var updatedCustomer = this.customerRepository.Update(customer).Result as PersonModel;
+            var updatedCustomer = await this.customerRepository.Update(customer) as PersonModel;
 
             // Validate new name
             Assert.AreEqual(updatedCustomer.FirstName, "Thomas");
@@ -138,38 +138,36 @@ namespace MicroERP.Testing.Component.Mock
         }
 
         [TestMethod]
-        public void Test_UpateCustomer_NotFound()
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public async Task Test_UpateCustomer_NotFound()
         {
             var invalidCompany = new CompanyModel(-99, "", "", "", "Firma", "0123");
 
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.customerRepository.Update(invalidCompany)
-                );
+            await this.customerRepository.Update(invalidCompany);
         }
 
         [TestMethod]
-        public void Test_DeleteCustomer_NotFound()
+        [ExpectedException(typeof(CustomerNotFoundException))]
+        public async Task Test_DeleteCustomer_NotFound()
         {
-            AsyncAsserts.Throws<CustomerNotFoundException>(
-                () => this.customerRepository.Delete(-99)
-                );
+            await this.customerRepository.Delete(-99);
         }
 
         [TestMethod]
-        public void Test_DeleteCustomer_CascadeCompany()
+        public async Task Test_DeleteCustomer_CascadeCompany()
         {
             // Create new customer
             var company = new CompanyModel {Name = "Firmenname", UID = "1234"};
-            var companyID = this.customerRepository.Create(company).Result;
+            var companyID = await this.customerRepository.Create(company);
 
             var person = new PersonModel {FirstName = "Eif", LastName = "rig", CompanyID = companyID};
-            var personID = this.customerRepository.Create(person).Result;
+            var personID = await this.customerRepository.Create(person);
 
             // Delete newly created company
-            this.customerRepository.Delete(companyID).Wait();
+            await this.customerRepository.Delete(companyID);
 
             // Retrieve person and check company for null
-            var personWithoutCompany = this.customerRepository.Find(personID).Result as PersonModel;
+            var personWithoutCompany = await this.customerRepository.Find(personID) as PersonModel;
 
             Assert.IsNull(personWithoutCompany.CompanyID);
         }
