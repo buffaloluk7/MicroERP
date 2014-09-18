@@ -10,9 +10,14 @@ namespace MicroERP.Business.Core.Factories
 {
     public static class RepositoryFactory
     {
+        /// <summary>
+        /// Create either mock repositories or API repositories to access the web service.
+        /// </summary>
+        /// <param name="apiConfiguration">Configuration used by the API repositories containing URL, Port, etc.</param>
+        /// <returns>Tuple with repositories.</returns>
         public static Tuple<ICustomerRepository, IInvoiceRepository> CreateRepositories(IApiConfiguration apiConfiguration)
         {
-#if (API || !DEBUG)
+            #if (API || !DEBUG)
 
             return new Tuple<ICustomerRepository, IInvoiceRepository>
             (
@@ -20,7 +25,7 @@ namespace MicroERP.Business.Core.Factories
                 new ApiInvoiceRepository(apiConfiguration)
             );
 
-#else
+            #else
 
             return new Tuple<ICustomerRepository, IInvoiceRepository>
                 (
@@ -28,7 +33,7 @@ namespace MicroERP.Business.Core.Factories
                 new MockInvoiceRepository()
                 );
 
-#endif
+            #endif
         }
     }
 }

@@ -71,7 +71,7 @@ namespace MicroERP.Data.Api.Repositories
                     }
 
                 case HttpStatusCode.NotFound:
-                    throw new InvoiceNotFoundException();
+                    throw new CustomerNotFoundException();
 
                 default:
                     throw new BadResponseException(response.StatusCode);

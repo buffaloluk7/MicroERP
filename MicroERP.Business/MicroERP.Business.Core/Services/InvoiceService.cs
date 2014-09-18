@@ -34,7 +34,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (customerID == default(int))
             {
-                throw new ArgumentOutOfRangeException("Invalid customer ID");
+                throw new ArgumentOutOfRangeException("customerID", "Invalid customer ID");
             }
             if (invoice == null)
             {
@@ -50,7 +50,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (customerID == 0)
             {
-                throw new ArgumentOutOfRangeException("customerID must not be 0");
+                throw new ArgumentOutOfRangeException("customerID", "customerID must not be 0");
             }
 
             return await this.invoiceRepository.All(customerID);
@@ -60,7 +60,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (invoiceID == 0)
             {
-                throw new ArgumentOutOfRangeException("invoiceID must not be 0");
+                throw new ArgumentOutOfRangeException("invoiceID", "invoiceID must not be 0");
             }
 
             return await this.invoiceRepository.Find(invoiceID);
@@ -70,7 +70,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (invoiceID == 0)
             {
-                throw new ArgumentOutOfRangeException("invoiceID must not be 0");
+                throw new ArgumentOutOfRangeException("invoiceID", "invoiceID must not be 0");
             }
 
             string downloadLink = await this.invoiceRepository.Export(invoiceID);
@@ -82,7 +82,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (invoiceSearchArgs.IsEmpty())
             {
-                throw new ArgumentNullException("At least one parameter needs to be not null");
+                throw new ArgumentNullException("invoiceSearchArgs", "At least one parameter needs to be not null");
             }
 
             return await this.invoiceRepository.Search(invoiceSearchArgs);

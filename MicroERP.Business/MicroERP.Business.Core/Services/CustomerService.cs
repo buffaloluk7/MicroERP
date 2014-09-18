@@ -99,7 +99,7 @@ namespace MicroERP.Business.Core.Services
         {
             if (customerID < 1)
             {
-                throw new ArgumentOutOfRangeException("customer", "customer cannot be negative");
+                throw new ArgumentOutOfRangeException("customerID", "customerID cannot be negative");
             }
 
             await this.customerRepository.Delete(customerID);

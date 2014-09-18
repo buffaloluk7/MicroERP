@@ -47,6 +47,10 @@ namespace MicroERP.Business.Domain.DTO
             set { base.Set(ref this.maxTotal, value); }
         }
 
+        /// <summary>
+        /// Checks if at least one argument is set.
+        /// </summary>
+        /// <returns>True if no argument is set, otherwise false.</returns>
         public bool IsEmpty()
         {
             return !this.customerID.HasValue &&
