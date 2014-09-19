@@ -82,7 +82,6 @@ namespace MicroERP.Business.Core
             this.container.RegisterType<InvoiceCommandsViewModel>();
 
             // SearchBox ViewModel
-            //this.container.RegisterType<CustomerSearchBoxViewModel>();
             this.container.RegisterType<CustomerSearchBoxViewModel>(
                 new InjectionConstructor(new ResolvedParameter<ICustomerService>(),
                     new InjectionParameter(typeof (CustomerModel), null),

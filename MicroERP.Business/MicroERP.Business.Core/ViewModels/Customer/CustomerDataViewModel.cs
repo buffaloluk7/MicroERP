@@ -10,7 +10,7 @@ using MicroERP.Business.Domain.Exceptions;
 using MicroERP.Business.Domain.Models;
 using Microsoft.Practices.Unity;
 
-namespace MicroERP.Business.Core.ViewModels.Customer
+namespace MicroERP.Business.Core.ViewModels.Customer 
 {
     public class CustomerDataViewModel : ObservableObject
     {
@@ -85,28 +85,20 @@ namespace MicroERP.Business.Core.ViewModels.Customer
             if (person != null)
             {
                 this.personViewModel = new PersonModelViewModel(person);
+                this.CustomerSearchBoxViewModel =
+                        container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
+                        {
+                            {"customerType", CustomerType.Company}
+                        });
 
-                if (person.Company == null)
+                if (person.Company != null)
                 {
-                    this.CustomerSearchBoxViewModel =
-                        container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
-                        {
-                            {"customerType", CustomerType.Company}
-                        });
-                }
-                else
-                {
-                    this.CustomerSearchBoxViewModel =
-                        container.Resolve<CustomerSearchBoxViewModel>(new ParameterOverrides
-                        {
-                            {"customer", person.Company},
-                            {"customerType", CustomerType.Company}
-                        });
+                    this.CustomerSearchBoxViewModel.SelectedCustomer = new CustomerDisplayNameViewModel(person.Company);                    
                 }
 
                 this.CustomerSearchBoxViewModel.PropertyChanged += ((s, e) =>
                 {
-                    if (e.PropertyName == "SelectedCustomer")
+                    if (e.PropertyName == "SelectedCustomer" && s is CustomerSearchBoxViewModel)
                     {
                         var selectedCustomer = (s as CustomerSearchBoxViewModel).SelectedCustomer;
                         person.Company = selectedCustomer == null ? null : selectedCustomer.Model as CompanyModel;
